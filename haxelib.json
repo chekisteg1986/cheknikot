@@ -1,0 +1,15 @@
+{
+    "name": "cheknikot",
+    "url" : "https://github.com/chekisteg1986/cheknikot/",
+    "license": "MIT",
+    "tags": ["useless"],
+    "description": "Collection of my classes.",
+    "version": "1.0.0",
+    "classPath": "source/cheknikot/",
+    "releasenote": "none.",
+    "contributors": ["none"],
+    "dependencies": {
+      
+    },
+    "main": "tools.Main"
+  }

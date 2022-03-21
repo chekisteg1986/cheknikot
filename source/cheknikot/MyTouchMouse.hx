@@ -1,0 +1,12 @@
+package;
+
+/**
+ * ...
+ * @author ...
+ */
+class MyTouchMouse 
+{
+	
+
+	
+}
