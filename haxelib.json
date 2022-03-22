@@ -5,11 +5,10 @@
     "tags": ["useless"],
     "description": "Collection of my classes.",
     "version": "1.0.0",
-    "classPath": "source/cheknikot/",
     "releasenote": "none.",
-    "contributors": ["none"],
+    "contributors": ["chekisteg1986"],
     "dependencies": {
-      
-    },
-    "main": "tools.Main"
+
+    }
+    
   }
