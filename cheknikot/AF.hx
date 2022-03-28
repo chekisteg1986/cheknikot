@@ -20,9 +20,11 @@ import flixel.util.FlxHorizontalAlign;
 // import openfl.display.Tilemap;
 class AF
 {
+	public static var collosion_variants:Int = 2;
+
 	public static function set_collosion(tilemap:FlxTilemap, index:Int, collosion:Int, collide_f:FlxObject->FlxObject->Void = null):Void
 	{
-		var variant:Int = GameParams.TILE_VARIATIONS;
+		var variant:Int = collosion_variants;
 		var n:Int = index * variant - 1;
 
 		// var passable_indexes:Array<Int> = [6];
@@ -349,11 +351,11 @@ class AF
 		timer_on_screen = !timer_on_screen;
 		if (AF.timer_on_screen)
 		{
-			PlayState.state.add(timer_layer);
+			FlxG.state.add(timer_layer);
 		}
 		else
 		{
-			PlayState.state.remove(timer_layer, true);
+			FlxG.state.remove(timer_layer, true);
 		}
 	}
 
@@ -397,8 +399,8 @@ class AF
 			timer_i = 0;
 			if (timer_on_screen)
 			{
-				PlayState.state.remove(timer_layer, true);
-				PlayState.state.add(timer_layer);
+				FlxG.state.remove(timer_layer, true);
+				FlxG.state.add(timer_layer);
 			}
 		}
 	}

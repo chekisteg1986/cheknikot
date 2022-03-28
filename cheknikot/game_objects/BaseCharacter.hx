@@ -8,6 +8,7 @@ import cheknikot.game_objects.GameObject;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxAnimation;
+import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 
@@ -18,6 +19,7 @@ import flixel.util.FlxColor;
 class BaseCharacter extends GameObject
 {
 	public static var characters:Array<BaseCharacter> = new Array();
+	public static var effects:FlxGroup;
 
 	public var player:Bool = false;
 	public var on_ladder:Bool = false;
@@ -127,7 +129,7 @@ class BaseCharacter extends GameObject
 
 	public function attack_visual():Void
 	{
-		new TextEffect(this.x, this.y, 0, 'HIT', 10, FlxColor.RED, LocalGame.state.effects);
+		new TextEffect(this.x, this.y, 0, 'HIT', 10, FlxColor.RED, effects);
 		// AnimationEffect.slash(midpoint, e.midpoint,attack_effect);
 	}
 

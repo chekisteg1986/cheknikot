@@ -3,6 +3,7 @@ package cheknikot.questeditor;
 import cheknikot.MenuBase;
 import cheknikot.MyFlxButton;
 import cheknikot.MyScrollablePanel;
+import cheknikot.menus.MyMainMenu;
 import cheknikot.quests_results.Quest;
 import cheknikot.quests_results.conditions.QuestCondition;
 import cheknikot.quests_results.results.QR_AddQuest;
@@ -11,7 +12,6 @@ import cheknikot.saving.SaveLoad;
 import flash.events.Event;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import menus.MainMenu;
 import openfl.net.FileReference;
 
 // import menus.MainMenu;
@@ -79,7 +79,8 @@ class QuestEditor extends MenuBase
 	override public function exit_click():Void
 	{
 		super.exit_click();
-		menus.MainMenu.state.show();
+
+		MyMainMenu.state.show();
 	}
 
 	private function del_quest_click():Void

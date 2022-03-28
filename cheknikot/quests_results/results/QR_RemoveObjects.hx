@@ -1,6 +1,7 @@
 package cheknikot.quests_results.results;
 
 import cheknikot.dungeoncrawler.DC_GameObject;
+import cheknikot.dungeoncrawler.DC_screen;
 import flixel.tile.FlxTilemap;
 
 /**

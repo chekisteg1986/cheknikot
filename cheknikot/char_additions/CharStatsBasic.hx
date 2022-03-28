@@ -1,6 +1,6 @@
 package cheknikot.char_additions;
-import char_addits.CharAttributes;
 
+import cheknikot.char_additions.CharAttributesBasic;
 
 /**
  * ...
@@ -8,11 +8,10 @@ import char_addits.CharAttributes;
  */
 class CharStatsBasic
 {
-
 	public var attributes:CharAttributesBasic;
-	public function new(_attr:CharAttributes)
+
+	public function new(_attr:CharAttributesBasic)
 	{
 		attributes = _attr;
-
 	}
 }

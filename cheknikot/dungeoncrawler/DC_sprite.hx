@@ -7,8 +7,8 @@ package cheknikot.dungeoncrawler;
 import cheknikot.dungeoncrawler.DC_GameObject;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.input.mouse.FlxMouse;
 import flixel.math.FlxPoint;
-import menus.FaceBtn;
 
 class DC_sprite
 {
@@ -148,36 +148,6 @@ class DC_sprite
 		var _obj:DC_GameObject = null;
 		var _spr:FlxSprite = null;
 
-		/*var _center_obj:DC_GameObject = null;
-			if (_show_objects)
-				if (_visible_objects != null)
-				{
-					_n = _visible_objects.length;
-					while (--_n >= 0)
-					{
-						_obj = _visible_objects[_n];
-
-						if (_obj != LocalGame.state.player)
-						{
-							if (_obj.on_center)
-							{
-								put_in_center(_obj, 20);
-								_center_obj = _obj;
-							}
-							else
-							{
-								sprite_objects.push(_obj);
-							}
-						}
-					}
-
-					put_in_row(sprite_objects, 10);
-
-					if (_center_obj != null)
-						sprite_objects.push(_center_obj);
-		}*/
-
-		var _line:Int = 5;
 		if (_show_objects)
 			if (_visible_objects != null)
 			{
@@ -185,11 +155,15 @@ class DC_sprite
 				while (--_n >= 0)
 					sprite_objects.push(_visible_objects[_n]);
 
+				// check lines
+				var _line:Int = 5;
 				while (--_line >= 0)
 				{
 					var _sprites_in_line:Array<Dynamic> = AF.get_objects_with(sprite_objects, 'line', _line);
+
 					put_in_row(_sprites_in_line, _line * 20);
 				}
+				//
 			}
 	}
 
@@ -236,7 +210,7 @@ class DC_sprite
 		{
 			var obj:DC_GameObject = sprite_objects[_n];
 			obj.visual_spr.updateHitbox();
-			if (PlayState.mouse_point.inRect(obj.visual_spr.getHitbox()))
+			if (FlxG.mouse.getPosition().inRect(obj.visual_spr.getHitbox()))
 			{
 				return sprite_objects[_n];
 			}
@@ -311,7 +285,7 @@ class DC_sprite
 			}
 		}
 
-		if (Math.abs(side) <= step)
+		if (Math.abs(side) <= (step + 1))
 		{
 			front_wall = new DC_quad();
 			// left up
@@ -388,7 +362,7 @@ class DC_sprite
 		// if (current_tile == _t) return;
 		current_tile = _t;
 		var _complect:DC_TextureComplect = parent_screen.sprites_complect[_t];
-		// trace('set tile',step,side,_t);
+		// trace('set tile', step, side, _t);
 
 		if (floor != null)
 		{

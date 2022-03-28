@@ -243,7 +243,7 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 				additional_image_back.visible = false;
 		}*/
 
-		PlayState.state.add(this);
+		FlxG.state.add(this);
 		visible = true;
 
 		// signal = new FlxSignal();
@@ -266,8 +266,8 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		PlayState.state.remove(this, true);
-		PlayState.state.add(this);
+		FlxG.state.remove(this, true);
+		FlxG.state.add(this);
 		// trace('messanger update');
 		if (MyGameObjectLayer.state != null)
 			MyGameObjectLayer.state.pause = true;

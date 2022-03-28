@@ -182,19 +182,17 @@ class Quest
 		var q:Quest;
 
 		while (--n >= 0)
-			if (!LocalGame.state.pause)
+		{
+			q = current_quests[n];
+			q.check();
+			if (q.completed)
 			{
-				q = current_quests[n];
-				q.check();
-				if (q.completed)
-				{
-					current_quests.splice(n, 1);
-					q.make_result();
-					trace('REMOVING QUEST', q.trigger_name);
-				}
+				current_quests.splice(n, 1);
+				q.make_result();
+				trace('REMOVING QUEST', q.trigger_name);
 			}
+		}
 
-		if (!LocalGame.state.pause)
 		{
 			AF.clear_array(events);
 			QC_TalkWith.WHO = null;

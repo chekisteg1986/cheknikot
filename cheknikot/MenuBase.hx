@@ -5,6 +5,7 @@ import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
@@ -20,6 +21,8 @@ class MenuBase extends FlxGroup
 	public var tooltips_on_off:FlxButton;
 	public var educ_spr:MyEducationSprite;
 
+	public var background:FlxSprite;
+
 	/*public var backspr:FlxSprite = null;
 
 		public function make_back(color:FlxColor):Void
@@ -31,6 +34,13 @@ class MenuBase extends FlxGroup
 	}*/
 	public var mute_on_off:MuteBtn;
 
+	public function load_background(_ass:FlxGraphicAsset):Void
+	{
+		background.loadGraphic(_ass);
+		AF.scale_picture(background);
+		background.screenCenter();
+	}
+
 	public function place_mute_btn():Void
 	{
 		mute_on_off = new MuteBtn();
@@ -40,7 +50,7 @@ class MenuBase extends FlxGroup
 		// tooltips_on_off.x = FlxG.width - tooltips_on_off.width;
 		mute_on_off.x = 0;
 		mute_on_off.y = FlxG.height - mute_on_off.height;
-		// PlayState.state.tooltips.add(tooltips_on_off, {title:'Tooltips', body:'on/off'});
+		// FlxG.state.tooltips.add(tooltips_on_off, {title:'Tooltips', body:'on/off'});
 		add(mute_on_off);
 	}
 
@@ -53,7 +63,7 @@ class MenuBase extends FlxGroup
 		// tooltips_on_off.x = FlxG.width - tooltips_on_off.width;
 		tooltips_on_off.x = 10;
 		tooltips_on_off.y = FlxG.height - tooltips_on_off.height;
-		// PlayState.state.tooltips.add(tooltips_on_off, {title:'Tooltips', body:'on/off'});
+		// FlxG.state.tooltips.add(tooltips_on_off, {title:'Tooltips', body:'on/off'});
 		add(tooltips_on_off);
 	}
 
@@ -61,6 +71,8 @@ class MenuBase extends FlxGroup
 	{
 		super(MaxSize);
 
+		background = new FlxSprite();
+		add(background);
 		exit_btn = new MyFlxButton(0, 0, MyStandartText.EXIT, exit_click);
 		exit_btn.x = FlxG.width - exit_btn.width;
 		exit_btn.y = FlxG.height - exit_btn.height;
@@ -91,7 +103,7 @@ class MenuBase extends FlxGroup
 		// if (!interactive) return;
 		// if (GameMessage.messanger.visible) return;
 		hide();
-		// PlayState.state.remove(this,true);
+		// FlxG.state.remove(this,true);
 	}
 
 	public function set_scroll():Void
@@ -107,11 +119,13 @@ class MenuBase extends FlxGroup
 
 	public function show():Void
 	{
-		PlayState.state.add(this);
+		FlxG.state.add(this);
+		// FlxG.state.add(this);
 	}
 
 	public function hide():Void
 	{
-		PlayState.state.remove(this, true);
+		FlxG.state.remove(this, true);
+		// FlxG.state.remove(this, true);
 	}
 }

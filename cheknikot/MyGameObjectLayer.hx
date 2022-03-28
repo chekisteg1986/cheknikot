@@ -241,15 +241,15 @@ class MyGameObjectLayer extends FlxGroup
 
 	public function hide():Void
 	{
-		PlayState.state.remove(this, true);
+		FlxG.state.remove(this, true);
 		active = visible = false;
 	}
 
 	public function show():Void
 	{
 		active = visible = true;
-		PlayState.state.remove(this, true);
-		PlayState.state.add(this);
+		FlxG.state.remove(this, true);
+		FlxG.state.add(this);
 
 		FlxG.camera.follow(camera_point, FlxCameraFollowStyle.NO_DEAD_ZONE, 0);
 	}
