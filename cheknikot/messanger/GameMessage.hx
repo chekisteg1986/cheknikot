@@ -35,12 +35,14 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 	private var additional_image:FlxSprite;
 	private var additional_image_back:FlxSprite;
 
+	public static var FONT_SIZE:Int = 20;
+
 	public function new()
 	{
 		super();
 		fon = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
 
-		text_tf = new MyFlxText(5, 5, FlxG.width / 2, ['wow'], 14);
+		text_tf = new MyFlxText(5, 5, FlxG.width / 2, ['wow'], FONT_SIZE);
 
 		background = new FlxSprite();
 
@@ -201,10 +203,10 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		}
 		position = 'center';
 
-		face.x = background.x;
-		face.y = background.y;
-		face_back.x = face.x;
-		face_back.y = face.y;
+		face.x = background.x + 1;
+		face.y = background.y + 1;
+		face_back.x = face.x + 1;
+		face_back.y = face.y + 1;
 
 		text_tf.x = background.x + face_w;
 		text_tf.y = background.y;

@@ -15,15 +15,20 @@ import flixel.tile.FlxTilemap;
  * ...
  * @author ...
  */
-class DC_screen extends FlxGroup {
+class DC_screen extends FlxGroup
+{
 	public static var screen_3d:DC_screen;
 
-	//public var sprite_output_type:DC_SpriteOutputType = DC_SpriteOutputType.LINE;
-
+	// public var sprite_output_type:DC_SpriteOutputType = DC_SpriteOutputType.LINE;
 	public var tilemap:FlxTilemap;
 	public var visible_objects:Array<DC_GameObject>;
+
 	public var camera_position_x:Int = 0;
 	public var camera_position_y:Int = 0;
+
+	public var camera_position_dx:Float = 0;
+	public var camera_position_dy:Float = 0;
+
 	public var camera_face:Int = 0;
 
 	public inline static var FACE_UP:Int = 0;
@@ -44,45 +49,54 @@ class DC_screen extends FlxGroup {
 	public var vision_radius:Int;
 	public var step_scale:Float = 0.8;
 
+	// public var first_sprite_height:Float=0;
 	public var visible_map:Array<Array<DC_GameObject>> = new Array();
 
-	public function refresh():Void {
+	public function refresh():Void
+	{
 		var _n:Int = visible_map.length;
 		while (--_n >= 0)
 			AF.clear_array(visible_map[_n]);
 
 		// making size
-		while (visible_map.length < tilemap.totalTiles) {
+		while (visible_map.length < tilemap.totalTiles)
+		{
 			var _arr:Array<DC_GameObject> = new Array();
 			visible_map.push(_arr);
 		}
 		// complete
 	}
 
-	public function add_to_visible(_go:DC_GameObject):Void {
+	public function add_to_visible(_go:DC_GameObject):Void
+	{
 		visible_map[_go.tile_x + _go.tile_y * tilemap.widthInTiles].push(_go);
 	}
 
-	public function remove_from_visible(_go:DC_GameObject):Void {
+	public function remove_from_visible(_go:DC_GameObject):Void
+	{
 		visible_map[_go.tile_x + _go.tile_y * tilemap.widthInTiles].remove(_go);
 	}
 
-	public function DX(_step:Int):Float {
+	public function DX(_step:Int):Float
+	{
 		// return first_dx * _step;
 		var _dx:Float = 0;
 		var _add:Int = 0;
-		while (++_add <= _step) {
+		while (++_add <= _step)
+		{
 			_dx += Math.pow(step_scale, _add - 1) * first_dx;
 		}
 		return _dx;
 	}
 
-	public function DY(_step:Int):Float {
+	public function DY(_step:Int):Float
+	{
 		// return first_dy * _step;
 
 		var _dy:Float = 0;
 		var _add:Int = 0;
-		while (++_add <= _step) {
+		while (++_add <= _step)
+		{
 			_dy += Math.pow(step_scale, _add - 1) * first_dy;
 		}
 		return _dy;
@@ -90,14 +104,17 @@ class DC_screen extends FlxGroup {
 
 	private var first_scale:Float;
 	private var first_dx:Float;
-	private var first_dy:Float;
 
-	private var sprite_width:Float;
-	private var sprite_height:Float;
+	public var first_dy:Float;
+
+	public var sprite_width:Float;
+	public var sprite_height:Float;
+
 	private var sprite_x:Float;
 	private var sprite_y:Float;
 
-	public function new(_vision_radius:Int = 3, _width:Int = 640, _height:Int = 480, _spr_w:Float = 0, _spr_h:Float = 0) {
+	public function new(_vision_radius:Int = 3, _width:Int = 640, _height:Int = 480, _spr_w:Float = 0, _spr_h:Float = 0)
+	{
 		super();
 		//
 
@@ -136,18 +153,20 @@ class DC_screen extends FlxGroup {
 		trace(down(0));
 
 		var _cur_step:Int = _vision_radius + 1;
-
-		while (_cur_step >= 0) {
+		while (_cur_step >= 0)
+		{
 			var _row:DC_row = new DC_row();
 			rows.push(_row);
+
 			add(_row);
-			add(_row.sprites_on_screen);
+
 			_row.parent = this;
 
 			var _cur_side:Int = -_cur_step - 2;
 			// var _width:Float = screen_width * (1 - _scale * _cur_step);
 			var _line_sprites:Array<DC_sprite> = new Array();
-			while (++_cur_side <= (_cur_step + 1)) {
+			while (++_cur_side <= (_cur_step + 1))
+			{
 				// if (_cur_side == 0 && _cur_step == 0 ) continue;
 
 				var _spr:DC_sprite = new DC_sprite(this, _row, _cur_step, _cur_side);
@@ -175,50 +194,66 @@ class DC_screen extends FlxGroup {
 				if (_line_sprites[_n].front_wall != null)
 					_row.add_quad(_line_sprites[_n].front_wall);
 
+			add(_row.sprites_on_screen);
 			_cur_step--;
 		}
 	}
 
-	public function rotate_left():Void {
+	public function update_coordinates():Void
+	{
+		var _n:Int = rows.length;
+		while (--_n >= 0)
+			rows[_n].update_coordinates();
+	}
+
+	public function rotate_left():Void
+	{
 		camera_face--;
 		if (camera_face < 0)
 			camera_face = 3;
 		showed = false;
 	}
 
-	public function rotate_right():Void {
+	public function rotate_right():Void
+	{
 		camera_face++;
 		if (camera_face > 3)
 			camera_face = 0;
 		showed = false;
 	}
 
-	public function right(_step:Int, _side:Int):Float {
+	public function right(_step:Int, _side:Int):Float
+	{
 		var _w:Float = sprite_width - 2 * DX(_step);
 		return DX(_step) + (_side + 1) * _w + sprite_x;
 	}
 
-	public function left(_step:Int, _side:Int):Float {
+	public function left(_step:Int, _side:Int):Float
+	{
 		var _w:Float = sprite_width - 2 * DX(_step);
 		return DX(_step) + _side * _w + sprite_x;
 	}
 
-	public function up(_step:Int):Float {
+	public function up(_step:Int):Float
+	{
 		return DY(_step) + sprite_y;
 	}
 
-	public function down(_step:Int):Float {
+	public function down(_step:Int):Float
+	{
 		var _h:Float = sprite_height - 2 * DY(_step);
 
 		return DY(_step) + _h + sprite_y;
 	}
 
-	public function loadGraphic(_ass:FlxGraphicAsset):Void {
+	public function loadGraphic(_ass:FlxGraphicAsset):Void
+	{
 		for (r in rows)
 			r.loadGraphic(_ass);
 	}
 
-	public function add_texture(_rect:FlxRect):Void {
+	public function add_texture(_rect:FlxRect):Void
+	{
 		// screen_3d.loadGraphic(AssetPaths.floor_tileset_0__png);
 		_rect.x = (_rect.x + 0.1) / rows[0].frameWidth;
 		_rect.y = (_rect.y + 0.1) / rows[0].frameHeight;
@@ -241,7 +276,8 @@ class DC_screen extends FlxGroup {
 
 	public var sprites_complect:Array<DC_TextureComplect> = new Array();
 
-	public function add_sprite(_floor:Int = 0, _wall:Int = 0, _side_wall:Int = 0, _ceil:Int = 0, _nesw_f:Bool = false, _r_f:Int = 0):DC_TextureComplect {
+	public function add_sprite(_floor:Int = 0, _wall:Int = 0, _side_wall:Int = 0, _ceil:Int = 0, _nesw_f:Bool = false, _r_f:Int = 0):DC_TextureComplect
+	{
 		var _n:Int = sprites_complect.length;
 		var _complect:DC_TextureComplect = new DC_TextureComplect();
 
@@ -260,7 +296,8 @@ class DC_screen extends FlxGroup {
 		// if (_wall > 0) walls.push(_n);
 	}
 
-	public function get_step_dx():Int {
+	public function get_step_dx():Int
+	{
 		if (camera_face == FACE_RIGHT)
 			return 1;
 		if (camera_face == FACE_LEFT)
@@ -268,7 +305,8 @@ class DC_screen extends FlxGroup {
 		return 0;
 	}
 
-	public function get_step_dy():Int {
+	public function get_step_dy():Int
+	{
 		if (camera_face == FACE_DOWN)
 			return 1;
 		if (camera_face == FACE_UP)
@@ -279,18 +317,18 @@ class DC_screen extends FlxGroup {
 	public var showed:Bool = false;
 	public var camera_point:FlxPoint = new FlxPoint();
 
-	override public function update(elapsed:Float):Void {
-		super.update(elapsed);
-		// this.draw();
-		// trace(camera_position_x,camera_position_y,showed,tilemap);
+	override public function update(elapsed:Float):Void
+	{
 		if (showed)
 			return;
 		if (tilemap == null)
 			return;
 		showed = true;
 
-		camera_point.x = camera_position_x * 16 + 8;
-		camera_point.y = camera_position_y * 16 + 8;
+		camera_position_x = Math.floor(camera_point.x);
+		camera_position_y = Math.floor(camera_point.y);
+		camera_position_dx = camera_point.x - camera_position_x;
+		camera_position_dy = camera_point.y - camera_position_y;
 
 		var _dx_per_step:Int = 0;
 		var _dx_per_side:Int = 0;
@@ -298,7 +336,8 @@ class DC_screen extends FlxGroup {
 		var _dy_per_step:Int = 0;
 		var _dy_per_side:Int = 0;
 
-		switch (camera_face) {
+		switch (camera_face)
+		{
 			case FACE_UP:
 				_dx_per_side = 1;
 				_dy_per_step = -1;
@@ -318,15 +357,21 @@ class DC_screen extends FlxGroup {
 
 		// trace('CHECK');
 
-		for (r in rows) {
-			for (go in r.sprites_on_screen) {
+		for (r in rows)
+		{
+			for (go in r.sprites_on_screen)
+			{
 				go.visible = false;
 			}
 			r.sprites_on_screen.clear();
 		}
 
-		for (r in rows) {
+		for (r in rows)
+		{
+			r.update_coordinates();
 			r.update_sprites(_dx_per_step, _dx_per_side, _dy_per_step, _dy_per_side);
 		}
+
+		super.update(elapsed);
 	}
 }

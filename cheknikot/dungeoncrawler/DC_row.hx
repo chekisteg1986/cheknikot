@@ -58,6 +58,15 @@ class DC_row extends FlxStrip
 		_quad.quad_index = _quad_index;
 	}
 
+	public function update_coordinates():Void
+	{
+		var _n:Int = sprites.length;
+		while (--_n >= 0)
+		{
+			sprites[_n].update_coordinates();
+		}
+	}
+
 	public function update_sprites(_dx_per_step:Int, _dx_per_side:Int, _dy_per_step:Int, _dy_per_side:Int):Void
 	{
 		var _len:Int = sprites.length;
@@ -81,13 +90,14 @@ class DC_row extends FlxStrip
 					}
 					else
 					{
-						if (_mousepoint.x > parent.left(1, 0))
+						/*				if (_mousepoint.x > parent.left(1, 0))
 							if (_mousepoint.y > parent.up(1))
 								if (_mousepoint.x < parent.right(1, 0))
 									if (_mousepoint.y < parent.down(1))
 									{
 										// LocalGame.state.click_on_step_1();
 									}
+						 */
 					}
 				}
 		}

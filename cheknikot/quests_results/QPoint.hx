@@ -10,7 +10,7 @@ import cheknikot.quests_results.conditions.QC_Event;
 class QPoint
 {
 	// public static inline var EXIT:Int = 0;
-	public static var positions:Array<QPoint>;
+	public static var positions:Array<QPoint> = new Array();
 
 	public var ready:Bool = true;
 	public var x:Int = 0;
@@ -18,6 +18,7 @@ class QPoint
 	public var width:Int = 0;
 	public var height:Int = 0;
 	public var type:String = 'exit';
+	public var name:String;
 
 	public static var save_vars:Array<String> = ['x', 'y', 'width', 'height', 'type'];
 

@@ -15,7 +15,7 @@ class TextEffect extends FlxText
 {
 	private var group:FlxGroup;
 
-	public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, _color:FlxColor = 0, _group:FlxGroup = null,
+	public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, _color:FlxColor = 0, _group:FlxGroup,
 			duration:Float = 0.5, dy:Int = -30)
 	{
 		// trace(Text);
@@ -25,10 +25,9 @@ class TextEffect extends FlxText
 		this.color = _color;
 		this.borderColor = FlxColor.BLACK;
 		this.borderSize = 1;
-		this.borderStyle = FlxTextBorderStyle.OUTLINE;
+		this.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
 		FlxTween.tween(this, {alpha: 0, y: y + dy}, duration, {ease: FlxEase.circOut, onComplete: remove});
 
-		// if (_group == null) _group = LocalGame.state.effects;
 		group = _group;
 		group.add(this);
 	}

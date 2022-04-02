@@ -72,7 +72,7 @@ class DC_minimap
 		if (connected_to == null)
 			return;
 
-		arrow.angle = 90 * connected_to.NESW_facing;
+		arrow.angle = 90 * connected_to.nesw_facing;
 
 		while (--_x >= -range)
 		{

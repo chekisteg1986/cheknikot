@@ -22,6 +22,20 @@ class AF
 {
 	public static var collosion_variants:Int = 2;
 
+	public static function randomize_tilemap(walls:FlxTilemap):Void
+	{
+		var _n:Int = walls.totalTiles;
+		while (--_n >= 0)
+		{
+			if (FlxG.random.bool())
+			{
+				var _t:Int = walls.getTileByIndex(_n);
+				_t++;
+				walls.setTileByIndex(_n, _t);
+			}
+		}
+	}
+
 	public static function set_collosion(tilemap:FlxTilemap, index:Int, collosion:Int, collide_f:FlxObject->FlxObject->Void = null):Void
 	{
 		var variant:Int = collosion_variants;
@@ -294,7 +308,9 @@ class AF
 			var o:Dynamic = arr[n];
 			if (o == null)
 				continue;
-			// if (Reflect.hasField(o, _prop))
+
+			// trace(_prop + ':' + Reflect.getProperty(o, _prop) + ' <> ' + _value);
+
 			if (Reflect.getProperty(o, _prop) == _value)
 			{
 				return o;

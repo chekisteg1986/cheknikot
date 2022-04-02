@@ -73,7 +73,7 @@ class DC_quad
 
 		if (row == -1)
 		{
-			trace('ROW -1 what is it???');
+			// trace('ROW -1 what is it???');
 		}
 		else
 		{

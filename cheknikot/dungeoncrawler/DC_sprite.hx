@@ -5,6 +5,7 @@ package cheknikot.dungeoncrawler;
  * @author ...
  */
 import cheknikot.dungeoncrawler.DC_GameObject;
+import cpp.abi.Abi;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.mouse.FlxMouse;
@@ -17,10 +18,12 @@ class DC_sprite
 	public var parent_screen:DC_screen;
 	public var parent_row:DC_row;
 
+	//
 	public var w_left:Float;
 	public var w_right:Float;
 	public var w_up:Float;
 	public var w_down:Float;
+	public var floor_height:Float;
 	public var scale_h:Float;
 
 	public var side_wall:Array<DC_quad>;
@@ -31,9 +34,10 @@ class DC_sprite
 	public static var ROWS:Int = 4;
 	public static var COLUMNS:Int = 4;
 
-	public function make_quads_for(_arr:Array<DC_quad>, _left_up:FlxPoint, _right_up:FlxPoint, _left_down:FlxPoint, _right_down:FlxPoint):Void
+	public function update_quads_for(_arr:Array<DC_quad>, _left_up:FlxPoint, _right_up:FlxPoint, _left_down:FlxPoint, _right_down:FlxPoint):Void
 	{
 		// trace('making floor', _left_up,_right_up,_left_down,_right_down);
+		var _quad_n:Int = 0;
 
 		var _r:Int = ROWS;
 		while (--_r >= 0)
@@ -79,7 +83,8 @@ class DC_sprite
 				_q_right_down.x = _next_row_left.x + _dx_down * (_c + 1);
 				_q_right_down.y = _next_row_left.y + _dy_down * (_c + 1);
 
-				var _quad:DC_quad = new DC_quad();
+				var _quad:DC_quad = _arr[_quad_n];
+				_quad_n++;
 				_quad.row = _r;
 				_quad.column = _c;
 				// lu
@@ -97,7 +102,7 @@ class DC_sprite
 
 				// trace('result floor', _q_left_up,_q_right_up,_q_left_down,_q_right_down);
 
-				_arr.push(_quad);
+				// _arr.push(_quad);
 			}
 		}
 	}
@@ -156,51 +161,18 @@ class DC_sprite
 					sprite_objects.push(_visible_objects[_n]);
 
 				// check lines
-				var _line:Int = 5;
-				while (--_line >= 0)
-				{
-					var _sprites_in_line:Array<Dynamic> = AF.get_objects_with(sprite_objects, 'line', _line);
-
-					put_in_row(_sprites_in_line, _line * 20);
-				}
+				/*
+					var _line:Int = 5;
+					while (--_line >= 0)
+					{
+						var _sprites_in_line:Array<Dynamic> = AF.get_objects_with(sprite_objects, 'line', _line);
+						put_in_row(_sprites_in_line, _line * 20);
+					}
+				 */
 				//
+
+				DC_SpriteOutputType.show_visible_objects_dxdy(sprite_objects, this);
 			}
-	}
-
-	private function put_in_center(_obj:DC_GameObject, _dy:Float):Void
-	{
-		var _spr:FlxSprite = _obj.visual_spr;
-		parent_row.sprites_on_screen.add(_spr);
-		_spr.visible = true;
-		_spr.scale.set(scale_h, scale_h);
-		_spr.updateHitbox();
-		_spr.x = (w_left + w_right) / 2 - _spr.width / 2;
-		_spr.y = w_down - (_dy + _spr.frameHeight) * scale_h;
-	}
-
-	private function put_in_row(_sprite_objects:Array<Dynamic>, _dy:Float):Void
-	{
-		var _len:Int = _sprite_objects.length;
-		var _obj:DC_GameObject = null;
-		var _n:Int = _len;
-		var _spr:FlxSprite = null;
-		while (--_n >= 0)
-		{
-			_obj = cast(_sprite_objects[_n], DC_GameObject);
-
-			parent_row.sprites_on_screen.add(_obj.visual_spr);
-			_obj.visual_spr.visible = true;
-			_spr = _obj.visual_spr;
-
-			_spr.scale.set(scale_h, scale_h);
-			_spr.updateHitbox();
-
-			var _width:Float = w_right - w_left;
-			var _dx:Float = _width / (_len + 1);
-
-			_spr.x = w_left + _dx * (_n + 1) - _spr.frameWidth * scale_h * 0.5;
-			_spr.y = w_down - (_spr.frameHeight + _dy) * scale_h;
-		}
 	}
 
 	public function check_click_on_sprites():DC_GameObject
@@ -236,6 +208,30 @@ class DC_sprite
 	}*/
 	public var sprite_objects:Array<DC_GameObject> = new Array();
 
+	public var next_left:Float;
+	public var next_right:Float;
+	public var next_up:Float;
+	public var next_down:Float;
+	public var next_scale_h:Float;
+
+	public function get_center(_dy:Float):Float
+	{
+		var _front_center:Float = (w_right + w_left) / 2;
+		var _back_center:Float = (next_right + next_left) / 2;
+
+		return _front_center - _dy * (_front_center - _back_center);
+	}
+
+	public function get_left(_dy:Float):Float
+	{
+		return w_left - _dy * (w_left - next_left);
+	}
+
+	public function get_right(_dy:Float):Float
+	{
+		return w_right - _dy * (w_right - next_right);
+	}
+
 	public function new(_parent_s:DC_screen, _parent_r:DC_row, _step:Int, _side:Int)
 	{
 		step = _step;
@@ -248,7 +244,13 @@ class DC_sprite
 		w_up = parent_screen.up(step);
 		w_down = parent_screen.down(step);
 
+		next_left = parent_screen.left(step + 1, side);
+		next_right = parent_screen.right(step + 1, side);
+		next_up = parent_screen.up(step + 1);
+		next_down = parent_screen.down(step + 1);
+
 		scale_h = (w_down - w_up) / parent_screen.screen_height;
+		next_scale_h = (next_down - next_up) / parent_screen.screen_height;
 
 		// trace('Sprite',step,side);
 
@@ -258,77 +260,119 @@ class DC_sprite
 			{
 				// side_wall = new DC_quad();
 				side_wall = new Array();
-
-				// left up
-				var lu:FlxPoint = new FlxPoint(parent_screen.right(_step, _side), parent_screen.up(_step));
-				// right up
-				var ru:FlxPoint = new FlxPoint(parent_screen.right(_step + 1, _side), parent_screen.up(_step + 1));
-				// down left
-				var ld:FlxPoint = new FlxPoint(parent_screen.right(_step, _side), parent_screen.down(_step));
-				// down right
-				var rd:FlxPoint = new FlxPoint(parent_screen.right(_step + 1, _side), parent_screen.down(_step + 1));
-				make_quads_for(side_wall, lu, ru, ld, rd);
+				make_quads_for(side_wall);
 			}
 			else
 			{
 				side_wall = new Array();
-				// side_wall = null;
-				// left up
-				var lu:FlxPoint = new FlxPoint(parent_screen.left(_step + 1, _side), parent_screen.up(_step + 1));
-				// right up
-				var ru:FlxPoint = new FlxPoint(parent_screen.left(_step, _side), parent_screen.up(_step));
-				// down left
-				var ld:FlxPoint = new FlxPoint(parent_screen.left(_step + 1, _side), parent_screen.down(_step + 1));
-				// down right
-				var rd:FlxPoint = new FlxPoint(parent_screen.left(_step, _side), parent_screen.down(_step));
-				make_quads_for(side_wall, lu, ru, ld, rd);
+				make_quads_for(side_wall);
 			}
 		}
 
 		if (Math.abs(side) <= (step + 1))
 		{
 			front_wall = new DC_quad();
-			// left up
-			front_wall.vertices[0] = parent_screen.left(_step, _side);
-			front_wall.vertices[1] = parent_screen.up(_step);
-			// right up
-			front_wall.vertices[2] = parent_screen.right(_step, _side);
-			front_wall.vertices[3] = parent_screen.up(_step);
-			// down left
-			front_wall.vertices[4] = parent_screen.left(_step, _side);
-			front_wall.vertices[5] = parent_screen.down(_step);
-			// down right
-			front_wall.vertices[6] = parent_screen.right(_step, _side);
-			front_wall.vertices[7] = parent_screen.down(_step);
 		}
 
 		if (step != (parent_screen.vision_radius + 1))
 		{
 			floor = new Array();
-			// left up
-			var lu:FlxPoint = new FlxPoint(parent_screen.left(_step + 1, _side), parent_screen.down(_step + 1));
-			// right up
-			var ru:FlxPoint = new FlxPoint(parent_screen.right(_step + 1, _side), parent_screen.down(_step + 1));
-			// down left
-			var ld:FlxPoint = new FlxPoint(parent_screen.left(_step, _side), parent_screen.down(_step));
-			// down right
-			var rd:FlxPoint = new FlxPoint(parent_screen.right(_step, _side), parent_screen.down(_step));
-			make_quads_for(floor, lu, ru, ld, rd);
+			make_quads_for(floor);
 
 			ceil = new Array();
-			lu = new FlxPoint(parent_screen.left(_step, _side), parent_screen.up(_step));
-			// right up
-			ru = new FlxPoint(parent_screen.right(_step, _side), parent_screen.up(_step));
-			// down left
-			ld = new FlxPoint(parent_screen.left(_step + 1, _side), parent_screen.up(_step + 1));
-			// down right
-			rd = new FlxPoint(parent_screen.right(_step + 1, _side), parent_screen.up(_step + 1));
-			make_quads_for(ceil, lu, ru, ld, rd);
+			make_quads_for(ceil);
 		}
 
+		update_coordinates();
 		// floor = null;
 		// side_wall = null;
 		// front_wall = null;
+	}
+
+	public function make_quads_for(_arr:Array<DC_quad>):Void
+	{
+		var _r:Int = ROWS;
+		while (--_r >= 0)
+		{
+			var _c:Int = COLUMNS;
+
+			while (--_c >= 0)
+			{
+				_arr.push(new DC_quad());
+			}
+		}
+	}
+
+	public function update_coordinates():Void
+	{
+		var lu:FlxPoint;
+		var ru:FlxPoint;
+		var ld:FlxPoint;
+		var rd:FlxPoint;
+		if (side_wall != null)
+			if (side < 0)
+			{
+				// left up
+				lu = new FlxPoint(parent_screen.right(step, side), parent_screen.up(step));
+				// right up
+				ru = new FlxPoint(parent_screen.right(step + 1, side), parent_screen.up(step + 1));
+				// down left
+				ld = new FlxPoint(parent_screen.right(step, side), parent_screen.down(step));
+				// down right
+				rd = new FlxPoint(parent_screen.right(step + 1, side), parent_screen.down(step + 1));
+				update_quads_for(side_wall, lu, ru, ld, rd);
+			}
+			else
+			{
+				// left up
+				lu = new FlxPoint(parent_screen.left(step + 1, side), parent_screen.up(step + 1));
+				// right up
+				ru = new FlxPoint(parent_screen.left(step, side), parent_screen.up(step));
+				// down left
+				ld = new FlxPoint(parent_screen.left(step + 1, side), parent_screen.down(step + 1));
+				// down right
+				rd = new FlxPoint(parent_screen.left(step, side), parent_screen.down(step));
+				update_quads_for(side_wall, lu, ru, ld, rd);
+			}
+
+		if (front_wall != null)
+		{
+			// left up
+			front_wall.vertices[0] = parent_screen.left(step, side);
+			front_wall.vertices[1] = parent_screen.up(step);
+			// right up
+			front_wall.vertices[2] = parent_screen.right(step, side);
+			front_wall.vertices[3] = parent_screen.up(step);
+			// down left
+			front_wall.vertices[4] = parent_screen.left(step, side);
+			front_wall.vertices[5] = parent_screen.down(step);
+			// down right
+			front_wall.vertices[6] = parent_screen.right(step, side);
+			front_wall.vertices[7] = parent_screen.down(step);
+		}
+		if (floor != null)
+		{
+			// left up
+			lu = new FlxPoint(parent_screen.left(step + 1, side), parent_screen.down(step + 1));
+			// right up
+			ru = new FlxPoint(parent_screen.right(step + 1, side), parent_screen.down(step + 1));
+			// down left
+			ld = new FlxPoint(parent_screen.left(step, side), parent_screen.down(step));
+			// down right
+			rd = new FlxPoint(parent_screen.right(step, side), parent_screen.down(step));
+			update_quads_for(floor, lu, ru, ld, rd);
+		}
+		if (ceil != null)
+		{
+			lu = new FlxPoint(parent_screen.left(step, side), parent_screen.up(step));
+			// right up
+			ru = new FlxPoint(parent_screen.right(step, side), parent_screen.up(step));
+			// down left
+			ld = new FlxPoint(parent_screen.left(step + 1, side), parent_screen.up(step + 1));
+			// down right
+			rd = new FlxPoint(parent_screen.right(step + 1, side), parent_screen.up(step + 1));
+			update_quads_for(ceil, lu, ru, ld, rd);
+		}
 	}
 
 	public function set_visible(_walls:Bool, _floor:Bool):Void
