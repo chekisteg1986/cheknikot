@@ -326,7 +326,7 @@ class DC_GameObject
 				var _t:Int = _walls.getTile(_new_x, _new_y);
 				if (_walls.getTileCollisions(_t) != FlxObject.NONE)
 				{
-					trace('block', _walls.getTile(_new_x, _new_y));
+					// trace('block', _walls.getTile(_new_x, _new_y));
 
 					if (collision_functions[_t] != null)
 						collision_functions[_t](_new_x, _new_y, this);

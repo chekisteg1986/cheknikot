@@ -182,10 +182,11 @@ class DC_sprite
 		{
 			var obj:DC_GameObject = sprite_objects[_n];
 			obj.visual_spr.updateHitbox();
-			if (FlxG.mouse.getPosition().inRect(obj.visual_spr.getHitbox()))
-			{
-				return sprite_objects[_n];
-			}
+			if (obj.onClickFunc != null)
+				if (FlxG.mouse.getPosition().inRect(obj.visual_spr.getHitbox()))
+				{
+					return sprite_objects[_n];
+				}
 		}
 		return null;
 	}
