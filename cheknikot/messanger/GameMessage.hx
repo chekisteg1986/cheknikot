@@ -82,7 +82,8 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		trace('OK ANSWER');
 		if (buffer.length > 0)
 		{
-			messanger.set_text(buffer[0][0], null, null, buffer[0][1]);
+			trace('buffer', buffer[0]);
+			messanger.set_text(buffer[0][0], null, buffer[0][2], buffer[0][1]);
 			buffer.splice(0, 1);
 		}
 	}
@@ -118,8 +119,9 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		if (buttons_texts == null)
 		{
 			buttons_texts = [ok_text];
-			buttons_results = ok_res;
 		}
+		if (buttons_results == null)
+			buttons_results = ok_res;
 
 		// ========== making answers ==========
 		background.y = 0;
@@ -260,9 +262,12 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 
 	public static var buffer:Array<Array<Dynamic>> = new Array();
 
-	public static function add_text(arr:Array<String>, face:String):Void
+	public static function add_text(arr:Array<String>, face:String, _function:Void->Void = null):Void
 	{
-		buffer.push([arr, face]);
+		if (_function == null)
+			buffer.push([arr, face, null]);
+		else
+			buffer.push([arr, face, [_function]]);
 	}
 
 	override public function update(elapsed:Float):Void

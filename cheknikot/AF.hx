@@ -22,7 +22,7 @@ class AF
 {
 	public static var collosion_variants:Int = 2;
 
-	public static function randomize_tilemap(walls:FlxTilemap):Void
+	public static function randomize_tilemap(walls:FlxTilemap, _ignore:Array<Int> = null):Void
 	{
 		var _n:Int = walls.totalTiles;
 		while (--_n >= 0)
@@ -30,6 +30,11 @@ class AF
 			if (FlxG.random.bool())
 			{
 				var _t:Int = walls.getTileByIndex(_n);
+
+				if (_ignore != null)
+					if (_ignore.indexOf(_t) != -1)
+						continue;
+
 				_t++;
 				walls.setTileByIndex(_n, _t);
 			}

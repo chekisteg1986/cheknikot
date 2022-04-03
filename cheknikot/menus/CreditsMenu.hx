@@ -1,7 +1,8 @@
-package menus;
+package cheknikot.menus;
 
 import cheknikot.MenuBase;
 import cheknikot.MyFlxText;
+import cheknikot.menus.LinkButton;
 import flash.net.URLRequest;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -26,24 +27,24 @@ class CreditsMenu extends MenuBase
 		super(MaxSize);
 		active = visible = false;
 
-		var _bg:FlxSprite = new FlxSprite(0, 0, AssetPaths.main_menu__png);
-		add(_bg);
-		_bg.screenCenter();
+		background = new FlxSprite(0, 0);
+		add(background);
+		// _bg.screenCenter();
 
-		return_btn = new FlxButton(0, 0, ['Return'], return_click);
+		return_btn = new MyFlxButton(0, 0, ['Return'], return_click);
 		add(return_btn);
 		return_btn.screenCenter();
 		return_btn.y = FlxG.height - return_btn.height;
 
 		var y:Int = 0;
-		var dy:Int = 20;
+		var dy:Int = 40;
 
 		// var link_id:Int = 0;
 		function add_txt(s:String, url:String = null, gr:FlxGraphicAsset = null, url2:String = null, gr2:FlxGraphicAsset = null):Void
 		{
 			y += dy;
 
-			var _txt:MyFlxText = new MyFlxText(0, y, 0, [s], 15);
+			var _txt:MyFlxText = new MyFlxText(0, y, 0, [s], 20);
 			add(_txt);
 
 			if (url != null)
@@ -88,7 +89,7 @@ class CreditsMenu extends MenuBase
 	public function return_click():Void
 	{
 		hide();
-		MainMenu.state.show();
+		MyMainMenu.state.show();
 	}
 
 	override public function show():Void
@@ -102,6 +103,6 @@ class CreditsMenu extends MenuBase
 	override public function exit_click():Void
 	{
 		super.exit_click();
-		PlayState.state.remove(this, true);
+		FlxG.state.remove(this, true);
 	}
 }

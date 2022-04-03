@@ -43,7 +43,7 @@ class MySettingsMenu extends MenuBase
 		var _heigh:Int = 30;
 		var _dy:Int = 80;
 		// general volume
-		volume_slider = new MySlider(FlxG.sound, 'volume', 0, _dy, 0, 1, _size, _heig, 3, FlxColor.WHITE, FlxColor.BROWN);
+		volume_slider = new MySlider(FlxG.sound, 'volume', 0, _dy, 0, 1, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
 		volume_slider.setTexts('General Volume', false, '0', '100');
 		add(volume_slider);
 		volume_slider.hoverAlpha = 1;
