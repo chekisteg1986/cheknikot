@@ -15,7 +15,7 @@ class AnswerBtn extends MyFlxButton
 
 	public function new(_messanger:GameMessage)
 	{
-		super(0, 0, [' '], OnClick);
+		super(0, 0, [' '], OnClick, true);
 
 		messanger = _messanger;
 	}
@@ -26,7 +26,7 @@ class AnswerBtn extends MyFlxButton
 		if (func == null)
 			return;
 
-		if (alpha < 1)
+		if (alpha <= 0.2)
 			return;
 
 		alpha = 0;
@@ -39,11 +39,12 @@ class AnswerBtn extends MyFlxButton
 
 	public function activate(_):Void
 	{
-		trace('Activate btn');
 		// set_active(true);
 		this.alpha = 1;
 		if (func == null)
 			this.alpha = 0.5;
+		this.updateHitbox();
+		trace('Activate btn', x, y, text, alpha);
 	}
 
 	override public function update(elapsed:Float):Void

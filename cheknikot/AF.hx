@@ -305,12 +305,13 @@ class AF
 		}
 	}
 
-	public static function get_object_with(arr:Array<Dynamic>, _prop:String, _value:Dynamic):Dynamic
+	@:generic
+	public static function get_object_with<T>(arr:Array<T>, _prop:String, _value:Dynamic):T
 	{
 		var n:Int = arr.length;
 		while (--n >= 0)
 		{
-			var o:Dynamic = arr[n];
+			var o:Null<T> = arr[n];
 			if (o == null)
 				continue;
 
@@ -343,13 +344,14 @@ class AF
 		return null;
 	}
 
-	public static function get_objects_with(arr:Array<Dynamic>, _prop:String, _value:Dynamic):Array<Dynamic>
+	@:generic
+	public static function get_objects_with<T>(arr:Array<T>, _prop:String, _value:Dynamic):Array<T>
 	{
-		var res:Array<Dynamic> = new Array();
+		var res:Array<T> = new Array();
 		var n:Int = arr.length;
 		while (--n >= 0)
 		{
-			var o:Dynamic = arr[n];
+			var o:T = arr[n];
 			if (o == null)
 				continue;
 			if (Reflect.getProperty(o, _prop) == _value)

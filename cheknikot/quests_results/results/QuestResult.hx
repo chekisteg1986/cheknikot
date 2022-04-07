@@ -2,9 +2,7 @@ package cheknikot.quests_results.results;
 
 // import addit_cond_res.QR_NextLevel;
 import cheknikot.quests_results.results.QR_AddQuest;
-import cheknikot.quests_results.results.QR_ChangeLocation;
 import cheknikot.quests_results.results.QR_Message;
-import cheknikot.quests_results.results.QR_SetPath;
 import cheknikot.quests_results.results.QR_SetTileRect;
 import cheknikot.quests_results.results.QR_ShowPicture;
 import cheknikot.quests_results.results.QuestResult;
@@ -32,9 +30,8 @@ class QuestResult
 	public static function no_use():Void
 	{
 		new QR_AddQuest();
-		new QR_ChangeLocation();
 		new QR_Message();
-		new QR_SetPath();
+
 		new QR_ShowPicture();
 		// new QR_Spawn();
 		// new QR_NextLevel();

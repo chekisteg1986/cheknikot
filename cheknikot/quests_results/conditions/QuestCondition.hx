@@ -1,6 +1,5 @@
 package cheknikot.quests_results.conditions;
 
-import cheknikot.quests_results.conditions.QC_CharAtPosition;
 import cheknikot.quests_results.conditions.QC_Event;
 import cheknikot.quests_results.conditions.QC_TalkWith;
 import cheknikot.quests_results.conditions.QC_Timer;
@@ -37,7 +36,6 @@ class QuestCondition
 
 	private static function no_use():Void
 	{
-		new QC_CharAtPosition();
 		new QC_Event();
 		// new QC_KillAll();
 		new QC_TalkWith();

@@ -23,7 +23,8 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 
 	private var fon:FlxSprite;
 	private var text_tf:MyFlxText;
-	private var background:FlxSprite;
+
+	public var background:FlxSprite;
 
 	public var face:FlxSprite;
 	public var face_back:FlxSprite;
@@ -144,16 +145,12 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 
 				if (n >= answers.length)
 				{
-					trace('CREATING AnswerBtn');
+					// trace('CREATING AnswerBtn');
 					btn = new AnswerBtn(this);
 					answers.push(btn);
 				}
 
 				btn = answers[n];
-
-				trace(btn.visible, btn.alpha, btn.x, btn.y);
-				trace(btn_text);
-				// if (this.members.indexOf(btn) == -1) this.add(btn);
 
 				add(btn);
 				btn.alpha = 0;
@@ -198,12 +195,18 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		{
 			background.screenCenter();
 		}
+		else if (position == 'fixed')
+		{
+			trace('FIXED');
+			background.x = 0;
+			background.y = 0;
+		}
 		else
 		{
 			background.screenCenter(FlxAxes.X);
 			background.y = 40;
 		}
-		position = 'center';
+		// position = 'center';
 
 		face.x = background.x + 1;
 		face.y = background.y + 1;
@@ -219,7 +222,7 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		{
 			b.x = background.x + 2 + face_w;
 			b.y += background.y + text_tf.height;
-			trace(b.x, b.y);
+			// trace(b.x, b.y);
 		}
 
 		/*if (_addit_image != null)
@@ -270,13 +273,17 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 			buffer.push([arr, face, [_function]]);
 	}
 
+	public var always_on_top:Bool = false;
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		FlxG.state.remove(this, true);
-		FlxG.state.add(this);
-		// trace('messanger update');
-		if (MyGameObjectLayer.state != null)
-			MyGameObjectLayer.state.pause = true;
+
+		if (always_on_top)
+		{
+			FlxG.state.remove(this, true);
+			FlxG.state.add(this);
+		}
+		// trace('messanger update')
 	}
 }

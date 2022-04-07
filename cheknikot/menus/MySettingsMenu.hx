@@ -6,7 +6,6 @@ import cheknikot.sounds.MusicPlaying;
 import cheknikot.sounds.MySounds;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.ui.FlxUICheckBox;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;

@@ -1,7 +1,6 @@
 package cheknikot.dungeoncrawler;
 
 import cheknikot.quests_results.Quest;
-import cpp.abi.Abi;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -193,18 +192,23 @@ class DC_GameObject
 	{
 		var _d:Float = 0.001;
 
-		if (tile_dx < object_radius)
-			if (walls.getTileCollisions(walls.getTile(tile_x - 1, tile_y)) != FlxObject.NONE)
-				tile_dx += _d;
-		if (tile_dy < object_radius)
-			if (walls.getTileCollisions(walls.getTile(tile_x, tile_y - 1)) != FlxObject.NONE)
-				tile_dy += _d;
-		if (tile_dx > (1 - object_radius))
-			if (walls.getTileCollisions(walls.getTile(tile_x + 1, tile_y)) != FlxObject.NONE)
-				tile_dx -= _d;
-		if (tile_dy > (1 - object_radius))
-			if (walls.getTileCollisions(walls.getTile(tile_x, tile_y + 1)) != FlxObject.NONE)
-				tile_dy -= _d;
+		if (tile_x > 0)
+			if (tile_dx < object_radius)
+				if (walls.getTileCollisions(walls.getTile(tile_x - 1, tile_y)) != FlxObject.NONE)
+					tile_dx += _d;
+
+		if (tile_y > 0)
+			if (tile_dy < object_radius)
+				if (walls.getTileCollisions(walls.getTile(tile_x, tile_y - 1)) != FlxObject.NONE)
+					tile_dy += _d;
+		if (tile_x < (walls.widthInTiles - 1))
+			if (tile_dx > (1 - object_radius))
+				if (walls.getTileCollisions(walls.getTile(tile_x + 1, tile_y)) != FlxObject.NONE)
+					tile_dx -= _d;
+		if (tile_y < (walls.heightInTiles - 1))
+			if (tile_dy > (1 - object_radius))
+				if (walls.getTileCollisions(walls.getTile(tile_x, tile_y + 1)) != FlxObject.NONE)
+					tile_dy -= _d;
 	}
 
 	public function update_radius_sprites(_elapsed:Float):Void
