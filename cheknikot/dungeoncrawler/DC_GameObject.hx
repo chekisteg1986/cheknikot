@@ -145,17 +145,16 @@ class DC_GameObject
 		return false;
 	}
 
-	public function create_radius_sprites(_len:Int, _color:FlxColor):Void
+	public function create_radius_sprites(_len:Int = 4, _color:FlxColor = FlxColor.CYAN, _size:Int = 2):Void
 	{
 		radius_sprites = new Array();
 
-		var _len:Int = 4;
 		var _n:Int = _len;
 		while (--_n >= 0)
 		{
 			var _go:DC_GameObject = new DC_GameObject();
 			_go.can_collide = false;
-			_go.visual_spr = new FlxSprite().makeGraphic(2, 2, _color);
+			_go.visual_spr = new FlxSprite().makeGraphic(_size, _size, _color);
 			radius_sprites.push(_go);
 		}
 	}
