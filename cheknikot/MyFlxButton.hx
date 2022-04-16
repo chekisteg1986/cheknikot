@@ -20,7 +20,7 @@ class MyFlxButton extends FlxButton
 		if (_new_graphic)
 		{
 			trace('BTN SIZE,', label.fieldWidth, SIZE);
-			makeGraphic(Math.ceil(label.fieldWidth * 2), SIZE, FlxColor.BLACK);
+			makeGraphic(Math.ceil(label.fieldWidth * 2), SIZE * 2, FlxColor.BLACK);
 		}
 
 		if (label != null)

@@ -15,7 +15,7 @@ class AnswerBtn extends MyFlxButton
 
 	public function new(_messanger:GameMessage)
 	{
-		super(0, 0, [' '], OnClick, false);
+		super(0, 0, [' '], OnClick, true);
 
 		messanger = _messanger;
 	}
