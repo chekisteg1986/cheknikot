@@ -75,8 +75,8 @@ class MenuBase extends FlxGroup
 		background = new FlxSprite();
 		add(background);
 		exit_btn = new MyFlxButton(0, 0, MyStandartText.EXIT, exit_click);
-		exit_btn.x = FlxG.width - exit_btn.width;
-		exit_btn.y = FlxG.height - exit_btn.height;
+		exit_btn.x = FlxG.width - exit_btn.frameWidth;
+		exit_btn.y = FlxG.height - exit_btn.frameHeight;
 	}
 
 	public function tooltips_click():Void

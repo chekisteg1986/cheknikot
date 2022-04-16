@@ -34,7 +34,7 @@ class CreditsMenu extends MenuBase
 		return_btn = new MyFlxButton(0, 0, ['Return'], return_click);
 		add(return_btn);
 		return_btn.screenCenter();
-		return_btn.y = FlxG.height - return_btn.height;
+		return_btn.y = FlxG.height - return_btn.frameHeight;
 
 		var y:Int = 0;
 		var dy:Int = 40;
