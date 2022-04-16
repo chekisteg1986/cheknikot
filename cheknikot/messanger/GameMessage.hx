@@ -161,6 +161,8 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 				btn.func = btn_res;
 				btn.new_text(btn_text);
 
+				//	trace(btn.x, btn.y);
+
 				FlxTween.tween(btn, {alpha: 1}, 0.1, {onComplete: btn.activate});
 			}
 			else {}
@@ -222,7 +224,7 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		{
 			b.x = background.x + 2 + face_w;
 			b.y += background.y + text_tf.height;
-			// trace(b.x, b.y);
+			trace('final:', b.x, b.y, b.width, b.scale.x);
 		}
 
 		/*if (_addit_image != null)

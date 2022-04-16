@@ -229,14 +229,14 @@ class MyMainMenu extends MenuBase
 
 		// MusicPlaying.play_music();
 
-		version_txt = new FlxText(0, 0, 0, 'ver.1.1.1');
+		version_txt = new FlxText(0, 0, 0, 'ver.0.5.0');
 		add(version_txt);
 		version_txt.color = FlxColor.YELLOW;
 		version_txt.x = FlxG.width - version_txt.width;
 		version_txt.y = FlxG.height - version_txt.height;
 
 		to_quest_editor = new FlxButton(0, 0, 'Quests', to_quest_editor_click);
-		add(to_quest_editor);
+		// add(to_quest_editor);
 
 		set_scroll();
 	}

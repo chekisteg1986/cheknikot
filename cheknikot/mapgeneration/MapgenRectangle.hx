@@ -13,6 +13,8 @@ import flixel.tile.FlxTilemap;
 
 class MapgenRectangle
 {
+	public var checked:Bool = false;
+
 	public static var min_w:Int = 8;
 	public static var min_h:Int = 8;
 	public static var max_w:Int = 10;
@@ -44,6 +46,25 @@ class MapgenRectangle
 
 	public var children_passages:Array<MapgenRectangle> = new Array();
 	public var all_children_passages:Array<MapgenRectangle> = new Array();
+	public var is_passage:Bool = false;
+
+	public var intersects_with:Array<MapgenRectangle> = new Array();
+
+	public static var getNewRect:?Int->?Int->?Int->?Int->MapgenRectangle = standart_new;
+
+	private static function standart_new(_x:Int = 0, _y:Int = 0, _w:Int = 0, _h:Int = 0):MapgenRectangle
+	{
+		return new MapgenRectangle(_x, _y, _w, _h);
+	}
+
+	public static function check_intersects(_arr:Array<MapgenRectangle>):Void
+	{
+		for (_r in _arr)
+			for (_r2 in _arr)
+				if (_r != _r2)
+					if (_r.intersects(_r2, 1))
+						_r.intersects_with.push(_r2);
+	}
 
 	public function fillTileMap(_tilemap:FlxTilemap, _t:Int, _diap:Int = 0):Void
 	{
@@ -138,7 +159,7 @@ class MapgenRectangle
 		children[1].make_passages_for_children(_border);
 	}
 
-	public function make_passage_between(_children1:Array<MapgenRectangle>, _children2:Array<MapgenRectangle>, _vertical:Bool, _border):MapgenRectangle
+	public static function make_passage_between(_children1:Array<MapgenRectangle>, _children2:Array<MapgenRectangle>, _vertical:Bool, _border):MapgenRectangle
 	{
 		FlxG.random.shuffle(_children1);
 		FlxG.random.shuffle(_children2);
@@ -162,7 +183,8 @@ class MapgenRectangle
 						continue;
 
 					var _x:Int = FlxG.random.int(_min_x, _max_x);
-					_passage = new MapgenRectangle(_x, _child1.maxy, 1, _child2.y - _child1.maxy + 1);
+					_passage = getNewRect(_x, _child1.maxy, 1, _child2.y - _child1.maxy + 1);
+					_passage.is_passage = true;
 				}
 				else
 				{
@@ -172,7 +194,8 @@ class MapgenRectangle
 						continue;
 
 					var _y:Int = FlxG.random.int(_min_y, _max_y);
-					_passage = new MapgenRectangle(_child1.maxx, _y, _child2.x - _child1.maxx + 1, 1);
+					_passage = getNewRect(_child1.maxx, _y, _child2.x - _child1.maxx + 1, 1);
+					_passage.is_passage = true;
 				}
 
 				if (_passage != null)
@@ -200,6 +223,8 @@ class MapgenRectangle
 		height = _h;
 
 		calculate_max();
+		// if (getNewRect == null)
+		//		getNewRect = standart_new;
 	}
 
 	public static function init_maprect_map(_width:Int, _height:Int):Void
@@ -433,7 +458,7 @@ class MapgenRectangle
 	public static function get_biggest_child(inRect:MapgenRectangle, maxRect:MapgenRectangle = null):MapgenRectangle
 	{
 		if (maxRect == null)
-			maxRect = new MapgenRectangle();
+			maxRect = getNewRect();
 
 		if (inRect.children.length == 0)
 		{
@@ -487,8 +512,8 @@ class MapgenRectangle
 			horiz = !vertic;
 		}
 
-		var child_1:MapgenRectangle = new MapgenRectangle();
-		var child_2:MapgenRectangle = new MapgenRectangle();
+		var child_1:MapgenRectangle = getNewRect();
+		var child_2:MapgenRectangle = getNewRect();
 
 		if (horiz)
 		{
@@ -559,19 +584,21 @@ class MapgenRectangle
 		return true;
 	}
 
-	public function intersects(r:MapgenRectangle):Bool
+	public function intersects(r:MapgenRectangle, range:Int = 0):Bool
 	{
-		if (r.x > this.maxx || this.x > r.maxx)
+		if ((r.x - range) > this.maxx || (this.x - range) > r.maxx)
 			return false;
-		if (r.y > this.maxy || this.y > r.maxy)
+		if ((r.y - range) > this.maxy || (this.y - range) > r.maxy)
 			return false;
-
 		return true;
 	}
 
 	public function make_all_children():Void
 	{
 		// if (parent == null) add_to = final_childs;
+
+		AF.clear_array(children);
+		AF.clear_array(final_childs);
 
 		if (make_children())
 		{

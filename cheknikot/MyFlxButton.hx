@@ -19,19 +19,20 @@ class MyFlxButton extends FlxButton
 		// loadGraphic(AssetPaths.mybutton__png, true, 100, 25);
 		if (_new_graphic)
 		{
-			makeGraphic(100, 25, FlxColor.BLACK);
-			// graphic.destroy();
-			if (label != null)
-			{
-				label.setFormat(MyFlxText.FONT, SIZE, FlxColor.CYAN, CENTER);
-				label.borderStyle = FlxTextBorderStyle.SHADOW;
-				label.borderSize = 1;
-				// color =  FlxColor.WHITE;
-				label.borderColor = FlxColor.BLACK;
-
-				label.fieldWidth = 0;
-			}
+			trace('BTN SIZE,', label.fieldWidth, SIZE);
+			makeGraphic(Math.ceil(label.fieldWidth * 2), SIZE, FlxColor.BLACK);
 		}
+
+		if (label != null)
+		{
+			label.setFormat(MyFlxText.FONT, SIZE, FlxColor.CYAN, CENTER);
+			label.borderStyle = FlxTextBorderStyle.SHADOW;
+			label.borderSize = 1;
+			label.borderColor = FlxColor.BLACK;
+
+			label.fieldWidth = 0;
+		}
+		updateHitbox();
 
 		// trace(frameWidth, frameHeight);
 	}

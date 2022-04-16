@@ -34,7 +34,7 @@
     <assets path="assets/data" include="*.ogmo" />
     <assets path="assets/data" include="*.json" />
     <assets path="assets/data" include="*.txt" />
-	<assets path="assets/images" include="*.png" />
+	<assets path="assets/images" include="*.png" exclude="*.xcf" />
     <assets path="assets/sounds" include="*.wav" />
     <assets path="assets/music" include="*.mp3" if="flash" />
     <assets path="assets/music" include="*.ogg" unless="flash" />

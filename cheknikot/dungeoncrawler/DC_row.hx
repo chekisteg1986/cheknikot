@@ -2,6 +2,7 @@ package cheknikot.dungeoncrawler;
 
 import flixel.FlxG;
 import flixel.FlxStrip;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxPoint;
@@ -13,14 +14,14 @@ import flixel.math.FlxPoint;
 class DC_row extends FlxStrip
 {
 	public var sprites:Array<DC_sprite> = new Array();
-	public var sprites_on_screen:FlxSpriteGroup = new FlxSpriteGroup();
+	public var sprites_on_screen:FlxGroup = new FlxGroup();
 	public var parent:DC_screen;
 
 	public function new()
 	{
 		super();
 		this.scrollFactor.set(0, 0);
-		sprites_on_screen.scrollFactor.set(0, 0);
+		// sprites_on_screen.scrollFactor.set(0, 0);
 	}
 
 	public function add_quads(_arr:Array<DC_quad>):Void
@@ -88,17 +89,7 @@ class DC_row extends FlxStrip
 						trace('CLICKED');
 						_go.onClick();
 					}
-					else
-					{
-						/*				if (_mousepoint.x > parent.left(1, 0))
-							if (_mousepoint.y > parent.up(1))
-								if (_mousepoint.x < parent.right(1, 0))
-									if (_mousepoint.y < parent.down(1))
-									{
-										// LocalGame.state.click_on_step_1();
-									}
-						 */
-					}
+					else {}
 				}
 		}
 	}

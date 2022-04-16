@@ -156,21 +156,15 @@ class DC_sprite
 			if (_visible_objects != null)
 			{
 				_n = _visible_objects.length;
-				while (--_n >= 0)
-					sprite_objects.push(_visible_objects[_n]);
+				if (_n > 0)
+				{
+					// trace('-----------');
+					// trace('have sprite at', this.step, this.side);
+					while (--_n >= 0)
+						sprite_objects.push(_visible_objects[_n]);
 
-				// check lines
-				/*
-					var _line:Int = 5;
-					while (--_line >= 0)
-					{
-						var _sprites_in_line:Array<Dynamic> = AF.get_objects_with(sprite_objects, 'line', _line);
-						put_in_row(_sprites_in_line, _line * 20);
-					}
-				 */
-				//
-
-				DC_SpriteOutputType.show_visible_objects_dxdy(sprite_objects, this);
+					DC_SpriteOutputType.show_visible_objects_dxdy(sprite_objects, this);
+				}
 			}
 	}
 
@@ -180,32 +174,15 @@ class DC_sprite
 		while (--_n >= 0)
 		{
 			var obj:DC_GameObject = sprite_objects[_n];
-			obj.visual_spr.updateHitbox();
-			if (obj.onClickFunc != null)
-				if (FlxG.mouse.getPosition().inRect(obj.visual_spr.getHitbox()))
-				{
-					return sprite_objects[_n];
-				}
+
+			if (obj.mouseover())
+			{
+				return obj;
+			}
 		}
 		return null;
 	}
 
-	/*public function set_floor_tile(_t:Int):Void
-		{
-			var _floor:Int = parent_screen.sprites_complect[_t][0];		
-			for (s in floor)
-			{
-				s.set_texture(_floor);
-			}
-		}
-		public function set_side_tile(_t:Int):Void
-		{
-			var _side_wall:Int = parent_screen.sprites_complect[_t][2];
-			for (s in side_wall)
-			{
-				s.set_texture(_side_wall);
-			}
-	}*/
 	public var sprite_objects:Array<DC_GameObject> = new Array();
 
 	public var next_left:Float;

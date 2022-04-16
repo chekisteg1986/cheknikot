@@ -69,7 +69,8 @@ class DC_screen extends FlxGroup
 
 	public function add_to_visible(_go:DC_GameObject):Void
 	{
-		visible_map[_go.tile_x + _go.tile_y * tilemap.widthInTiles].push(_go);
+		if (_go.visible)
+			visible_map[_go.tile_x + _go.tile_y * tilemap.widthInTiles].push(_go);
 	}
 
 	public function remove_from_visible(_go:DC_GameObject):Void
@@ -359,10 +360,6 @@ class DC_screen extends FlxGroup
 
 		for (r in rows)
 		{
-			for (go in r.sprites_on_screen)
-			{
-				go.visible = false;
-			}
 			r.sprites_on_screen.clear();
 		}
 
@@ -371,7 +368,45 @@ class DC_screen extends FlxGroup
 			r.update_coordinates();
 			r.update_sprites(_dx_per_step, _dx_per_side, _dy_per_step, _dy_per_side);
 		}
-
+		DC_Effect.actions_all(elapsed);
+		// setCameraDxDy();
 		super.update(elapsed);
+	}
+
+	public var x:Float = 0;
+	public var y:Float = 0;
+
+	private function setCameraDxDy():Void
+	{
+		var _correction:Float = sprite_width;
+		switch (camera_face)
+		{
+			case 0:
+				this.x = (0.5 - camera_position_dx) * _correction;
+			case 2:
+				this.x = -(0.5 - camera_position_dx) * _correction;
+
+			case 1:
+				this.x = (0.5 - camera_position_dy) * _correction;
+			case 3:
+				this.x = -(0.5 - camera_position_dy) * _correction;
+		}
+
+		// trace('camera pos x:' + camera_position_x + ' ' + camera_position_dx);
+		// trace('camera pos y:' + camera_position_y + ' ' + camera_position_dy);
+		// trace('screen x:' + x);
+		for (r in rows)
+		{
+			r.x = this.x;
+			// r.sprites_on_screen.x = r.x;
+			// r.sprites_on_screen.offset.set();
+			for (spr in r.sprites_on_screen)
+			{
+				cast(spr, FlxSprite).x += this.x;
+				// cast(spr, FlxSprite).offset.set();
+			}
+		}
+
+		/**/
 	}
 }

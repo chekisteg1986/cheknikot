@@ -104,7 +104,7 @@ class MusicPlaying
 
 	public static function set_playlist_name(s:String):Void
 	{
-		set_playlist(AF.get_object_with(Playlist.all_playlists, 'name', s));
+		set_playlist(AF.getObjectWith(Playlist.all_playlists, {name: s}));
 	}
 
 	public static function set_playlist(_new:Playlist):Void

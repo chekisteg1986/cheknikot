@@ -1,8 +1,12 @@
 package cheknikot.dungeoncrawler;
 
 import cheknikot.quests_results.Quest;
+import flixel.FlxBasic;
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tile.FlxTilemap;
@@ -26,10 +30,14 @@ class DC_GameObject
 	public var visual_spr:FlxSprite;
 	public var visible:Bool = true;
 
+	public var visual_group:Array<FlxSprite>;
+
 	public var front_view_spr:FlxSprite;
 	public var right_view_spr:FlxSprite;
 	public var back_view_spr:FlxSprite;
 	public var left_view_spr:FlxSprite;
+
+	public var on_map:Bool = false;
 
 	public var visual_type:Int = DC_SpriteOutputType.DXDY;
 
@@ -40,7 +48,8 @@ class DC_GameObject
 	public var speed:Float = 1;
 	public var position:FlxPoint = new FlxPoint();
 
-	private var walls:FlxTilemap;
+	private var visible_map:FlxTilemap;
+	private var walking_map:FlxTilemap;
 
 	public var object_radius:Float = 0.1;
 
@@ -58,7 +67,85 @@ class DC_GameObject
 
 	private var time:Float = 0;
 
-	public function create_radius_sprites():Void
+	public var scale:Float = 1;
+
+	private var last_scale:Float = 1;
+
+	public function setScale(_scale:Float):Void
+	{
+		scale = _scale;
+		visual_spr.scale.set(_scale, _scale);
+		visual_spr.updateHitbox();
+	}
+
+	public var on_screen_x:Float;
+	public var on_screen_y:Float;
+
+	public function setVisualXY(_x:Float, _y:Float):Void
+	{
+		on_screen_x = _x;
+		on_screen_y = _y;
+
+		if (Std.isOfType(visual_spr, FlxSpriteGroup))
+		{
+			/*visual_spr.x = _x - visual_spr.width * 0.5 * scale;
+				visual_spr.y = _y - visual_spr.height * scale;
+				visual_spr.offset.set(0, 0); */
+		}
+		else if (Std.isOfType(visual_spr, FlxSprite))
+		{
+			visual_spr.x = _x - visual_spr.frameWidth * 0.5 * scale;
+			visual_spr.y = _y - visual_spr.frameHeight * scale;
+		}
+	}
+
+	private var buf_sprites:Array<FlxSprite> = new Array();
+
+	public var on_screen:Bool = false;
+	public var current_state:FlxGroup;
+
+	public function add_to_screen(_state:FlxGroup):Void
+	{
+		on_screen = true;
+		current_state = _state;
+		_state.add(visual_spr);
+	}
+
+	public function mouseover():Bool
+	{
+		if (Std.isOfType(visual_spr, FlxSpriteGroup))
+		{
+			// no update hitbox
+		}
+		else if (Std.isOfType(visual_spr, FlxSprite))
+		{
+			visual_spr.updateHitbox();
+		}
+		if (FlxG.mouse.getPosition().inRect(visual_spr.getHitbox()))
+			return true;
+
+		/*if (Std.isOfType(visual_spr, FlxSprite))
+			{
+				var _spr:FlxSprite = cast(visual_spr, FlxSprite);
+				_spr.updateHitbox();
+				if (FlxG.mouse.getPosition().inRect(_spr.getHitbox()))
+					return true;
+			}
+			else if (Std.isOfType(visual_spr, FlxSpriteGroup))
+			{
+				var _group:FlxSpriteGroup = cast(visual_spr, FlxSpriteGroup);
+				for (_spr in _group)
+				{
+					_spr.updateHitbox();
+					if (FlxG.mouse.getPosition().inRect(_spr.getHitbox()))
+						return true;
+				}
+		}*/
+
+		return false;
+	}
+
+	public function create_radius_sprites(_len:Int, _color:FlxColor):Void
 	{
 		radius_sprites = new Array();
 
@@ -68,9 +155,36 @@ class DC_GameObject
 		{
 			var _go:DC_GameObject = new DC_GameObject();
 			_go.can_collide = false;
-			_go.visual_spr.makeGraphic(2, 2, FlxColor.CYAN);
+			_go.visual_spr = new FlxSprite().makeGraphic(2, 2, _color);
 			radius_sprites.push(_go);
 		}
+	}
+
+	public function rotate_left():Void
+	{
+		nesw_facing = AF.NESW_border(nesw_facing - 1);
+	}
+
+	public function rotate_right():Void
+	{
+		nesw_facing = AF.NESW_border(nesw_facing - 1);
+	}
+
+	public function face_to(_o:DC_GameObject):Void
+	{
+		var _res:Array<Int> = new Array();
+		if (_o.tile_y < this.tile_y)
+			_res.push(0);
+		if (_o.tile_y > this.tile_y)
+			_res.push(2);
+
+		if (_o.tile_x > this.tile_x)
+			_res.push(1);
+		if (_o.tile_x < this.tile_x)
+			_res.push(3);
+
+		if (_res.length > 0)
+			nesw_facing = FlxG.random.getObject(_res);
 	}
 
 	public function sees(_go:DC_GameObject, _tile_size:Int, _vision_radius:Int = 0):Bool
@@ -83,7 +197,7 @@ class DC_GameObject
 				return false;
 		}
 
-		return walls.ray(FlxPoint.weak(position.x * _tile_size, position.y * _tile_size),
+		return visible_map.ray(FlxPoint.weak(position.x * _tile_size, position.y * _tile_size),
 			FlxPoint.weak(_go.position.x * _tile_size, _go.position.y * _tile_size));
 	}
 
@@ -109,10 +223,10 @@ class DC_GameObject
 
 	public function loadGraphic_all_sprites(_asset:FlxGraphicAsset, _width:Int, _height:Int):Void
 	{
-		front_view_spr.loadGraphic(_asset, true, _width, _height);
-		right_view_spr.loadGraphic(_asset, true, _width, _height);
-		left_view_spr.loadGraphic(_asset, true, _width, _height);
-		back_view_spr.loadGraphic(_asset, true, _width, _height);
+		cast(front_view_spr, FlxSprite).loadGraphic(_asset, true, _width, _height);
+		cast(right_view_spr, FlxSprite).loadGraphic(_asset, true, _width, _height);
+		cast(left_view_spr, FlxSprite).loadGraphic(_asset, true, _width, _height);
+		cast(back_view_spr, FlxSprite).loadGraphic(_asset, true, _width, _height);
 	}
 
 	public function animation_add_all_sprites(_name:String, _frames:Array<Int>, _frame_rate:Float, _left_is_mirror_right:Bool, _d_frames = 0):Void
@@ -125,17 +239,17 @@ class DC_GameObject
 				_frames[_n] = _frames[_n] + _d_frames;
 		}
 
-		front_view_spr.animation.add(_name, _frames, _frame_rate, true, false, false);
+		cast(front_view_spr, FlxSprite).animation.add(_name, _frames, _frame_rate, true, false, false);
 
 		_add();
-		right_view_spr.animation.add(_name, _frames, _frame_rate, true, false, false);
+		cast(right_view_spr, FlxSprite).animation.add(_name, _frames, _frame_rate, true, false, false);
 
 		if (!_left_is_mirror_right)
 			_add();
-		left_view_spr.animation.add(_name, _frames, _frame_rate, true, _left_is_mirror_right, false);
+		cast(left_view_spr, FlxSprite).animation.add(_name, _frames, _frame_rate, true, _left_is_mirror_right, false);
 
 		_add();
-		back_view_spr.animation.add(_name, _frames, _frame_rate, true, false, false);
+		cast(back_view_spr, FlxSprite).animation.add(_name, _frames, _frame_rate, true, false, false);
 	}
 
 	public function create_all_sprites():Void
@@ -154,12 +268,12 @@ class DC_GameObject
 				objects[n].update(_e);
 	}
 
-	public function collide_with(_arr:Array<DC_GameObject>):DC_GameObject
+	public function collide_with(_arr:Array<Dynamic>):DC_GameObject
 	{
 		var _n:Int = _arr.length;
 		while (--_n >= 0)
 		{
-			var _c:DC_GameObject = _arr[_n];
+			var _c:DC_GameObject = cast(_arr[_n], DC_GameObject);
 			if (_c == this)
 				continue;
 			if (!_c.can_collide)
@@ -194,20 +308,20 @@ class DC_GameObject
 
 		if (tile_x > 0)
 			if (tile_dx < object_radius)
-				if (walls.getTileCollisions(walls.getTile(tile_x - 1, tile_y)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x - 1, tile_y)) != FlxObject.NONE)
 					tile_dx += _d;
 
 		if (tile_y > 0)
 			if (tile_dy < object_radius)
-				if (walls.getTileCollisions(walls.getTile(tile_x, tile_y - 1)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y - 1)) != FlxObject.NONE)
 					tile_dy += _d;
-		if (tile_x < (walls.widthInTiles - 1))
+		if (tile_x < (walking_map.widthInTiles - 1))
 			if (tile_dx > (1 - object_radius))
-				if (walls.getTileCollisions(walls.getTile(tile_x + 1, tile_y)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x + 1, tile_y)) != FlxObject.NONE)
 					tile_dx -= _d;
-		if (tile_y < (walls.heightInTiles - 1))
+		if (tile_y < (walking_map.heightInTiles - 1))
 			if (tile_dy > (1 - object_radius))
-				if (walls.getTileCollisions(walls.getTile(tile_x, tile_y + 1)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y + 1)) != FlxObject.NONE)
 					tile_dy -= _d;
 	}
 
@@ -244,17 +358,19 @@ class DC_GameObject
 	public function new()
 	{
 		screen_3d = DC_screen.screen_3d;
-		visual_spr = new FlxSprite();
-		visual_spr.scrollFactor.set(0, 0);
+
+		this.front_view_spr = visual_spr = new FlxSprite();
+		cast(visual_spr, FlxSprite).scrollFactor.set(0, 0);
 	}
 
 	public static var screen_3d:DC_screen;
 
 	public function add_to_map():Void
 	{
+		on_map = true;
 		objects.push(this);
 		screen_3d.add_to_visible(this);
-		walls = DC_screen.screen_3d.tilemap;
+		walking_map = visible_map = DC_screen.screen_3d.tilemap;
 
 		if (radius_sprites != null)
 		{
@@ -266,6 +382,7 @@ class DC_GameObject
 
 	public function remove_from_map():Void
 	{
+		on_map = false;
 		objects.remove(this);
 		screen_3d.remove_from_visible(this);
 		if (radius_sprites != null)
@@ -274,6 +391,25 @@ class DC_GameObject
 			while (--_n >= 0)
 				radius_sprites[_n].remove_from_map();
 		}
+	}
+
+	public function shoot(_b:DC_Bullet, _nesw_facing:Int = -1, _side_dx:Float = 0):Void
+	{
+		if (_nesw_facing == -1)
+			_nesw_facing = nesw_facing;
+
+		_b.tile_x = this.tile_x;
+		_b.tile_y = this.tile_y;
+		var _start:Float = (object_radius + _b.object_radius + 0.1);
+		_b.tile_dx = this.tile_dx + AF.get_step_dx(_nesw_facing) * _start;
+		_b.tile_dy = this.tile_dy + AF.get_step_dy(_nesw_facing) * _start;
+		if (_side_dx != 0)
+		{
+			_b.tile_dx += AF.get_step_dx(_nesw_facing + 1) * _side_dx;
+			_b.tile_dy += AF.get_step_dy(_nesw_facing + 1) * _side_dx;
+		}
+		_b.nesw_facing = _nesw_facing;
+		_b.add_to_map();
 	}
 
 	public static function remove_objects_at(_x:Int, _y:Int):Void
@@ -296,11 +432,10 @@ class DC_GameObject
 		this.tile_y = Math.floor(_new_y);
 		this.tile_dx = _new_x - tile_x;
 		this.tile_dy = _new_y - tile_y;
-
 		screen_3d.add_to_visible(this);
 	}
 
-	public function step_forward(_face:Int = -1, _speed:Float = 1):Bool
+	public function step_forward(_face:Int = -1, _speed:Float = 1, _make_step:Bool = true):Bool
 	{
 		var _border:Float = 0.1;
 
@@ -322,7 +457,7 @@ class DC_GameObject
 		var _new_x:Int = Math.floor(_x + _step_x * _border);
 		var _new_y:Int = Math.floor(_y + _step_y * _border);
 
-		var _walls:FlxTilemap = walls;
+		var _walls:FlxTilemap = walking_map;
 
 		if (_new_x >= 0 && _new_x < _walls.widthInTiles)
 			if (_new_y >= 0 && _new_y < _walls.heightInTiles)
@@ -330,25 +465,30 @@ class DC_GameObject
 				var _t:Int = _walls.getTile(_new_x, _new_y);
 				if (_walls.getTileCollisions(_t) != FlxObject.NONE)
 				{
-					// trace('block', _walls.getTile(_new_x, _new_y));
+					trace('block', _walls.getTile(_new_x, _new_y), tile_x, tile_y, _new_x, _new_y);
 
 					if (collision_functions[_t] != null)
 						collision_functions[_t](_new_x, _new_y, this);
 					return false;
 				}
-				moved = true;
-				_new_x = Math.floor(_x);
-				_new_y = Math.floor(_y);
 
-				if (tile_x != _new_x || tile_y != _new_y)
+				if (_make_step)
 				{
-					screen_3d.remove_from_visible(this);
-					this.tile_x = _new_x;
-					this.tile_y = _new_y;
-					screen_3d.add_to_visible(this);
+					moved = true;
+
+					_new_x = Math.floor(_x);
+					_new_y = Math.floor(_y);
+					if (tile_x != _new_x || tile_y != _new_y)
+					{
+						setPosition(_x, _y);
+						/*screen_3d.remove_from_visible(this);
+							this.tile_x = _new_x;
+							this.tile_y = _new_y;
+							screen_3d.add_to_visible(this); */
+					}
+					this.tile_dx = _x - tile_x;
+					this.tile_dy = _y - tile_y;
 				}
-				this.tile_dx = _x - tile_x;
-				this.tile_dy = _y - tile_y;
 
 				return true;
 			}
@@ -364,15 +504,58 @@ class DC_GameObject
 	{
 		return screen_3d.visible_map[_x + _y * DC_screen.screen_3d.tilemap.widthInTiles].copy();
 	}
-	/*public static function count_chars_side_at(_x:Int, _y:Int, _side:Int):Int
+
+	@:generic
+	public function get_objects_in_front<T>(_arr:Array<T>, _start_step:Int):Array<T>
+	{
+		var _dx:Int = AF.get_step_dx(nesw_facing);
+		var _dy:Int = AF.get_step_dy(nesw_facing);
+
+		var _step:Int = _start_step;
+
+		var _new_x:Int = 0;
+		var _new_y:Int = 0;
+		var _width:Int = visible_map.widthInTiles;
+		var _height:Int = visible_map.heightInTiles;
+
+		while (true)
 		{
-			var _count:Int = 0;
-			for (go in screen_3d.visible_map[_x + _y * LocalGame.state.walls.widthInTiles])
-				if (Std.isOfType(go, Character))
-					if (cast(go, Character).side == _side || _side == -1)
-					{
-						_count++;
-					}
-			return _count;
-	}*/
+			_new_x = tile_x + _step * _dx;
+			if (_new_x >= _width)
+				break;
+			if (_new_x < 0)
+				break;
+			_new_y = tile_y + _step * _dy;
+			if (_new_y >= _height)
+				break;
+			if (_new_y < 0)
+				break;
+
+			if (visible_map.getTileCollisions(visible_map.getTile(_new_x, _new_y)) == FlxObject.ANY)
+				break;
+			_step++;
+		}
+		// now we know where steps ends
+		// _step , <>_new_x, <>_new_y
+		var _res:Array<T> = new Array();
+		var _n:Int = _arr.length;
+		while (--_n >= 0)
+		{
+			var _obj:DC_GameObject = cast(_arr[_n], DC_GameObject);
+			if (_dx == 0 && _obj.tile_x != this.tile_x)
+				continue;
+			if (_dy == 0 && _obj.tile_y != this.tile_y)
+				continue;
+			if (_dx > 0 && (_obj.tile_x >= _new_x || _obj.tile_x < this.tile_x))
+				continue;
+			if (_dx < 0 && (_obj.tile_x <= _new_x || _obj.tile_x > this.tile_x))
+				continue;
+			if (_dy > 0 && (_obj.tile_y >= _new_y || _obj.tile_y < this.tile_y))
+				continue;
+			if (_dy < 0 && (_obj.tile_y <= _new_y || _obj.tile_y > this.tile_y))
+				continue;
+			_res.push(_arr[_n]);
+		}
+		return _res;
+	}
 }

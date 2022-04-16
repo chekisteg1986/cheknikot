@@ -29,7 +29,7 @@ class QR_SetTileRect extends QuestResult
 	{
 		super.make_result_actions();
 
-		var _p:QPoint = AF.get_object_with(QPoint.positions, 'type', point);
+		var _p:QPoint = AF.getObjectWith(QPoint.positions, {type: point});
 
 		if (_p != null)
 		{

@@ -13,6 +13,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxHorizontalAlign;
 
@@ -58,12 +59,13 @@ class AF
 		}
 	}
 
-	public static function get_free_object(_arr:Array<Dynamic>, _number:Int, _function_new:Void->Dynamic):Dynamic
+	@:generic
+	public static function get_free_object<T>(_arr:Array<T>, _number:Int, _function_new:Void->T):T
 	{
 		if (_number >= _arr.length)
 		{
-			var _obj:Dynamic = _function_new();
-			_arr.push(_obj);
+			// var _obj:Dynamic = _function_new();
+			_arr.push(_function_new());
 		}
 		return (_arr[_number]);
 	}
@@ -306,9 +308,10 @@ class AF
 	}
 
 	@:generic
-	public static function get_object_with<T>(arr:Array<T>, _prop:String, _value:Dynamic):T
+	public static function getObjectWith<T>(arr:Array<T>, stats:Dynamic):T
 	{
 		var n:Int = arr.length;
+		var properties:Array<String> = Reflect.fields(stats);
 		while (--n >= 0)
 		{
 			var o:Null<T> = arr[n];
@@ -317,10 +320,20 @@ class AF
 
 			// trace(_prop + ':' + Reflect.getProperty(o, _prop) + ' <> ' + _value);
 
-			if (Reflect.getProperty(o, _prop) == _value)
+			var _p:Int = properties.length;
+			var _add:Bool = true;
+			while (--_p >= 0)
 			{
-				return o;
+				var _prop:String = properties[_p];
+				var _value:Dynamic = Reflect.getProperty(stats, _prop);
+				if (Reflect.getProperty(o, _prop) != _value)
+				{
+					_add = false;
+					break;
+				}
 			}
+			if (_add)
+				return o;
 		}
 		return null;
 	}
@@ -358,6 +371,36 @@ class AF
 			{
 				res.push(o);
 			}
+		}
+		return res;
+	}
+
+	@:generic
+	public static function getObjectsWith<T>(arr:Array<T>, stats:Dynamic):Array<T>
+	{
+		var res:Array<T> = new Array();
+		var n:Int = arr.length;
+		var properties:Array<String> = Reflect.fields(stats);
+		while (--n >= 0)
+		{
+			var o:T = arr[n];
+			if (o == null)
+				continue;
+
+			var _p:Int = properties.length;
+			var _add:Bool = true;
+			while (--_p >= 0)
+			{
+				var _prop:String = properties[_p];
+				var _value:Dynamic = Reflect.getProperty(stats, _prop);
+				if (Reflect.getProperty(o, _prop) != _value)
+				{
+					_add = false;
+					break;
+				}
+			}
+			if (_add)
+				res.push(o);
 		}
 		return res;
 	}
