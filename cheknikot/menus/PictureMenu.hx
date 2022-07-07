@@ -96,7 +96,7 @@ class PictureMenu extends MenuBase
 
 	public static var game_completed:Int = 0;
 
-	public var exit_function:Void->Void;
+	public static var exit_function:Void->Void;
 
 	public function next_click():Void
 	{

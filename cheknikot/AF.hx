@@ -23,22 +23,22 @@ class AF
 {
 	public static var collosion_variants:Int = 2;
 
-	public static function randomize_tilemap(walls:FlxTilemap, _ignore:Array<Int> = null):Void
+	public static function randomize_tilemap(walls:FlxTilemap, _ignore:Array<Int> = null, _tile_variations:Int = 2):Void
 	{
 		var _n:Int = walls.totalTiles;
 		while (--_n >= 0)
 		{
-			if (FlxG.random.bool())
-			{
-				var _t:Int = walls.getTileByIndex(_n);
+			// if (FlxG.random.bool())
+			// {
+			var _t:Int = walls.getTileByIndex(_n);
 
-				if (_ignore != null)
-					if (_ignore.indexOf(_t) != -1)
-						continue;
+			if (_ignore != null)
+				if (_ignore.indexOf(_t) != -1)
+					continue;
 
-				_t++;
-				walls.setTileByIndex(_n, _t);
-			}
+			_t = _t + FlxG.random.int(0, _tile_variations - 1);
+			walls.setTileByIndex(_n, _t);
+			// }
 		}
 	}
 

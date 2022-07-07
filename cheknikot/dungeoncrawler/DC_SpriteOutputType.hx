@@ -2,6 +2,7 @@ package cheknikot.dungeoncrawler;
 
 import flixel.FlxBasic;
 import flixel.FlxSprite;
+import flixel.addons.plugin.FlxScrollingText.ScrollingTextData;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 
@@ -114,7 +115,12 @@ class DC_SpriteOutputType
 				_dy = 1 - _obj.tile_dx;
 			}
 
-			var _scale:Float = _dc_sprite.scale_h - (_dc_sprite.scale_h - _dc_sprite.next_scale_h) * (_dy - 1);
+			// var _scale:Float = _dc_sprite.scale_h - (_dc_sprite.scale_h - _dc_sprite.next_scale_h) * (_dy - 1);
+
+			// step 0 = scale 100%,
+			// var _scale:Float = Math.pow(DC_screen.screen_3d.step_scale, _dc_sprite.step + _dy);
+
+			var _scale:Float = DC_screen.screen_3d.get_scale(_dc_sprite.step + _dy - DC_screen.screen_3d.camera_d_step);
 
 			var _left:Float = _dc_sprite.get_left(_dy);
 			var _right:Float = _dc_sprite.get_right(_dy);
@@ -122,8 +128,9 @@ class DC_SpriteOutputType
 			var _x:Float = 0;
 			var _y:Float = 0;
 
-			_x = _dc_sprite.get_center(_dy) + (_dx - 0.5) * (_right - _left);
-			_y = _dc_sprite.w_down - _dy * _height - _obj.attitude_dy * _scale;
+			// _x = _dc_sprite.get_center(_dy) + (_dx - 0.5) * (_right - _left);
+			_x = DC_screen.screen_3d.left(_dc_sprite.step + _dy, _dc_sprite.side + _dx);
+			_y = DC_screen.screen_3d.down(_dc_sprite.step + _dy) - _obj.attitude_dy * _scale;
 
 			_obj.add_to_screen(_dc_sprite.parent_row.sprites_on_screen);
 			_obj.setScale(_scale);

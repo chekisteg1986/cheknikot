@@ -13,7 +13,7 @@ class DC_quad
 	public var uv:Array<Float> = [0, 0, 0, 0, 0, 0, 0, 0]; // 8
 	public var vertices:Array<Float> = [0, 0, 0, 0, 0, 0, 0, 0]; // 8
 	public var indexes:Array<Int> = [0, 1, 2, 1, 2, 3]; // 6
-	public var quad_index:Int = 0;
+	public var quad_index:Int = -1;
 
 	private var parent_row:DC_row;
 	private var parent_screen:DC_screen;
@@ -30,6 +30,23 @@ class DC_quad
 	private var parent_row_uvtData:DrawData<Float>;
 	private var parent_row_vertices:DrawData<Float>;
 	private var tile_rectangles:Array<FlxRect>;
+
+	public function update():Void
+	{
+		if (!visible)
+			return;
+		var _quad_index:Int = this.quad_index * 8;
+		// var _in_index:Int = _quad_index * 4;
+		// trace('update quad');
+		// trace('add_quad',_quad_index, _in_index);
+
+		var _n:Int = -1;
+		while (++_n < 8)
+		{
+			parent_row_vertices[_quad_index + _n] = this.vertices[_n];
+			// uvtData.push(_quad.uv[_n]);
+		}
+	}
 
 	public function set_row(_r:DC_row):Void
 	{

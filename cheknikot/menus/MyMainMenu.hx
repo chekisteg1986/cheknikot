@@ -225,7 +225,7 @@ class MyMainMenu extends MenuBase
 		add(FB);
 
 		//
-		add(new MuteBtn(0, FlxG.height - 10));
+		// add(new MuteBtn(0, FlxG.height - 10));
 
 		// MusicPlaying.play_music();
 
@@ -328,5 +328,6 @@ class MyMainMenu extends MenuBase
 	private function credits_click():Void
 	{
 		hide();
+		CreditsMenu.menu.show();
 	}
 }

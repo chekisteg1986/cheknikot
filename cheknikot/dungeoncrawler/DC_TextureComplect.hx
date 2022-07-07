@@ -15,5 +15,7 @@ class DC_TextureComplect
 	public var nesw_ceil:Bool = true;
 	public var rotate_ceil:Int = 0;
 
+	public var block_vision:Bool = false;
+
 	public function new() {}
 }

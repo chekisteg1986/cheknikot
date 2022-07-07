@@ -22,8 +22,8 @@ class MySounds
 			_arr.push(FlxG.sound.load(_ass));
 	}
 
-	public static function play(_arr:Array<FlxSound>, _volume:Float = 1):Void
+	public static function play(_arr:Array<FlxSound>, _volume:Float = 1, _force:Bool = false):Void
 	{
-		FlxG.random.getObject(_arr).play().volume = _volume;
+		FlxG.random.getObject(_arr).play(_force).volume = _volume;
 	}
 }

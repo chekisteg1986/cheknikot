@@ -251,6 +251,7 @@ class MapgenRectangle
 		var _maxy:Int = 0;
 		var _x:Int = -1;
 		var _y:Int = -1;
+
 		if (childs != null)
 			for (r in childs)
 			{

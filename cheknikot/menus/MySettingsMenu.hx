@@ -74,10 +74,10 @@ class MySettingsMenu extends MenuBase
 		music_slider.hoverAlpha = 1;
 
 		// ads - 20 min 40 min 1hr , standart - 40
-		ads_slider = new MySlider(this, 'ads', 0, _dy * 3, 10, 40, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
+		ads_slider = new MySlider(this, 'ads', 0, _dy * 4, 10, 40, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
 		ads_slider.setTexts('Show ADS every', true, '10 min', '40 min');
 		ads_slider.decimals = 0;
-		add(ads_slider);
+		// add(ads_slider);
 		ads_slider.screenCenter(FlxAxes.X);
 		ads_slider.hoverAlpha = 1;
 

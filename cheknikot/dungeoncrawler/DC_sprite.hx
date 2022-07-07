@@ -99,6 +99,9 @@ class DC_sprite
 				_quad.vertices[6] = _q_right_down.x;
 				_quad.vertices[7] = _q_right_down.y;
 
+				if (_quad.quad_index != -1)
+					_quad.update();
+
 				// trace('result floor', _q_left_up,_q_right_up,_q_left_down,_q_right_down);
 
 				// _arr.push(_quad);
@@ -233,17 +236,20 @@ class DC_sprite
 
 		if (side != 0 && (step != (parent_screen.vision_radius + 1)))
 		{
-			if (side < 0)
-			{
-				// side_wall = new DC_quad();
-				side_wall = new Array();
-				make_quads_for(side_wall);
-			}
-			else
-			{
-				side_wall = new Array();
-				make_quads_for(side_wall);
-			}
+			/*if (side < 0)
+				{
+					
+					side_wall = new Array();
+					make_quads_for(side_wall);
+				}
+				else
+				{
+					side_wall = new Array();
+					make_quads_for(side_wall);
+			}*/
+
+			side_wall = new Array();
+			make_quads_for(side_wall);
 		}
 
 		if (Math.abs(side) <= (step + 1))
@@ -326,6 +332,8 @@ class DC_sprite
 			// down right
 			front_wall.vertices[6] = parent_screen.right(step, side);
 			front_wall.vertices[7] = parent_screen.down(step);
+			if (front_wall.quad_index != -1)
+				front_wall.update();
 		}
 		if (floor != null)
 		{

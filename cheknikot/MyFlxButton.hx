@@ -11,7 +11,7 @@ import flixel.util.FlxColor;
  */
 class MyFlxButton extends FlxButton
 {
-	public static var SIZE:Int = 14;
+	public static var SIZE:Int = 20;
 
 	public function new(X:Float = 0, Y:Float = 0, ?Text:Array<String>, ?OnClick:Void->Void, _new_graphic:Bool = true)
 	{

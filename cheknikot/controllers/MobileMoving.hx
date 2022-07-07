@@ -1,4 +1,4 @@
-package cheknikot.menus;
+package cheknikot.controllers;
 
 import flixel.addons.ui.FlxInputText;
 import flixel.group.FlxGroup;
