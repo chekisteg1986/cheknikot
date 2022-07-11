@@ -77,12 +77,20 @@ class DC_row extends FlxStrip
 			var _spr:DC_sprite = sprites[_n];
 			_spr.update(_dx_per_step, _dy_per_step, _dx_per_side, _dy_per_side);
 
-			var _mousepoint:FlxPoint = FlxG.mouse.getScreenPosition();
+			#if android
+			var _mouse_clicked:Bool = FlxG.touches.getFirst != null;
+			#else
 			var _mouse_clicked:Bool = FlxG.mouse.justPressed;
-
+			#end
 			if (_spr.step == 0 && _spr.side == 0)
 				if (_mouse_clicked)
 				{
+					#if android
+					var _mousepoint:FlxPoint = FlxG.touches.getFirst().getScreenPosition();
+					#else
+					var _mousepoint:FlxPoint = FlxG.mouse.getScreenPosition();
+					#end
+
 					var _go:DC_GameObject = _spr.check_click_on_sprites();
 					if (_go != null)
 					{
