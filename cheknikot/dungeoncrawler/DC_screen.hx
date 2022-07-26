@@ -77,7 +77,14 @@ class DC_screen extends FlxGroup
 	public function add_to_visible(_go:DC_GameObject):Void
 	{
 		if (_go.visible)
-			visible_map[_go.tile_x + _go.tile_y * tilemap.widthInTiles].push(_go);
+		{
+			// trace(_go.tile_x, _go.tile_y);
+			// trace(tilemap.widthInTiles);
+			var _i:Int = _go.tile_x + _go.tile_y * tilemap.widthInTiles;
+			// if (visible_map[_i] == null)
+			//	visible_map[_i] = new Array();
+			visible_map[_i].push(_go);
+		}
 	}
 
 	public function remove_from_visible(_go:DC_GameObject):Void
@@ -381,6 +388,7 @@ class DC_screen extends FlxGroup
 
 	override public function update(elapsed:Float):Void
 	{
+		//	trace('3D update');
 		if (showed)
 			return;
 		if (tilemap == null)
@@ -420,20 +428,27 @@ class DC_screen extends FlxGroup
 				_dy_per_side = -1;
 		}
 
+		//	trace('setCamera');
 		setCameraDxDy();
 
 		for (r in rows)
 		{
 			r.sprites_on_screen.clear();
 		}
+		//	trace('updating sprites');
 		for (r in rows)
 		{
+			//		trace('row:', r);
 			r.update_sprites(_dx_per_step, _dx_per_side, _dy_per_step, _dy_per_side);
 		}
+		//	trace('effect actions');
 		DC_Effect.actions_all(elapsed);
 
+		//	trace('show borders');
 		show_borders(_dx_per_step, _dx_per_side, _dy_per_step, _dy_per_side);
+		//	trace('super update');
 		super.update(elapsed);
+		//	trace('3D update END');
 	}
 
 	public var x:Float = 0;

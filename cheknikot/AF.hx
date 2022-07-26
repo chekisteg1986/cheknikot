@@ -21,6 +21,15 @@ import flixel.util.FlxHorizontalAlign;
 // import openfl.display.Tilemap;
 class AF
 {
+	public static function angle_border(a:Float):Float
+	{
+		if (a < 0)
+			a += 360;
+		if (a >= 360)
+			a -= 360;
+		return a;
+	}
+
 	public static var collosion_variants:Int = 2;
 
 	public static function randomize_tilemap(walls:FlxTilemap, _ignore:Array<Int> = null, _tile_variations:Int = 2):Void

@@ -41,8 +41,8 @@ class DC_GameObject
 
 	public var visual_type:Int = DC_SpriteOutputType.DXDY;
 
-	public var tile_x:Int;
-	public var tile_y:Int;
+	public var tile_x:Int = 0;
+	public var tile_y:Int = 0;
 	public var tile_dx:Float = 0;
 	public var tile_dy:Float = 0;
 	public var speed:Float = 1;

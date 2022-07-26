@@ -160,9 +160,6 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 				last_y = btn_y;
 				btn.func = btn_res;
 				btn.new_text(btn_text);
-
-				//	trace(btn.x, btn.y);
-
 				FlxTween.tween(btn, {alpha: 1}, 0.1, {onComplete: btn.activate});
 			}
 			else {}

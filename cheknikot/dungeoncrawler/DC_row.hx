@@ -78,10 +78,11 @@ class DC_row extends FlxStrip
 			_spr.update(_dx_per_step, _dy_per_step, _dx_per_side, _dy_per_side);
 
 			#if android
-			var _mouse_clicked:Bool = FlxG.touches.getFirst != null;
+			var _mouse_clicked:Bool = FlxG.touches.getFirst() != null;
 			#else
 			var _mouse_clicked:Bool = FlxG.mouse.justPressed;
 			#end
+
 			if (_spr.step == 0 && _spr.side == 0)
 				if (_mouse_clicked)
 				{

@@ -39,6 +39,7 @@ class AnswerBtn extends MyFlxButton
 
 	public function activate(_):Void
 	{
+		// trace('activate btn');
 		// set_active(true);
 		this.alpha = 1;
 		if (func == null)
@@ -49,9 +50,10 @@ class AnswerBtn extends MyFlxButton
 
 	override public function update(elapsed:Float):Void
 	{
+		// trace('answr upd');
 		GameMessage.messanger.remove(this, true);
 		GameMessage.messanger.add(this);
-
 		super.update(elapsed);
+		// trace('answr upd end');
 	}
 }

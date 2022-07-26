@@ -25,6 +25,9 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<!-- <architecture name="arm64" if="android" />-->
+    <!-- <config:android minimum-sdk-version="16" target-sdk-version="33" /> -->
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />

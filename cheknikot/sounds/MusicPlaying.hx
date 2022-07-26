@@ -88,7 +88,7 @@ class MusicPlaying
 		}
 		else if (!FlxG.sound.music.playing)
 		{
-			trace('Новый трек', current_track_i);
+			trace('New track', current_track_i);
 			current_playlist.next_track();
 			play_music();
 		}
