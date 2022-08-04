@@ -27,8 +27,8 @@ class InventoryMenu extends MenuBase
 
 	public var shop_panel:ShopPanel;
 	public var char:CharAttributesBasic;
-	public var background:FlxSprite;
 
+	// public var background:FlxSprite;
 	public var sack_panel:SackPanel;
 
 	public static var all_chars:Array<InventoryCharBtn> = new Array();
