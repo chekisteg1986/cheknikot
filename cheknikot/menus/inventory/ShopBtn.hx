@@ -35,7 +35,7 @@ class ShopBtn extends ItemBtn
 	private function equip_click()
 	{
 		var _class:String = item.item_class;
-		var slot:EquipmentSlotBasic = cast(AF.get_object_with(InventoryMenu.menu.char.equipment.slots, 'item_type', _class), EquipmentSlotBasic);
+		var slot:EquipmentSlotBasic = cast(AF.getObjectWith(InventoryMenu.menu.char.equipment.slots, {item_type: _class}), EquipmentSlotBasic);
 		trace(slot);
 		if (slot == null)
 		{

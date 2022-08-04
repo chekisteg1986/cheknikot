@@ -33,6 +33,10 @@ class MusicPlaying
 
 	public static function play_music():Void
 	{
+		if (current_playlist == null)
+			return;
+		if (current_playlist.current_song == null)
+			return;
 		FlxG.sound.playMusic(current_playlist.current_song.asset, max_volume, false);
 	}
 
@@ -88,9 +92,13 @@ class MusicPlaying
 		}
 		else if (!FlxG.sound.music.playing)
 		{
-			trace('New track', current_track_i);
-			current_playlist.next_track();
-			play_music();
+			// trace('New track', current_track_i);
+			if (current_playlist != null)
+			{
+				current_playlist.next_track();
+				play_music();
+			}
+			else {}
 		}
 		else
 		{

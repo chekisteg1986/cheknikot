@@ -73,6 +73,7 @@ class DC_minimap
 			return;
 
 		arrow.angle = 90 * connected_to.nesw_facing;
+		// trace('face:' + connected_to.nesw_facing, connected_to.name);
 
 		while (--_x >= -range)
 		{

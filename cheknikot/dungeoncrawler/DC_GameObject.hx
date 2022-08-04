@@ -43,8 +43,8 @@ class DC_GameObject
 
 	public var tile_x:Int = 0;
 	public var tile_y:Int = 0;
-	public var tile_dx:Float = 0;
-	public var tile_dy:Float = 0;
+	public var tile_dx:Float = 0.5;
+	public var tile_dy:Float = 0.5;
 	public var speed:Float = 1;
 	public var position:FlxPoint = new FlxPoint();
 
