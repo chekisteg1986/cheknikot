@@ -11,6 +11,9 @@ import flixel.ui.FlxButton;
  */
 class MobileMoving extends FlxGroup
 {
+	public static var size:Float = 1;
+	public static var wasd:MobileMoving = null;
+
 	public var w_btn:FlxButton;
 	public var a_btn:FlxButton;
 	public var s_btn:FlxButton;
@@ -21,6 +24,7 @@ class MobileMoving extends FlxGroup
 	public function new(_asset:FlxGraphicAsset)
 	{
 		super();
+		wasd = this;
 		q_btn = new FlxButton(0, 0, null, onClick);
 		w_btn = new FlxButton(0, 0, null, onClick);
 		e_btn = new FlxButton(0, 0, null, onClick);

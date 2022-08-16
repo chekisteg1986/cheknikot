@@ -2,6 +2,7 @@ package cheknikot.menus;
 
 import cheknikot.MenuBase;
 import cheknikot.MySlider;
+import cheknikot.controllers.MobileMoving;
 import cheknikot.sounds.MusicPlaying;
 import cheknikot.sounds.MySounds;
 import flixel.FlxG;
@@ -26,6 +27,9 @@ class MySettingsMenu extends MenuBase
 	public var music_slider:MySlider;
 	public var ads_slider:MySlider;
 
+	public var wasd_size:MySlider;
+	public var wasd_position:MyFlxButton;
+
 	public var ads:Float = 20;
 
 	public var test_sound_func:Void->Void;
@@ -38,12 +42,14 @@ class MySettingsMenu extends MenuBase
 
 		load_settings();
 
-		var _size:Int = 300;
-		var _heigh:Int = 30;
-		var _dy:Int = 80;
+		var _size:Int = Math.floor(FlxG.width / 2);
+		var _heigh:Int = Math.floor(FlxG.height / 20);
+		var _dy:Int = Math.floor(FlxG.height / 9);
+		var _thickness:Int = Math.floor(FlxG.height / 50);
+		var _font_size:Int = 20;
 		// general volume
-		volume_slider = new MySlider(FlxG.sound, 'volume', 0, _dy, 0, 1, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
-		volume_slider.setTexts('General Volume', false, '0', '100');
+		volume_slider = new MySlider(FlxG.sound, 'volume', 0, _dy, 0, 1, _size, _heigh, _thickness, FlxColor.WHITE, FlxColor.BROWN);
+		volume_slider.setTexts('General Volume', false, '0', '100', _font_size);
 		add(volume_slider);
 		volume_slider.hoverAlpha = 1;
 		volume_slider.screenCenter(FlxAxes.X);
@@ -54,8 +60,8 @@ class MySettingsMenu extends MenuBase
 		}
 
 		// sound volume
-		sound_slider = new MySlider(FlxG.sound.defaultSoundGroup, 'volume', 0, _dy * 2, 0, 1, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
-		sound_slider.setTexts('Sound Volume', false, '0', '100');
+		sound_slider = new MySlider(FlxG.sound.defaultSoundGroup, 'volume', 0, _dy * 2, 0, 1, _size, _heigh, _thickness, FlxColor.WHITE, FlxColor.BROWN);
+		sound_slider.setTexts('Sound Volume', false, '0', '100', _font_size);
 		add(sound_slider);
 		sound_slider.screenCenter(FlxAxes.X);
 		sound_slider.callback = function(f:Float)
@@ -67,21 +73,28 @@ class MySettingsMenu extends MenuBase
 		// sound_slider.hoverSound = 'assets/sounds/magic1.wav';
 
 		// music volume
-		music_slider = new MySlider(MusicPlaying, 'max_volume', 0, _dy * 3, 0, 1, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
-		music_slider.setTexts('Music Volume', false, '0', '100');
+		music_slider = new MySlider(MusicPlaying, 'max_volume', 0, _dy * 3, 0, 1, _size, _heigh, _thickness, FlxColor.WHITE, FlxColor.BROWN);
+		music_slider.setTexts('Music Volume', false, '0', '100', _font_size);
 		add(music_slider);
 		music_slider.screenCenter(FlxAxes.X);
 		music_slider.hoverAlpha = 1;
 
 		// ads - 20 min 40 min 1hr , standart - 40
-		ads_slider = new MySlider(this, 'ads', 0, _dy * 4, 10, 40, _size, _heigh, 3, FlxColor.WHITE, FlxColor.BROWN);
-		ads_slider.setTexts('Show ADS every', true, '10 min', '40 min');
+		ads_slider = new MySlider(this, 'ads', 0, _dy * 4, 10, 40, _size, _heigh, _thickness, FlxColor.WHITE, FlxColor.BROWN);
+		ads_slider.setTexts('Show ADS every', true, '10 min', '40 min', _font_size);
 		ads_slider.decimals = 0;
 		// add(ads_slider);
 		ads_slider.screenCenter(FlxAxes.X);
 		ads_slider.hoverAlpha = 1;
+		// wasd size
+		wasd_size = new MySlider(MobileMoving, 'size', 0, _dy * 5, 1, 2, _size, _heigh, _thickness, FlxColor.GRAY, FlxColor.BROWN);
+		wasd_size.setTexts('Joystick Size', false, '0', '100', _font_size);
+		add(wasd_size);
+		wasd_size.screenCenter(FlxAxes.X);
+		wasd_size.hoverAlpha = 1;
 
 		add(exit_btn);
+		exit_btn.x = 10;
 
 		set_scroll();
 	}
@@ -126,5 +139,25 @@ class MySettingsMenu extends MenuBase
 		// FirstState.state.remove(this, true);
 		// MainMenu.show();
 		MyMainMenu.state.show();
+	}
+
+	override function show()
+	{
+		super.show();
+		if (MobileMoving.wasd != null)
+		{
+			wasd_size.value = MobileMoving.size;
+			add(MobileMoving.wasd);
+		}
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		if (MobileMoving.wasd != null)
+		{
+			MobileMoving.wasd.setting_scale(MobileMoving.size);
+			MobileMoving.wasd.setting_positions(800 - 137 * MobileMoving.size, 600 - 91 * MobileMoving.size);
+		}
 	}
 }

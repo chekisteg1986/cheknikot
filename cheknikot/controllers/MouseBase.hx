@@ -1,9 +1,9 @@
 package cheknikot.controllers;
 
 import flixel.FlxG;
-//import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+// import flixel.FlxSprite;
 #if !android
 import flixel.input.touch.FlxTouch;
 #end
@@ -12,74 +12,55 @@ import flixel.input.touch.FlxTouch;
  * ...
  * @author ...
  */
-class MouseBase 
+class MouseBase
 {
+	public static var left_click:Bool = false;
+	public static var right_click:Bool = false;
+	public static var click_point:FlxPoint = null;
 
-	
-	public var left_click:Bool = false;
-	public var right_click:Bool = false;
-	public var click_point:FlxPoint = null;
-	
-	
-
-	
-	
-	public function click_overlaps_gui(_gui:FlxGroup):Bool
+	public static function click_overlaps_gui(_gui:FlxGroup):Bool
 	{
-		if (FlxG.mouse.overlaps(_gui)) return true;
+		if (FlxG.mouse.overlaps(_gui))
+			return true;
 		return false;
 	}
-	
-	
-	
-	public function mouse_actions(_gui:FlxGroup):Void
+
+	public static function mouse_actions(_gui:FlxGroup):Void
 	{
-		//var click_point:FlxPoint = null;
-		//var clicked:Bool = false;
-		
+		// var click_point:FlxPoint = null;
+		// var clicked:Bool = false;
+
 		left_click = false;
 		right_click = false;
 		click_point = null;
-		
-		if (click_overlaps_gui(_gui)) return;
-		
-		
-		
-		
+
+		if (_gui != null)
+			if (click_overlaps_gui(_gui))
+				return;
+
 		#if !android
-			click_point = FlxG.mouse.getWorldPosition(FlxG.camera);		
-			right_click = FlxG.mouse.justPressedRight;
-			left_click = FlxG.mouse.justPressed;
+		click_point = FlxG.mouse.getWorldPosition(FlxG.camera);
+		right_click = FlxG.mouse.justPressedRight;
+		left_click = FlxG.mouse.justPressed;
 		#else
-		
-			var t:FlxTouch;			
-			//show_location_name('touches '+FlxG.touches.list.length);
-			for ( t in FlxG.touches.list)
+		var t:FlxTouch;
+		// show_location_name('touches '+FlxG.touches.list.length);
+		for (t in FlxG.touches.list)
+		{
+			if (t.justPressed)
 			{
-				if (t.justPressed)
-				{					
-					click_point = t.getWorldPosition(FlxG.camera);
-					//PlayState.emitter_explode_pt(t.getScreenPosition());
-					clicked = true;
-				}
-			
+				click_point = t.getWorldPosition(FlxG.camera);
+				// PlayState.emitter_explode_pt(t.getScreenPosition());
+				clicked = true;
 			}
-			
+		}
 		#end
-		
-		
-		
+
 		#if !FLX_NO_MOUSE
 		if (FlxG.mouse.justPressedRight)
 		{
 			right_click = true;
-			
-			
 		}
 		#end
-		
-		
 	}
-	
-	
 }

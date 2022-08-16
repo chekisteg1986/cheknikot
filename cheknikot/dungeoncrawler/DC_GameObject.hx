@@ -1,5 +1,6 @@
 package cheknikot.dungeoncrawler;
 
+import cheknikot.controllers.MouseBase;
 import cheknikot.quests_results.Quest;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -121,6 +122,7 @@ class DC_GameObject
 		{
 			visual_spr.updateHitbox();
 		}
+
 		#if android
 		if (FlxG.touches.getFirst() != null)
 			if (FlxG.touches.getFirst().getPosition().inRect(visual_spr.getHitbox()))
@@ -129,6 +131,10 @@ class DC_GameObject
 		if (FlxG.mouse.getPosition().inRect(visual_spr.getHitbox()))
 			return true;
 		#end
+
+		if (MouseBase.click_point != null)
+			if (MouseBase.click_point.inRect(visual_spr.getHitbox()))
+				return true;
 
 		/*if (Std.isOfType(visual_spr, FlxSprite))
 			{

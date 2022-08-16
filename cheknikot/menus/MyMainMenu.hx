@@ -127,7 +127,7 @@ class MyMainMenu extends MenuBase
 
 		// AF.scale_picture(background);
 
-		var _dy:Int = 40;
+		var _dy:Int = 45;
 
 		start_game_btn = new MyFlxButton(0, 0, ["New Game", 'Новая Игра', 'Нова Гра'], start_game_click);
 		add(start_game_btn);
