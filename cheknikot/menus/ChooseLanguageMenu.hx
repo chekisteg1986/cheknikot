@@ -26,20 +26,18 @@ class ChooseLanguageMenu extends FlxSpriteGroup
 		on_complete = _on_complete;
 		menu = this;
 		trace('LANGUAGE');
+		trace(FlxG.width);
+		trace(FlxG.height);
 
 		eng_btn = new MyFlxButton(0, 0, ['English'], eng_click);
-
 		rus_btn = new MyFlxButton(0, 0, ['Русский'], rus_click);
 		ua_btn = new MyFlxButton(0, 0, ['Українська'], ua_click);
-		// ua_btn.loadGraphic(AssetPaths.altar_health2__png);
-		// eng_btn.label.setFormat(GameParams.FONT,10,FlxColor.BLACK);
-		// rus_btn.label.setFormat(GameParams.FONT,10,FlxColor.BLACK);
-		// ua_btn.label.setFormat(GameParams.FONT,10,FlxColor.BLACK);
-
+		trace('btns created');
 		add(eng_btn);
 		add(rus_btn);
 		add(ua_btn);
 
+		trace('btns added');
 		FlxG.stage.quality = StageQuality.LOW;
 		/*
 			var _y:Int = 0;
@@ -55,6 +53,7 @@ class ChooseLanguageMenu extends FlxSpriteGroup
 			}
 		 */
 
+		trace('Screen center func');
 		eng_btn.screenCenter();
 		eng_btn.y -= 40;
 		rus_btn.screenCenter();
@@ -62,6 +61,7 @@ class ChooseLanguageMenu extends FlxSpriteGroup
 		ua_btn.y += 40;
 		// AF.put_in_line([eng_btn, rus_btn, ua_btn], 70);
 
+		trace('End of screen center');
 		// set_scroll();
 	}
 

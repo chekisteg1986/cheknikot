@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 // import flixel.FlxSprite;
-#if !android
+#if android
 import flixel.input.touch.FlxTouch;
 #end
 
@@ -20,8 +20,8 @@ class MouseBase
 
 	public static function click_overlaps_gui(_gui:FlxGroup):Bool
 	{
-		if (FlxG.mouse.overlaps(_gui))
-			return true;
+		//	if (click_point.inRect(_gui.g))
+		//		return true;
 		return false;
 	}
 
@@ -51,12 +51,12 @@ class MouseBase
 			{
 				click_point = t.getWorldPosition(FlxG.camera);
 				// PlayState.emitter_explode_pt(t.getScreenPosition());
-				clicked = true;
+				left_click = true;
 			}
 		}
 		#end
 
-		#if !FLX_NO_MOUSE
+		#if !android
 		if (FlxG.mouse.justPressedRight)
 		{
 			right_click = true;
