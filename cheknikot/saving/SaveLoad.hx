@@ -38,6 +38,7 @@ class SaveLoad
 		{
 			if (_a[i] == null)
 				continue;
+
 			if (_class != null)
 				if (Type.getClass(_a[i]) != _class)
 					continue;
@@ -73,7 +74,7 @@ class SaveLoad
 		if (_save_vars != null)
 			return get_save_data_from_savevars(_obj, _save_vars);
 
-		trace('ERROR No Save Data for class ' + _class);
+		// trace('ERROR No Save Data for class ' + _class);
 		return null;
 	}
 
@@ -91,22 +92,19 @@ class SaveLoad
 			var x:Dynamic = Reflect.getProperty(_o, prop);
 			if (x != null)
 			{
-				/*if (Std.isOfType(x, Array))
+				/*if (Reflect.hasField(x, 'get_save_data'))
 					{
-						x = load_array_from_data(x);
-				};*/
-
-				if (Reflect.hasField(x, 'get_save_data'))
-				{
-					trace(prop + ' hasField get_save_data');
-				}
-
-				if (Reflect.getProperty(x, 'get_save_data') != null)
-				{
-					trace(prop, ' getProperty get_save_data');
-					var func:Void->Array<Dynamic> = Reflect.field(x, 'get_save_data');
-					x = func();
-				}
+						trace(prop + ' hasField get_save_data');
+					}
+					if (Reflect.getProperty(x, 'get_save_data') != null)
+					{
+						trace(prop, ' getProperty get_save_data');
+						var func:Void->Array<Dynamic> = Reflect.field(x, 'get_save_data');
+						x = func();
+				}*/
+				var _x:Array<Dynamic> = get_save_data(x);
+				if (_x != null)
+					x = _x;
 			}
 
 			result[n] = x;
@@ -157,12 +155,12 @@ class SaveLoad
 					}
 					else
 					{
-						trace(prop, 'Have no load_array function');
+						// trace(prop, 'Have no load_array function');
 					}
 				}
 				else
 				{
-					trace('property ' + prop + ' is null');
+					// trace('property ' + prop + ' is null');
 				}
 
 				Reflect.setProperty(_o, prop, _data[n]);

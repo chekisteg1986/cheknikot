@@ -62,7 +62,7 @@ class AF
 		{
 			if (tilemap != null)
 			{
-				trace('collosion', n, collosion);
+				// trace('collosion', n, collosion);
 				tilemap.setTileProperties(n, collosion, collide_f);
 			}
 		}
