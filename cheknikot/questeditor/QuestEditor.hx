@@ -33,37 +33,44 @@ class QuestEditor extends MenuBase
 	{
 		super(MaxSize);
 
+		var _dx:Int = 150;
+
+		MyFlxButton.SIZE = 18;
 		var _btn:MyFlxButton = new MyFlxButton(0, 0, ['LOAD FILE'], load_click);
 		add(_btn);
 		_btn = new MyFlxButton(100, 0, ['SAVE FILE'], save_click);
 		add(_btn);
 
-		_btn = new MyFlxButton(0, 30, ['new QUEST'], new_quest_click);
+		var _y1:Int = 40;
+		_btn = new MyFlxButton(_dx * 0, _y1, ['new QUEST'], new_quest_click);
 		add(_btn);
-		_btn = new MyFlxButton(200, 30, ['new CONDIT'], new_cond_click);
+		_btn = new MyFlxButton(_dx * 2, _y1, ['new CONDIT'], new_cond_click);
 		add(_btn);
-		_btn = new MyFlxButton(400, 30, ['new RESULT'], new_res_click);
-		add(_btn);
-
-		_btn = new MyFlxButton(100, 30, ['DEL QUEST'], del_quest_click);
-		add(_btn);
-		_btn = new MyFlxButton(300, 30, ['DEL CONDIT'], del_cond_click);
-		add(_btn);
-		_btn = new MyFlxButton(500, 30, ['DEL RESULT'], del_res_click);
+		_btn = new MyFlxButton(_dx * 4, _y1, ['new RESULT'], new_res_click);
 		add(_btn);
 
+		_btn = new MyFlxButton(_dx * 1, _y1, ['DEL QUEST'], del_quest_click);
+		add(_btn);
+		_btn = new MyFlxButton(_dx * 3, _y1, ['DEL CONDIT'], del_cond_click);
+		add(_btn);
+		_btn = new MyFlxButton(_dx * 5, _y1, ['DEL RESULT'], del_res_click);
+		add(_btn);
+
+		MyFlxButton.SIZE = 20;
+
+		var _y2:Int = 80;
 		add(list_panel);
-		list_panel.y = 50;
+		list_panel.y = _y2;
 		list_panel.set_positions();
 		list_panel.draw_background(FlxColor.GRAY);
 		add(cond_panel);
-		cond_panel.x = 200;
-		cond_panel.y = 50;
+		cond_panel.x = _dx * 2;
+		cond_panel.y = _y2;
 		cond_panel.set_positions();
 		cond_panel.draw_background(FlxColor.GRAY);
 		add(res_panel);
-		res_panel.x = 400;
-		res_panel.y = 50;
+		res_panel.x = _dx * 4;
+		res_panel.y = _y2;
 		res_panel.set_positions();
 		res_panel.draw_background(FlxColor.GRAY);
 

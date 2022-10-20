@@ -3,7 +3,7 @@ package cheknikot.dungeoncrawler;
 class DC_additional
 {
 	@:generic
-	public static function put_in_line(_arr:Array<T>, _facing:Int):Void
+	public static function put_in_line<T>(_arr:Array<T>, _facing:Int):Void
 	{
 		var _n:Int = _arr.length;
 		var _dx:Float = 1 / (_n + 1);

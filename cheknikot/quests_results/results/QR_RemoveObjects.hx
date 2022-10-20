@@ -10,7 +10,7 @@ import flixel.tile.FlxTilemap;
  */
 class QR_RemoveObjects extends QuestResult
 {
-	public static var save_vars:Array<String> = ['type', 'x1', 'y1', 'x2', 'y2', 'point'];
+	public static var save_vars:Array<String> = ['type', 'x1', 'y1', 'x2', 'y2', 'point', 'name'];
 
 	public var x1:Int = -1;
 	public var y1:Int = -1;
@@ -18,6 +18,7 @@ class QR_RemoveObjects extends QuestResult
 	public var y2:Int = -1;
 
 	public var point:String = 'point';
+	public var name:String = 'all';
 
 	public function new()
 	{
@@ -55,11 +56,12 @@ class QR_RemoveObjects extends QuestResult
 				var arr:Array<DC_GameObject> = DC_GameObject.get_objects_at(_x, _y);
 				var _n:Int = arr.length;
 				while (--_n >= 0)
-				{
-					arr[_n].remove_from_map();
-				}
+					if (name == 'all' || (arr[_n].name != null && arr[_n].name[0] == name)
+						{
+							arr[_n].remove_from_map();
+						}
 
-				_y++;
+						_y++;
 			}
 			_x++;
 		}

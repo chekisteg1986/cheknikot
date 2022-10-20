@@ -7,6 +7,7 @@ import flixel.input.mouse.FlxMouseButton;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import texter.flixel.FlxInputTextRTL;
 
 /**
  * ...
@@ -15,7 +16,8 @@ import flixel.util.FlxColor;
 class VarInput extends FlxSpriteGroup
 {
 	public var text:FlxText = new FlxText();
-	public var input:FlxInputText = new FlxInputText();
+	public var input:FlxInputTextRTL = new FlxInputTextRTL();
+
 	public var object:Dynamic = null;
 	public var var_name:String = null;
 	public var var_obj:Dynamic = null;
@@ -30,8 +32,12 @@ class VarInput extends FlxSpriteGroup
 		super(X, Y, MaxSize);
 		add(text);
 		// add(input);
+
+		input.font = MyFlxText.FONT;
+		input.size = 15;
 		input.wordWrap = false;
 		input.fieldWidth = 800;
+
 		edit_arr_btn = new FlxButton(0, 0, 'EDIT', edit_arr_click);
 		edit_bool_btn = new FlxButton(0, 0, 'true', edit_bool_click);
 		add_array_slot_btn = new FlxButton(0, 0, '+', add_array_slot);
