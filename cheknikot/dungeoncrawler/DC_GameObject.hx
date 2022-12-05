@@ -23,6 +23,7 @@ class DC_GameObject
 
 	public static var collision_functions:Array<Int->Int->DC_GameObject->Void> = new Array();
 
+	public var string_id:String = null;
 	public var radius_sprites:Array<DC_GameObject>;
 	public var line:Int = 0;
 
