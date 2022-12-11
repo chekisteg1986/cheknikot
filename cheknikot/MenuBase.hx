@@ -17,6 +17,7 @@ class MenuBase extends FlxGroup
 {
 	// public static var menu:MenuBase;
 	// spublic var interactive:Bool = true;
+	public var parent:FlxGroup = null;
 	public var exit_btn:MyFlxButton;
 	public var tooltips_on_off:FlxButton;
 	public var educ_spr:MyEducationSprite;
@@ -120,14 +121,20 @@ class MenuBase extends FlxGroup
 
 	public function show():Void
 	{
-		FlxG.state.add(this);
+		if (parent == null)
+			FlxG.state.add(this);
+		else
+			parent.add(this);
 		on_screen = true;
 		// FlxG.state.add(this);
 	}
 
 	public function hide():Void
 	{
-		FlxG.state.remove(this, true);
+		if (parent == null)
+			FlxG.state.remove(this, true);
+		else
+			parent.remove(this, true);
 		on_screen = false;
 		// FlxG.state.remove(this, true);
 	}

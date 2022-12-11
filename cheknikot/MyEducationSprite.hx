@@ -36,7 +36,7 @@ class MyEducationSprite extends MenuBase
 	public var back_btn:MyFlxButton;
 
 	// public var next_btn:FlxButton;
-	public var parent:MenuBase;
+	// public var parent:MenuBase;
 
 	public function new(p:MenuBase)
 	{
