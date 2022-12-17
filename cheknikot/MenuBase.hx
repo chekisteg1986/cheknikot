@@ -119,6 +119,17 @@ class MenuBase extends FlxGroup
 		});
 	}
 
+	public function showHide():Void
+	{
+		if (!on_screen)
+		{
+			// hideMenus();
+			show();
+		}
+		else
+			hide();
+	}
+
 	public function show():Void
 	{
 		if (parent == null)
