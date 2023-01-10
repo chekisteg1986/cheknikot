@@ -3,6 +3,7 @@ package cheknikot;
 import cheknikot.MyEducationSprite;
 import flixel.FlxBasic;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -35,6 +36,24 @@ class MenuBase extends FlxGroup
 	}*/
 	public var on_screen:Bool = false;
 	public var mute_on_off:MuteBtn;
+
+	private var add_x:Float = 0;
+	private var add_y:Float = 0;
+
+	public function setAddPosition(_x:Float, _y:Float):Void
+	{
+		add_x = _x;
+		add_y = _y;
+	}
+
+	public function addNext(_obj:FlxObject, _dy:Float = 0):Void
+	{
+		add(_obj);
+		_obj.setPosition(add_x, add_y);
+		if (_dy == 0)
+			_dy = _obj.height;
+		add_y += _dy;
+	}
 
 	public function load_background(_ass:FlxGraphicAsset):Void
 	{
