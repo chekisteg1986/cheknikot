@@ -25,19 +25,24 @@ class FlxListButton extends FlxSpriteGroup
 		{
 			remove(_b, true);
 		}
+		expanded = false;
 	}
+
+	private var expanded:Bool = false;
 
 	private function onClick():Void
 	{
-		if (_buttons.length > 0 && _buttons[0].isOnScreen())
+		if (list.length == 0 || expanded)
 		{
 			hideList();
 			return;
 		}
+		expanded = true;
 
 		// list_layer.clear();
 		function _new():FlxListButtonSelect
 		{
+			trace('create new');
 			return new FlxListButtonSelect(0, 0, 'title');
 		}
 		// if (parent == null)
