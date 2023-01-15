@@ -30,6 +30,8 @@ class FlxListButton extends FlxSpriteGroup
 
 	private var expanded:Bool = false;
 
+	public var callback_function:String->Void;
+
 	private function onClick():Void
 	{
 		if (list.length == 0 || expanded)
@@ -76,5 +78,7 @@ class FlxListButtonSelect extends FlxButton
 	{
 		parent.hideList();
 		parent.button.label.text = this.label.text;
+		if (parent.callback_function != null)
+			parent.callback_function(this.label.text);
 	}
 }
