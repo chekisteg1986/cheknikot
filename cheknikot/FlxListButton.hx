@@ -11,11 +11,12 @@ class FlxListButton extends FlxSpriteGroup
 	// public var list_layer:FlxSpriteGroup = new FlxSpriteGroup();
 	private var _buttons:Array<FlxListButtonSelect> = new Array();
 
-	override public function new(_x:Int, _y:Int, _text:String, _list:Array<String>)
+	override public function new(_x:Int, _y:Int, _text:String, _list:Array<String>, _callback:String->Void = null)
 	{
 		super(_x, _y);
 		button = new FlxButton(0, 0, _text, onClick);
 		list = _list;
+		this.callback_function = _callback;
 		add(button);
 	}
 
