@@ -23,7 +23,9 @@ class MenuBase extends FlxGroup
 	public var tooltips_on_off:FlxButton;
 	public var educ_spr:MyEducationSprite;
 
+	public var mouse_block:FlxSprite;
 	public var background:FlxSprite;
+	public var border:FlxSprite;
 
 	/*public var backspr:FlxSprite = null;
 
@@ -55,11 +57,30 @@ class MenuBase extends FlxGroup
 		add_y += _dy;
 	}
 
+	public function createBackground(_width:Int, _height:Int, _back_color:FlxColor = FlxColor.BLACK, _border_color:FlxColor = FlxColor.WHITE):Void
+	{
+		border.makeGraphic(1, 1, _border_color);
+		background.makeGraphic(1, 1, _back_color);
+		border.scale.set(_width, _height);
+		background.scale.set(_width - 2, _height - 2);
+		border.updateHitbox();
+		background.updateHitbox();
+		background.visible = border.visible = true;
+		setBackgroundPosition(0, 0);
+	}
+
+	public function setBackgroundPosition(_x:Float, _y:Float):Void
+	{
+		border.setPosition(_x, _y);
+		background.setPosition(_x + 1, _y + 1);
+	}
+
 	public function load_background(_ass:FlxGraphicAsset):Void
 	{
 		background.loadGraphic(_ass);
 		AF.scale_picture(background);
 		background.screenCenter();
+		background.visible = true;
 	}
 
 	public function place_mute_btn():Void
@@ -92,11 +113,26 @@ class MenuBase extends FlxGroup
 	{
 		super(MaxSize);
 
+		border = new FlxSprite();
+		border.visible = false;
+		add(border);
 		background = new FlxSprite();
+		background.visible = false;
 		add(background);
+
 		exit_btn = new MyFlxButton(0, 0, MyStandartText.EXIT, exit_click);
 		exit_btn.x = FlxG.width - exit_btn.frameWidth;
 		exit_btn.y = FlxG.height - exit_btn.frameHeight;
+	}
+
+	public function mouseBlock():Void
+	{
+		mouse_block = new FlxSprite();
+		mouse_block.makeGraphic(1, 1, FlxColor.TRANSPARENT);
+		mouse_block.scale.set(FlxG.width, FlxG.height);
+
+		mouse_block.updateHitbox();
+		this.insert(0, mouse_block);
 	}
 
 	public function tooltips_click():Void

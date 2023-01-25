@@ -22,25 +22,26 @@ class ConfirmMenu extends MenuBase
 	{
 		super();
 		state = this;
-		background.makeGraphic(1, 1, FlxColor.TRANSPARENT);
-		background.scale.set(FlxG.width, FlxG.height);
-		background.updateHitbox();
+		this.createBackground(100, 200);
+		background.screenCenter();
+		border.screenCenter();
+		this.mouseBlock();
 
 		text = new MyFlxText(0, 0, 0, ['Are you sure?', 'Вы уверены?', 'Ви впевнені?']);
 		yes_btn = new MyFlxButton(0, 0, ['Yes', 'Да', 'Так'], yesClick);
 		no_btn = new MyFlxButton(0, 0, ['No', 'Нет', 'Ні'], noClick);
-		background2 = new FlxSprite();
-		background2.makeGraphic(250, 250, FlxColor.GRAY);
-		background2.screenCenter();
+		// background2 = new FlxSprite();
+		// background2.makeGraphic(250, 250, FlxColor.GRAY);
+		// background2.screenCenter();
 
-		add(background);
-		add(background2);
+		// add(background);
+		// add(background2);
 		add(text);
 		add(yes_btn);
 		add(no_btn);
 
-		text.x = background2.x + 10;
-		text.y = background2.y + 10;
+		text.x = background.x + 10;
+		text.y = background.y + 10;
 
 		yes_btn.setPosition(text.x, text.y + text.height);
 		no_btn.setPosition(text.x + text.width - 10 - no_btn.width, yes_btn.y);
