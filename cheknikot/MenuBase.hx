@@ -48,7 +48,7 @@ class MenuBase extends FlxGroup
 		add_y = _y;
 	}
 
-	public function addNext(_obj:FlxObject, _dy:Float = 0):Void
+	public function addNextV(_obj:FlxObject, _dy:Float = 0):Void
 	{
 		add(_obj);
 		_obj.setPosition(add_x, add_y);
@@ -57,7 +57,21 @@ class MenuBase extends FlxGroup
 		add_y += _dy;
 	}
 
-	public function createBackground(_width:Int, _height:Int, _back_color:FlxColor = FlxColor.BLACK, _border_color:FlxColor = FlxColor.WHITE):Void
+	public function addNextH(_obj:FlxObject, _dx:Float = 0):Void
+	{
+		add(_obj);
+		_obj.setPosition(add_x, add_y);
+		if (_dx == 0)
+			_dx = _obj.width;
+		add_x += _dx;
+	}
+
+	public function setPosition(_x:Float, _y:Float):Void
+	{
+		setBackgroundPosition(_x, _y);
+	}
+
+	public function createBackground(_width:Float, _height:Float, _back_color:FlxColor = FlxColor.BLACK, _border_color:FlxColor = FlxColor.WHITE):Void
 	{
 		border.makeGraphic(1, 1, _border_color);
 		background.makeGraphic(1, 1, _back_color);
