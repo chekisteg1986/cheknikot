@@ -36,6 +36,14 @@ class MenuBase extends FlxGroup
 			backspr.scale.set(FlxG.width, FlxG.height);
 			add(backspr);
 	}*/
+	public var last_added_object:FlxBasic;
+
+	override function add(Object:FlxBasic):FlxBasic
+	{
+		last_added_object = Object;
+		return super.add(Object);
+	}
+
 	public var on_screen:Bool = false;
 	public var mute_on_off:MuteBtn;
 
@@ -48,22 +56,24 @@ class MenuBase extends FlxGroup
 		add_y = _y;
 	}
 
-	public function addNextV(_obj:FlxObject, _dy:Float = 0):Void
+	public function addNextV(_obj:FlxObject, _dy:Float = 0):FlxBasic
 	{
 		add(_obj);
 		_obj.setPosition(add_x, add_y);
 		if (_dy == 0)
 			_dy = _obj.height;
 		add_y += _dy;
+		return _obj;
 	}
 
-	public function addNextH(_obj:FlxObject, _dx:Float = 0):Void
+	public function addNextH(_obj:FlxObject, _dx:Float = 0):FlxBasic
 	{
 		add(_obj);
 		_obj.setPosition(add_x, add_y);
 		if (_dx == 0)
 			_dx = _obj.width;
 		add_x += _dx;
+		return _obj;
 	}
 
 	public function setPosition(_x:Float, _y:Float):Void

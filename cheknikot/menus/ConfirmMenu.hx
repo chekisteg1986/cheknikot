@@ -10,7 +10,7 @@ import flixel.util.FlxColor;
 
 class ConfirmMenu extends MenuBase
 {
-	private static var state:ConfirmMenu;
+	public static var state:ConfirmMenu;
 
 	private var background2:FlxSprite;
 	private var text:MyFlxText;
@@ -58,10 +58,21 @@ class ConfirmMenu extends MenuBase
 		hide();
 	}
 
-	public static function confirm(_func:Void->Void, _state:FlxGroup = null):Void
+	public function confirm(_func:Void->Void, _text:String = null, _state:FlxGroup = null):Void
 	{
-		state.yes_func = _func;
-		state.parent = _state;
-		state.show();
+		yes_func = _func;
+		if (_text != null)
+			text.change_text(_text)
+		else
+			text.new_text(['Are you sure?', 'Вы уверены?', 'Ви впевнені?']);
+		parent = _state;
+		show();
+		setAddPosition(FlxG.width / 2 - text.width / 2, FlxG.height / 2 - text.height);
+		addNextV(text);
+		addNextV(yes_btn);
+		no_btn.y = yes_btn.y;
+		no_btn.x = text.x + text.width - no_btn.width;
+		createBackground(text.width + 4, this.add_y - text.y + 4);
+		setBackgroundPosition(text.x - 2, text.y - 2);
 	}
 }
