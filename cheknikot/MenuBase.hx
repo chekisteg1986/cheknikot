@@ -152,11 +152,11 @@ class MenuBase extends FlxGroup
 	public function mouseBlock():Void
 	{
 		mouse_block = new FlxSprite();
-		mouse_block.makeGraphic(1, 1, FlxColor.TRANSPARENT);
+		mouse_block.makeGraphic(1, 1, FlxColor.fromRGB(255, 255, 255, 50));
 		mouse_block.scale.set(FlxG.width, FlxG.height);
 
-		mouse_block.updateHitbox();
 		this.insert(0, mouse_block);
+		mouse_block.updateHitbox();
 	}
 
 	public function tooltips_click():Void
