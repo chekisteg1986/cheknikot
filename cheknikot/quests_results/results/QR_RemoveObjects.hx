@@ -59,8 +59,8 @@ class QR_RemoveObjects extends QuestResult
 				var _n:Int = arr.length;
 				while (--_n >= 0)
 				{
-					trace('arr[_n].string_id', arr[_n].string_id, arr[_n].string_id.length);
-					trace(name + '==' + (arr[_n].string_id == name));
+					// trace('arr[_n].string_id', arr[_n].string_id, arr[_n].string_id.length);
+					// trace(name + '==' + (arr[_n].string_id == name));
 
 					if (name == 'all' || arr[_n].string_id == name)
 					{

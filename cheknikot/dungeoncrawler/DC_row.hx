@@ -87,7 +87,15 @@ class DC_row extends FlxStrip
 						trace('CLICKED');
 						_go.onClick();
 					}
-					else {}
+					else
+					{
+						if (parent.clickOnStep1 != null)
+							if (MouseBase.click_point.x > parent.left(1, 0))
+								if (MouseBase.click_point.y > parent.up(1))
+									if (MouseBase.click_point.x < parent.right(1, 0))
+										if (MouseBase.click_point.y < parent.down(1))
+											parent.clickOnStep1();
+					}
 				}
 		}
 	}

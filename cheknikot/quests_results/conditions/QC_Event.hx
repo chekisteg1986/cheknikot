@@ -18,10 +18,16 @@ class QC_Event extends QuestCondition
 	override public function check():Void
 	{
 		super.check();
+		// this.event == 'reach meet';
 		for (s in Quest.events)
 		{
+			trace('Event:' + s + ':' + s.length);
+
+			trace('Cond:' + this.event + ':' + this.event.length);
+
 			if (s == event)
 			{
+				trace('Event Complete');
 				complete();
 				return;
 			}

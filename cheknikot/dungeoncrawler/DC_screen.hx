@@ -25,6 +25,8 @@ class DC_screen extends FlxGroup
 	public var tilemap:FlxTilemap;
 	public var visible_objects:Array<DC_GameObject>;
 
+	public var clickOnStep1:Void->Void;
+
 	public var camera_position_x:Int = 0;
 	public var camera_position_y:Int = 0;
 

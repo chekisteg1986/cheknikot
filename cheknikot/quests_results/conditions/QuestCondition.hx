@@ -29,11 +29,6 @@ class QuestCondition
 
 	public static var save_vars:Array<String> = ['type'];
 
-	public function get_save_array():Array<Dynamic>
-	{
-		return SaveLoad.get_save_data(this);
-	}
-
 	private static function no_use():Void
 	{
 		new QC_Event();
@@ -61,13 +56,12 @@ class QuestCondition
 		return qc;
 	}
 
-	public static function load(data:Array<Dynamic>):QuestCondition
+	public static function load(data:Dynamic):QuestCondition
 	{
-		// SaveLoad.set_data_unic(this data);
-
-		var _class_name:String = SaveLoad.get_attr('type', data, save_vars);
+		var _class_name:String = Reflect.getProperty(data, 'type');
+		// var _class_name:String = data[0];
 		var qc:QuestCondition = get_condition(_class_name);
-		SaveLoad.set_data_unic(qc, data);
+		SaveLoad.setDataUnic(qc, data);
 
 		return qc;
 	}

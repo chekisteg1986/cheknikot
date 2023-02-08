@@ -55,88 +55,68 @@ class Quest
 		for (d in _data)
 		{
 			var _q:Quest = new Quest();
-			_q.load_save_data(d);
+			_q.loadSaveData(d);
 			_arr.push(_q);
 			// SaveLoad.set_data(_q,Quest,
 		}
 	}
 
-	public function load_save_data(data:Array<Dynamic>):Void
+	public function loadSaveData(data:Dynamic):Void
 	{
-		trace('loading Quest', data);
-		SaveLoad.set_data(this, Quest, data);
-		var i:Int = save_vars.length;
+		trace(' == loading Quest == ');
 
-		var _qc_arr:Array<Dynamic> = data[i];
+		// data = SaveLoad.convert(data, save_vars);
+
+		SaveLoad.setData(this, Quest, data);
+		// trace(data);
+		// trace(this);
+		var _qc_arr:Array<Dynamic> = Reflect.getProperty(data, 'conditions');
+		if (_qc_arr == null)
+			_qc_arr = Reflect.getProperty(data, 'addit1');
+
+		trace(_qc_arr);
+
 		for (qc in _qc_arr)
 		{
+			// trace(conditions);
 			conditions.push(QuestCondition.load(qc));
 		}
+		var _qr_arr:Array<Dynamic> = Reflect.getProperty(data, 'results');
+		if (_qr_arr == null)
+			_qr_arr = Reflect.getProperty(data, 'addit2');
 
-		i++;
-
-		var _qr_arr:Array<Dynamic> = data[i];
 		for (qr in _qr_arr)
 		{
-			trace('loading result arr', qr);
 			results.push(QuestResult.load(qr));
 		}
 
 		trace('Loaded quest', name, 'cond', conditions.length, 'res', results.length);
 	}
 
-	public function get_save_data():Array<Dynamic>
+	public function getSaveData():Dynamic
 	{
-		trace('saving quest');
-		var res:Array<Dynamic> = SaveLoad.get_save_data(this, true);
-		var i:Int = save_vars.length;
+		trace('== Saving Quest ==');
+		var res:Dynamic = SaveLoad.getSaveData(this, true);
 
 		var _qc_arr:Array<Dynamic> = new Array();
 		for (qc in conditions)
 		{
-			_qc_arr.push(qc.get_save_array());
+			_qc_arr.push(SaveLoad.getSaveData(qc));
 		}
-		res[i] = _qc_arr;
-		i++;
 
+		Reflect.setField(res, 'conditions', _qc_arr);
+		trace('conditions', _qc_arr.length, Reflect.getProperty(res, 'conditions'));
 		var _qr_arr:Array<Dynamic> = new Array();
 		for (qr in results)
 		{
-			_qr_arr.push(qr.get_save_array());
+			_qr_arr.push(SaveLoad.getSaveData(qr));
 		}
-		res[i] = _qr_arr;
+		Reflect.setField(res, 'results', _qr_arr);
+		trace('results', _qr_arr.length, Reflect.getProperty(res, 'results'));
 
 		return res;
 	}
 
-	/*public static function next_quest(_name:Array<String> = null, _descr:Array<String> = null, _clue:String = null):Void
-		{
-			var q:Quest = new Quest();
-			//if (_descr == null) _descr = ['none'];
-			//if (_name == null) _name = ['none'];
-			q.name = _name;
-			q.description = _descr;
-			q.clue = _clue;
-			if (q.description == null || q.name == null) q.visible = false;
-			new QR_AddQuest(q,true);
-			Quest.last_quest = q;
-			
-	}*/
-	/*
-		public static function have_quest_condition(s:String):Bool
-		{
-			// trace('checking quest objects', current_quests.length);
-			if (current_quests == null)
-				return false;
-
-			for (q in current_quests)
-				for (qc in q.conditions)
-				{
-					if (qc.have_condition(s))
-						return true;
-				}
-			return false;
-	}*/
 	public static function clicked_on(s:String, who_clicks:String = 'any'):Void
 	{
 		QC_TalkWith.talk(who_clicks, s);

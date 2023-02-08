@@ -54,7 +54,7 @@ class MyScrollablePanel extends FlxSpriteGroup
 		add(UP_btn);
 		add(DOWN_btn);
 
-		FlxMouseEventManager.add(sprBack, panel_click);
+		// FlxMouseEventManager.add(sprBack, panel_click);
 
 		forEach(function(spr:FlxBasic)
 		{
@@ -76,8 +76,8 @@ class MyScrollablePanel extends FlxSpriteGroup
 		sprBack.x = x;
 		sprBack.y = y;
 		sprBack.updateHitbox();
-		FlxMouseEventManager.remove(sprBack);
-		FlxMouseEventManager.add(sprBack, panel_click);
+		// FlxMouseEventManager.remove(sprBack);
+		// FlxMouseEventManager.add(sprBack, panel_click);
 	}
 
 	private function up_click():Void

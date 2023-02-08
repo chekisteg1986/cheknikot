@@ -34,8 +34,9 @@ class VarInput extends FlxSpriteGroup
 		// add(input);
 
 		input.font = MyFlxText.FONT;
+
 		input.size = 15;
-		input.wordWrap = false;
+		input.wordWrap = true;
 		input.fieldWidth = 800;
 
 		edit_arr_btn = new FlxButton(0, 0, 'EDIT', edit_arr_click);
@@ -122,7 +123,7 @@ class VarInput extends FlxSpriteGroup
 		// remove(input, true);
 		// remove(edit_arr_btn, true);
 
-		trace(object + ':' + var_name + ':' + var_obj);
+		// trace(object + ':' + var_name + ':' + var_obj);
 		update_input = true;
 		if (Std.isOfType(var_obj, Array))
 		{
@@ -168,10 +169,15 @@ class VarInput extends FlxSpriteGroup
 			// update_input = false;
 			add(add_array_slot_btn);
 			add(remove_array_slot_btn);
-			input.text = cast(object, Array<Dynamic>)[Std.parseInt(_var_name)];
+			input.text = '' + cast(object, Array<Dynamic>)[Std.parseInt(_var_name)];
 		}
 		else
-			input.text = Reflect.getProperty(_d, var_name);
+		{
+			trace('object:', _d);
+			trace('var', var_name);
+			trace('text:', Reflect.getProperty(_d, var_name));
+			input.text = '' + Reflect.getProperty(_d, var_name);
+		}
 
 		trace(text.x, text.y);
 	}

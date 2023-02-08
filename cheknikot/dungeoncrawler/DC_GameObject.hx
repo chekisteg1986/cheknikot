@@ -311,20 +311,20 @@ class DC_GameObject
 
 		if (tile_x > 0)
 			if (tile_dx < object_radius)
-				if (walking_map.getTileCollisions(walking_map.getTile(tile_x - 1, tile_y)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x - 1, tile_y)) != NONE)
 					tile_dx += _d;
 
 		if (tile_y > 0)
 			if (tile_dy < object_radius)
-				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y - 1)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y - 1)) != NONE)
 					tile_dy += _d;
 		if (tile_x < (walking_map.widthInTiles - 1))
 			if (tile_dx > (1 - object_radius))
-				if (walking_map.getTileCollisions(walking_map.getTile(tile_x + 1, tile_y)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x + 1, tile_y)) != NONE)
 					tile_dx -= _d;
 		if (tile_y < (walking_map.heightInTiles - 1))
 			if (tile_dy > (1 - object_radius))
-				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y + 1)) != FlxObject.NONE)
+				if (walking_map.getTileCollisions(walking_map.getTile(tile_x, tile_y + 1)) != NONE)
 					tile_dy -= _d;
 	}
 
@@ -340,7 +340,7 @@ class DC_GameObject
 			var _angle:Float = time + _n * 360 / _len;
 			_p.x = object_radius;
 			_p.y = 0;
-			_p.rotate(FlxPoint.weak(), _angle);
+			_p.pivotDegrees(FlxPoint.weak(), _angle);
 			_p.x += this.tile_x + this.tile_dx;
 			_p.y += this.tile_y + this.tile_dy;
 
@@ -466,7 +466,7 @@ class DC_GameObject
 			if (_new_y >= 0 && _new_y < _walls.heightInTiles)
 			{
 				var _t:Int = _walls.getTile(_new_x, _new_y);
-				if (_walls.getTileCollisions(_t) != FlxObject.NONE)
+				if (_walls.getTileCollisions(_t) != NONE)
 				{
 					// trace('block', _walls.getTile(_new_x, _new_y), tile_x, tile_y, _new_x, _new_y);
 
@@ -534,7 +534,7 @@ class DC_GameObject
 			if (_new_y < 0)
 				break;
 
-			if (visible_map.getTileCollisions(visible_map.getTile(_new_x, _new_y)) == FlxObject.ANY)
+			if (visible_map.getTileCollisions(visible_map.getTile(_new_x, _new_y)) == ANY)
 				break;
 			_step++;
 		}

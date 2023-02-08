@@ -1,8 +1,10 @@
 package cheknikot.saving;
 
+import flixel.addons.ui.FlxUICursor.WidgetList;
 import flixel.util.FlxSave;
 import haxe.Serializer;
 import haxe.Unserializer;
+import openfl.utils.Object;
 
 /**
  * ...
@@ -25,7 +27,7 @@ class SaveLoad
 		return _s.unserialize();
 	}
 
-	public static function get_array_save_data(_a:Array<Dynamic>, _class:Dynamic = null):Array<Dynamic>
+	public static function getArraySaveData(_a:Array<Dynamic>, _class:Dynamic = null):Array<Dynamic>
 	{
 		if (_a == null)
 			return null;
@@ -43,13 +45,13 @@ class SaveLoad
 				if (Type.getClass(_a[i]) != _class)
 					continue;
 
-			arr[arr_i] = get_save_data(_a[i]);
+			arr[arr_i] = getSaveData(_a[i]);
 			arr_i++;
 		}
 		return arr;
 	}
 
-	public static function get_save_vars(d:Dynamic):Array<String>
+	public static function getSaveVars(d:Dynamic):Array<String>
 	{
 		var _class:Dynamic = Type.getClass(d);
 		var _vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
@@ -57,14 +59,18 @@ class SaveLoad
 		return _vars;
 	}
 
-	public static function get_save_data(_obj:Dynamic, _pass_personal_function:Bool = false):Array<Dynamic>
+	public static function getSaveData(_obj:Dynamic, _pass_personal_function:Bool = false):Dynamic
 	{
 		if (!_pass_personal_function)
 		{
-			var _get_save_data_func:Void->Dynamic = Reflect.getProperty(_obj, 'get_save_data');
-			if (_get_save_data_func != null)
+			var _getSaveData_func:Void->Dynamic = Reflect.getProperty(_obj, 'getSaveData');
+			if (_getSaveData_func != null)
 			{
-				return _get_save_data_func();
+				#if html5
+				return _obj.getSaveData();
+				#else
+				return _getSaveData_func();
+				#end
 			}
 		}
 
@@ -72,7 +78,7 @@ class SaveLoad
 		var _save_vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
 		// trace(_class + ' save vars ' + _save_vars);
 		if (_save_vars != null)
-			return get_save_data_from_savevars(_obj, _save_vars);
+			return getSaveDataFromSavevars(_obj, _save_vars);
 
 		// trace('ERROR No Save Data for class ' + _class);
 		return null;
@@ -80,77 +86,76 @@ class SaveLoad
 
 	public static function export_save():Void {}
 
-	public static function get_save_data_from_savevars(_o:Dynamic, save_vars:Array<String>):Array<Dynamic>
+	public static function getSaveDataFromSavevars(_o:Dynamic, save_vars:Array<String>):Dynamic
 	{
-		var len:Int = save_vars.length;
-		var n:Int = -1;
-		var result:Dynamic = new Array();
+		var n:Int = save_vars.length;
+		var result:Dynamic = new Object();
 		var prop:String;
-		while (++n < len)
+		while (--n >= 0)
 		{
 			prop = save_vars[n];
 			var x:Dynamic = Reflect.getProperty(_o, prop);
 			if (x != null)
 			{
-				/*if (Reflect.hasField(x, 'get_save_data'))
-					{
-						trace(prop + ' hasField get_save_data');
-					}
-					if (Reflect.getProperty(x, 'get_save_data') != null)
-					{
-						trace(prop, ' getProperty get_save_data');
-						var func:Void->Array<Dynamic> = Reflect.field(x, 'get_save_data');
-						x = func();
-				}*/
-				var _x:Array<Dynamic> = get_save_data(x);
+				var _x:Dynamic = getSaveData(x);
 				if (_x != null)
 					x = _x;
 			}
 
-			result[n] = x;
+			Reflect.setField(result, prop, x);
 		}
 		return result;
 	}
 
-	private static function load_array_from_data(_data:Array<Dynamic>):Array<Dynamic>
-	{
-		trace('load array');
-		return null;
-	}
-
-	public static function set_data_unic(_o:Dynamic, _data:Array<Dynamic>):Void
+	public static function setDataUnic(_o:Dynamic, _data:Dynamic):Void
 	{
 		var _class:Dynamic = Type.getClass(_o);
-		// var _save_vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
-		set_data(_o, _class, _data);
+		setData(_o, _class, _data);
 	}
 
-	public static function set_data(_o:Dynamic, _class:Dynamic, _data:Array<Dynamic>):Void
+	public static function setData(_o:Dynamic, _class:Dynamic, _data:Dynamic):Void
 	{
-		var save_vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
-		var len:Int = save_vars.length;
-		var len2:Int = _data.length;
-		if (len2 < len)
-			len = len2;
+		if (_o == null)
+		{
+			trace('ERROR:set_data to NULL object', _class, _data);
+			return;
+		}
 
-		var n:Int = -1;
+		var save_vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
+
+		/*if (Std.isOfType(_data, Array))
+			{
+				trace('converting');
+				_data = convert(_data, save_vars);
+				trace(_data);
+		}*/
+
+		var n:Int = save_vars.length;
 		var prop:String = 'prop';
 
 		try
 		{
-			while (++n < len)
+			while (--n >= 0)
 			{
 				prop = save_vars[n];
+				// property of blank object
 				var x:Dynamic = Reflect.getProperty(_o, prop);
+				var _data_x:Dynamic = Reflect.getProperty(_data, prop);
 
+				// checking if property x is an object lo load
 				if (x != null)
 				{
-					if (Reflect.getProperty(x, 'load_save_data') != null)
-						// if (Reflect.hasField(x, 'load_array'))
+					if (Reflect.getProperty(x, 'loadSaveData') != null)
 					{
+						trace(_data);
 						trace(prop, 'have load_save_data function');
-						var func:Array<Dynamic>->Void = Reflect.field(x, 'load_save_data');
-						func(_data[n]);
+
+						#if html5
+						x.loadSaveData(_data_x);
+						#else
+						var func:Array<Dynamic>->Void = Reflect.field(x, 'loadSaveData');
+						func(_data_x);
+						#end
 						continue;
 					}
 					else
@@ -160,10 +165,11 @@ class SaveLoad
 				}
 				else
 				{
-					// trace('property ' + prop + ' is null');
+					trace('property ' + prop + ' is null');
 				}
 
-				Reflect.setProperty(_o, prop, _data[n]);
+				// trace(_o, prop, _data);
+				Reflect.setProperty(_o, prop, _data_x);
 			}
 		}
 		catch (msg:String)
@@ -173,6 +179,26 @@ class SaveLoad
 		}
 	}
 
+	/*public static function convert(_arr:Array<Dynamic>, _save_vars:Array<String>):Dynamic
+		{
+			trace('converting');
+			trace(_arr);
+
+			var _res:Object = new Object();
+			var _i:Int = _save_vars.length;
+			while (--_i >= 0)
+			{
+				Reflect.setProperty(_res, _save_vars[_i], _arr[_i]);
+			}
+			_i = _save_vars.length - 1;
+			var _n:Int = 1;
+			while (++_i < _arr.length)
+			{
+				Reflect.setProperty(_res, 'addit' + _n, _arr[_i]);
+				_n++;
+			}
+			return _res;
+	}*/
 	public static function have_saved_game():Bool
 	{
 		autosave_slot = new FlxSave();
@@ -204,12 +230,11 @@ class SaveLoad
 		autosave_slot.data.serial_data = null;
 		autosave_slot.close();
 	}
-
-	public static function get_attr(attr:String, data:Array<Dynamic>, save_vars:Array<String>):Dynamic
-	{
-		var i:Int = save_vars.indexOf(attr);
-		if (i == -1)
-			return null;
-		return data[i];
-	}
+	/*public static function get_attr(attr:String, data:Array<Dynamic>, save_vars:Array<String>):Dynamic
+		{
+			var i:Int = save_vars.indexOf(attr);
+			if (i == -1)
+				return null;
+			return data[i];
+	}*/
 }

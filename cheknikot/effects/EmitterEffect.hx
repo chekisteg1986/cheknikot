@@ -54,7 +54,7 @@ class EmitterEffect extends FlxEmitter
 		return emitter;
 	}
 
-	public static function shoot(_start_point:FlxPoint, _direction:FlxVector, _particles:Int = 10):Void
+	public static function shoot(_start_point:FlxPoint, _direction:FlxPoint, _particles:Int = 10):Void
 	{
 		trace('SHOOOT', _direction.x, _direction.y);
 		_direction.normalize();
@@ -151,7 +151,7 @@ class EmitterEffect extends FlxEmitter
 		while (--particles >= 0)
 		{
 			_p.set(radius, 0);
-			_p.rotate(point_0, da * particles);
+			_p.pivotDegrees(point_0, da * particles);
 			var p:LoneParticle = new LoneParticle(_start_point.x + _p.x, _start_point.y + _p.y, FlxG.random.getObject(color), 1, _s);
 
 			if (speed != 0)

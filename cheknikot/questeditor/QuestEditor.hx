@@ -358,8 +358,7 @@ class QuestEditor extends MenuBase
 		var data_arr:Array<Dynamic> = new Array();
 		for (q in quests)
 		{
-			data_arr.push(q.get_save_data());
-			trace('quest:', q.get_save_data());
+			data_arr.push(q.getSaveData());
 		}
 
 		fr.save(SaveLoad.serialize(data_arr), 'quests.txt');

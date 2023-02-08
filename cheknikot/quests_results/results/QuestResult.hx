@@ -40,11 +40,10 @@ class QuestResult
 		new QR_Event();
 	}
 
-	public function set_data(_d:Array<Dynamic>):Void
-	{
-		SaveLoad.set_data(this, Type.getClass(this), _d);
-	}
-
+	/*public function set_data(_d:Array<Dynamic>):Void
+		{
+			SaveLoad.set_data(this, Type.getClass(this), _d);
+	}*/
 	public static function get_result(_t:String):QuestResult
 	{
 		trace('GET RESULT', _t);
@@ -63,23 +62,15 @@ class QuestResult
 		return qr;
 	}
 
-	public static function load(data:Array<Dynamic>):QuestResult
+	public static function load(data:Dynamic):QuestResult
 	{
-		var _class_name:String = SaveLoad.get_attr('type', data, save_vars);
+		var _class_name:String = Reflect.getProperty(data, 'type');
+		// var _class_name:String = data[0];
 		var qr:QuestResult = get_result(_class_name);
-		trace('load qr', qr.type);
-		SaveLoad.set_data(qr, Type.getClass(qr), data);
+		// trace('load qr', qr.type);
+		SaveLoad.setData(qr, Type.getClass(qr), data);
 
 		return qr;
-	}
-
-	public function get_save_array():Array<Dynamic>
-	{
-		// var _class:Dynamic = Type.getClass(this);
-		// var _save_vars:Array<String> = Reflect.getProperty(_class, 'save_vars');
-		// return SaveLoad.get_save_data_from_savevars(this, _save_vars);
-		trace('QR get save array', SaveLoad.get_save_data(this));
-		return SaveLoad.get_save_data(this);
 	}
 
 	public function new()

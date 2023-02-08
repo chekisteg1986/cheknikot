@@ -28,7 +28,8 @@ class VarEditorMenu extends MyScrollablePanel
 		back_btn = new FlxButton(0, 0, '<-', back_click);
 
 		// auto_DY = true;
-		DY = 20;
+
+		DY = 40;
 		x = 0;
 		y = 360;
 	}
@@ -120,7 +121,7 @@ class VarEditorMenu extends MyScrollablePanel
 	{
 		// if (Std.is(_d, QuestCondition)) return cast(_d, QuestCondition).get_save_vars();
 		// if (Std.is(_d, QuestResult)) return cast(_d, QuestResult).get_save_vars();
-		return SaveLoad.get_save_vars(_d);
+		return SaveLoad.getSaveVars(_d);
 	}
 
 	override function update(elapsed:Float)
