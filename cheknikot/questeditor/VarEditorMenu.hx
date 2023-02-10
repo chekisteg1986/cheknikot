@@ -21,7 +21,7 @@ class VarEditorMenu extends MyScrollablePanel
 
 	public function new()
 	{
-		super(200, 120);
+		super(200, 200);
 
 		draw_background(FlxColor.GRAY);
 		state = this;
@@ -31,7 +31,7 @@ class VarEditorMenu extends MyScrollablePanel
 
 		DY = 40;
 		x = 0;
-		y = 360;
+		y = 400;
 	}
 
 	private function back_click():Void

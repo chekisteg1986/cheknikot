@@ -95,7 +95,7 @@ class Quest
 
 	public function getSaveData():Dynamic
 	{
-		trace('== Saving Quest ==');
+		// trace('== Saving Quest ==');
 		var res:Dynamic = SaveLoad.getSaveData(this, true);
 
 		var _qc_arr:Array<Dynamic> = new Array();
@@ -105,33 +105,22 @@ class Quest
 		}
 
 		Reflect.setField(res, 'conditions', _qc_arr);
-		trace('conditions', _qc_arr.length, Reflect.getProperty(res, 'conditions'));
+		// trace('conditions', _qc_arr.length, Reflect.getProperty(res, 'conditions'));
 		var _qr_arr:Array<Dynamic> = new Array();
 		for (qr in results)
 		{
 			_qr_arr.push(SaveLoad.getSaveData(qr));
 		}
 		Reflect.setField(res, 'results', _qr_arr);
-		trace('results', _qr_arr.length, Reflect.getProperty(res, 'results'));
+		// trace('results', _qr_arr.length, Reflect.getProperty(res, 'results'));
 
 		return res;
 	}
 
-	public static function clicked_on(s:String, who_clicks:String = 'any'):Void
+	public static function clickOn(_object_name:String, _who_clicks:String = 'any'):Void
 	{
-		QC_TalkWith.talk(who_clicks, s);
-		/*
-			for (q in current_quests)
-				for (qc in q.conditions)
-				{
-					if (qc.have_condition(s))
-					{
-						qc.check_clicking(s, who_clicks);
-						// qc.complete();
-					}
-				}
-		 */
-	}
+		Quest.event('click ' + _object_name + ' ' + _who_clicks);
+	};
 
 	public static var last_quest:Quest = null;
 
@@ -169,19 +158,19 @@ class Quest
 			{
 				current_quests.splice(n, 1);
 				q.make_result();
-				trace('REMOVING QUEST', q.trigger_name);
+				// trace('REMOVING QUEST', q.trigger_name);
 			}
-		}
-
-		{
-			AF.clear_array(events);
-			QC_TalkWith.WHO = null;
-			QC_TalkWith.WITH = null;
-			// QC_TalkWith.talked = false;
 		}
 	}
 
-	public static var events:Array<String> = new Array();
+	public static function event(_event:String):Void
+	{
+		for (_q in current_quests)
+			for (_qc in _q.conditions)
+				_qc.checkEvent(_event);
+	}
+
+	// public static var events:Array<String> = new Array();
 
 	public function new() {}
 

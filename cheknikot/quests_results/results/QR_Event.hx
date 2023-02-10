@@ -15,6 +15,6 @@ class QR_Event extends QuestResult
 	override public function make_result_actions():Void
 	{
 		super.make_result_actions();
-		Quest.events.push(event);
+		Quest.event(event);
 	}
 }

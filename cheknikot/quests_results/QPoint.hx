@@ -34,7 +34,7 @@ class QPoint
 	public function result():Void
 	{
 		ready = false;
-		Quest.events.push('reach ' + type);
+		Quest.event('reach ' + type);
 	}
 
 	public function contains(_x:Int, _y:Int):Bool

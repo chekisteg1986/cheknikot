@@ -58,17 +58,11 @@ class QR_RemoveObjects extends QuestResult
 				var arr:Array<DC_GameObject> = DC_GameObject.get_objects_at(_x, _y);
 				var _n:Int = arr.length;
 				while (--_n >= 0)
-				{
-					// trace('arr[_n].string_id', arr[_n].string_id, arr[_n].string_id.length);
-					// trace(name + '==' + (arr[_n].string_id == name));
-
 					if (name == 'all' || arr[_n].string_id == name)
 					{
 						arr[_n].remove_from_map();
 						trace('REMOVED');
 					}
-				}
-
 				_y++;
 			}
 			_x++;

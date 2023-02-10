@@ -77,6 +77,8 @@ class QuestCondition
 
 	public function check():Void {}
 
+	public function checkEvent(_event:String):Void {}
+
 	private function complete_tick():Void
 	{
 		complete_timer -= FlxG.elapsed;

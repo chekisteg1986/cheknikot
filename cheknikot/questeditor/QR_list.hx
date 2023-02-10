@@ -10,7 +10,8 @@ import flixel.util.FlxColor;
 class QR_list extends MyScrollablePanel
 {
 	public static var RES_TYPES:Array<String> = [
-		'QR_RemoveObjects', 'QR_SetTileRect', 'QR_NextLevel', 'QR_ShowPicture', 'QR_SetPath', 'QR_AddQuest', 'QR_Message', 'QuestResult', 'QR_Event', 'Cancel'
+		'QR_RemoveObjects', 'QR_SetTileRect', 'QR_NextLevel', 'QR_ShowPicture', 'QR_SetPath', 'QR_AddQuest', 'QR_Message', 'QuestResult', 'QR_Event',
+		'QR_SetProperty', 'Cancel'
 	];
 	public static var state:QR_list;
 

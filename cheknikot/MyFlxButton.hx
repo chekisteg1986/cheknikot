@@ -26,14 +26,13 @@ class MyFlxButton extends FlxButton
 			label.borderStyle = FlxTextBorderStyle.SHADOW;
 			label.borderSize = 1;
 			label.borderColor = FlxColor.BLACK;
-
 			label.fieldWidth = _fieldWidth;
 		}
 		if (_new_graphic)
 		{
-			trace('BTN SIZE,', label.fieldWidth, SIZE);
-			makeGraphic(Math.ceil(label.fieldWidth + 1), SIZE * 2, FlxColor.GRAY);
-			FlxSpriteUtil.drawRect(this, 1, 1, this.frameWidth - 2, this.frameHeight - 2, FlxColor.BLACK);
+			new_graphic = true;
+			updateGraphic();
+			// trace('BTN SIZE,', label.fieldWidth, SIZE);
 		}
 
 		updateHitbox();
@@ -41,8 +40,20 @@ class MyFlxButton extends FlxButton
 		// trace(frameWidth, frameHeight);
 	}
 
+	private var new_graphic:Bool = false;
+
+	public function updateGraphic():Void
+	{
+		makeGraphic(Math.ceil(label.fieldWidth + 1), SIZE * 2, FlxColor.GRAY);
+		FlxSpriteUtil.drawRect(this, 1, 1, this.frameWidth - 2, this.frameHeight - 2, FlxColor.BLACK);
+	}
+
 	public function new_text(_arr:Array<String>):Void
 	{
+		label.fieldWidth = 0;
 		text = AF.get_text(_arr);
+
+		if (new_graphic)
+			updateGraphic();
 	}
 }

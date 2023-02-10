@@ -351,7 +351,7 @@ class DC_GameObject
 	public function onClick():Void
 	{
 		if (name != null)
-			Quest.clicked_on(this.name[0]);
+			Quest.clickOn(this.name[0]);
 		if (onClickFunc != null)
 		{
 			onClickFunc(this);
