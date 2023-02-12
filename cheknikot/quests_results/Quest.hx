@@ -6,6 +6,7 @@ import cheknikot.quests_results.conditions.QuestCondition;
 import cheknikot.quests_results.results.QR_AddQuest;
 import cheknikot.quests_results.results.QuestResult;
 import cheknikot.saving.SaveLoad;
+import js.lib.Object;
 import openfl.utils.Assets;
 
 /**
@@ -14,7 +15,23 @@ import openfl.utils.Assets;
  */
 class Quest
 {
+	public static var object_arrays:Object = new Object();
 	public static var current_quests:Array<Quest> = new Array();
+
+	public static function addObjectsArray(_name:String, _array:Array<Dynamic>):Void
+	{
+		Reflect.setField(object_arrays, _name, _array);
+		trace('set ' + _name + ':' + Reflect.field(object_arrays, _name));
+		trace(_name.length);
+	}
+
+	public static function getObjectArray(_name:String):Array<Dynamic>
+	{
+		// trace('get ' + _name + ':' + Reflect.field(object_arrays, _name));
+		// trace(_name.length);
+		// trace(_name.charCodeAt(10));
+		return Reflect.field(object_arrays, _name);
+	}
 
 	public var completed:Bool = false;
 	public var conditions:Array<QuestCondition> = [];
@@ -165,6 +182,7 @@ class Quest
 
 	public static function event(_event:String):Void
 	{
+		trace('Event:' + _event);
 		for (_q in current_quests)
 			for (_qc in _q.conditions)
 				_qc.checkEvent(_event);

@@ -17,7 +17,7 @@ class QR_RemoveObjects extends QuestResult
 	public var x2:Int = -1;
 	public var y2:Int = -1;
 
-	public var point:String = 'point';
+	public var point:String = 'string_id';
 	public var name:String = 'all';
 
 	public function new()
@@ -30,7 +30,7 @@ class QR_RemoveObjects extends QuestResult
 	{
 		super.make_result_actions();
 
-		var _p:QPoint = AF.getObjectWith(QPoint.positions, {type: point});
+		var _p:QPoint = AF.getObjectWith(QPoint.positions, {string_id: point});
 
 		if (_p != null)
 		{
@@ -50,22 +50,32 @@ class QR_RemoveObjects extends QuestResult
 
 		trace('Removing +' + name + '+', name.length);
 
-		while (_x <= x2)
+		if (x1 != -1 && x2 != -1 && y1 != -1 && y2 != -1)
 		{
-			_y = y1;
-			while (_y <= y2)
+			while (_x <= x2)
 			{
-				var arr:Array<DC_GameObject> = DC_GameObject.get_objects_at(_x, _y);
-				var _n:Int = arr.length;
-				while (--_n >= 0)
-					if (name == 'all' || arr[_n].string_id == name)
-					{
-						arr[_n].remove_from_map();
-						trace('REMOVED');
-					}
-				_y++;
+				_y = y1;
+				while (_y <= y2)
+				{
+					var arr:Array<DC_GameObject> = DC_GameObject.get_objects_at(_x, _y);
+					var _n:Int = arr.length;
+					while (--_n >= 0)
+						if (name == 'all' || arr[_n].string_id == name)
+						{
+							arr[_n].remove_from_map();
+							trace('REMOVED');
+						}
+					_y++;
+				}
+				_x++;
 			}
-			_x++;
+		}
+		else
+		{
+			var arr:Array<DC_GameObject> = AF.getObjectsWith(DC_GameObject.objects, {string_id: name});
+			var _n:Int = arr.length;
+			while (--_n >= 0)
+				arr[_n].remove_from_map();
 		}
 	}
 }

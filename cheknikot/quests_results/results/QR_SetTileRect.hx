@@ -15,7 +15,7 @@ class QR_SetTileRect extends QuestResult
 	public var x2:Int = -1;
 	public var y2:Int = -1;
 	public var tile:Int = 0;
-	public var point:String = 'point';
+	public var point:String = 'string_id';
 
 	public static var set_tile_wall:Int->Int->Int->Void;
 
@@ -29,7 +29,7 @@ class QR_SetTileRect extends QuestResult
 	{
 		super.make_result_actions();
 
-		var _p:QPoint = AF.getObjectWith(QPoint.positions, {type: point});
+		var _p:QPoint = AF.getObjectWith(QPoint.positions, {string_id: point});
 
 		if (_p != null)
 		{

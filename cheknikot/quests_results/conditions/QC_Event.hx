@@ -17,6 +17,7 @@ class QC_Event extends QuestCondition
 
 	override public function checkEvent(_event:String):Void
 	{
+		trace(event, event.length);
 		if (_event == event)
 		{
 			trace('Event Complete');

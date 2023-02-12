@@ -17,10 +17,9 @@ class QPoint
 	public var y:Int = 0;
 	public var width:Int = 0;
 	public var height:Int = 0;
-	public var type:String = 'exit';
-	public var name:String;
+	public var string_id:String = '1';
 
-	public static var save_vars:Array<String> = ['x', 'y', 'width', 'height', 'type'];
+	public static var save_vars:Array<String> = ['x', 'y', 'width', 'height', 'string_id'];
 
 	// public static var items:Array<String> = new Array();
 
@@ -34,7 +33,7 @@ class QPoint
 	public function result():Void
 	{
 		ready = false;
-		Quest.event('reach ' + type);
+		Quest.event('reach ' + string_id);
 	}
 
 	public function contains(_x:Int, _y:Int):Bool

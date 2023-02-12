@@ -4,6 +4,7 @@ import cheknikot.MyFlxText;
 import cheknikot.char_additions.EquipmentSlotBasic;
 import flixel.FlxG;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import objects.Item;
 
@@ -16,16 +17,12 @@ class EquipmentBtn extends ItemBtn
 	public var slot:EquipmentSlotBasic;
 
 	public var panel:EquipmentPanel;
-	public var unequip_btn:MyFlxButton;
 
 	public function new(_panel:EquipmentPanel)
 	{
 		super();
 		panel = _panel;
-		name_txt = new MyFlxText(0, 0, 0, null, 7);
-		name_txt.fieldWidth = (FlxG.width / 2 - 20) / 3;
-		description_txt = new MyFlxText(0, 0, 0, null, 7);
-		description_txt.fieldWidth = name_txt.fieldWidth * 2;
+		unequip_btn = new MyFlxButton(0, 0, ['Unequip'], unequipClick);
 	}
 
 	public function set_slot(s:EquipmentSlotBasic):Void
@@ -34,14 +31,11 @@ class EquipmentBtn extends ItemBtn
 		set_item(s.current_item);
 	}
 
-	override function onClick():Void
+	override function unequipClick():Void
 	{
-		super.onClick();
 		if (item == null)
 			return;
-
 		// put item into sack
-
 		InventoryMenu.sack.push(item);
 		slot.current_item = null;
 		InventoryMenu.menu.show_equipment();

@@ -62,17 +62,17 @@ class QuestEditor extends MenuBase
 		add(list_panel);
 		list_panel.y = _y2;
 		list_panel.set_positions();
-		list_panel.draw_background(FlxColor.GRAY);
+		list_panel.drawBackground(FlxColor.GRAY);
 		add(cond_panel);
 		cond_panel.x = _dx * 2;
 		cond_panel.y = _y2;
 		cond_panel.set_positions();
-		cond_panel.draw_background(FlxColor.GRAY);
+		cond_panel.drawBackground(FlxColor.GRAY);
 		add(res_panel);
 		res_panel.x = _dx * 4;
 		res_panel.y = _y2;
 		res_panel.set_positions();
-		res_panel.draw_background(FlxColor.GRAY);
+		res_panel.drawBackground(FlxColor.GRAY);
 
 		state = this;
 

@@ -16,11 +16,28 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxHorizontalAlign;
+import openfl.utils.Object;
 
 // import flixel.system.FlxAssets.FlxGraphicAsset;
 // import openfl.display.Tilemap;
 class AF
 {
+	private static var _no_args:Array<Dynamic> = [];
+
+	public static function callFunction(_object:Object, _function:String, _args:Array<Dynamic> = null):Void
+	{
+		if (_args == null)
+			_args = _no_args;
+		if (Reflect.getProperty(_object, _function) != null)
+		{
+			Reflect.callMethod(_object, _object[_function], _args);
+		}
+		else
+		{
+			trace('object', _object, ' dont have function', _function);
+		}
+	}
+
 	public static function angle_border(_a:Float):Float
 	{
 		if (_a < -180)
@@ -278,12 +295,12 @@ class AF
 		var w:Int = s.frameWidth;
 		var h:Int = s.frameHeight;
 
-		trace('stage', stage_w, stage_h);
-		trace('sprite', w, h);
+		// trace('stage', stage_w, stage_h);
+		// trace('sprite', w, h);
 
 		if (w == stage_w && h == stage_h)
 		{
-			trace('PERFECTO');
+			// trace('PERFECTO');
 			return;
 		}
 
@@ -304,7 +321,7 @@ class AF
 		s.scale.set(scale, scale);
 
 		s.updateHitbox();
-		trace('scale:', scale_w, scale_h, scale);
+		// trace('scale:', scale_w, scale_h, scale);
 	}
 
 	public static function clear_array(arr:Array<Dynamic>):Void

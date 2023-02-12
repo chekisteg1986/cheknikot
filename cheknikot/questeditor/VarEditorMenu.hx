@@ -23,7 +23,6 @@ class VarEditorMenu extends MyScrollablePanel
 	{
 		super(200, 200);
 
-		draw_background(FlxColor.GRAY);
 		state = this;
 		back_btn = new FlxButton(0, 0, '<-', back_click);
 
@@ -32,6 +31,7 @@ class VarEditorMenu extends MyScrollablePanel
 		DY = 40;
 		x = 0;
 		y = 400;
+		drawBackground(FlxColor.GRAY);
 	}
 
 	private function back_click():Void

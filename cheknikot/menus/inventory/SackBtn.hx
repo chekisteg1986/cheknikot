@@ -20,14 +20,9 @@ class SackBtn extends ItemBtn
 	public function new()
 	{
 		super();
-		name_txt = new MyFlxText(0, 0, 0, null, 7);
-		// name_txt.fieldWidth = 100;
-		description_txt = new MyFlxText(0, 0, 0, null, 7);
-		// description_txt.fieldWidth = name_txt.fieldWidth * 2;
+
 		equip_btn = new MyFlxButton(0, 0, ['Equip'], equip_click);
 		sell_btn = new MyFlxButton(0, 0, ['Sell'], sell_click);
-
-		price_txt = new MyFlxText(0, 0, 0, null, 7);
 	}
 
 	private function sell_click() {}

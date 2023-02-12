@@ -58,6 +58,8 @@ class MenuBase extends FlxGroup
 
 	public function addNextV(_obj:FlxObject, _dy:Float = 0):FlxBasic
 	{
+		if (_obj == null)
+			return null;
 		add(_obj);
 		_obj.setPosition(add_x, add_y);
 		if (_dy == 0)
@@ -68,6 +70,8 @@ class MenuBase extends FlxGroup
 
 	public function addNextH(_obj:FlxObject, _dx:Float = 0):FlxBasic
 	{
+		if (_obj == null)
+			return null;
 		add(_obj);
 		_obj.setPosition(add_x, add_y);
 		if (_dx == 0)

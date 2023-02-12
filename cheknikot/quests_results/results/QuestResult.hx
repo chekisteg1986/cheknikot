@@ -31,12 +31,14 @@ class QuestResult
 	{
 		new QR_AddQuest();
 		new QR_Message();
+		new QR_SetProperty();
 
 		new QR_ShowPicture();
 		// new QR_Spawn();
 		// new QR_NextLevel();
 		new QR_SetTileRect();
 		new QR_RemoveObjects();
+		new QR_ObjectAction();
 		new QR_Event();
 	}
 

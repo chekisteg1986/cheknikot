@@ -84,7 +84,8 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		if (buffer.length > 0)
 		{
 			trace('buffer', buffer[0]);
-			messanger.set_text(buffer[0][0], null, buffer[0][2], buffer[0][1]);
+			var _b:MessageBuffer = buffer[0];
+			messanger.set_text(_b.message, _b.answers_texts, _b.answers_results, _b.face);
 			buffer.splice(0, 1);
 		}
 	}
@@ -114,6 +115,17 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 	public function set_text(t:Array<String>, buttons_texts:Array<Array<String>>, buttons_results:Array<Void->Void>, _face:String = null,
 			_addit_image:FlxSprite = null):Void
 	{
+		if (this.visible)
+		{
+			var _message:MessageBuffer = new MessageBuffer();
+			_message.face = _face;
+			_message.answers_texts = buttons_texts;
+			_message.answers_results = buttons_results;
+			_message.message = t;
+			buffer.push(_message);
+			return;
+		}
+
 		clear();
 		add_objects();
 
@@ -262,16 +274,16 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		trace('message recieved to game messanger');
 	}
 
-	public static var buffer:Array<Array<Dynamic>> = new Array();
+	public static var buffer:Array<MessageBuffer> = new Array();
 
-	public static function add_text(arr:Array<String>, face:String, _function:Void->Void = null):Void
-	{
-		if (_function == null)
-			buffer.push([arr, face, null]);
-		else
-			buffer.push([arr, face, [_function]]);
-	}
-
+	/*public static function add_text(arr:Array<String>, face:String, _function:Void->Void = null):Void
+		{
+			var _message:MessageBuffer = new MessageBuffer();	
+			if (_function == null)
+				buffer.push([arr, face, null]);
+			else
+				buffer.push([arr, face, [_function]]);
+	}*/
 	public var always_on_top:Bool = false;
 
 	override public function update(elapsed:Float):Void

@@ -20,39 +20,19 @@ class ShopBtn extends ItemBtn
 	public function new()
 	{
 		super();
-		name_txt = new MyFlxText(0, 0, 0, null, 7);
-		// name_txt.fieldWidth = (FlxG.width / 2 - 20) / 3;
-		description_txt = new MyFlxText(0, 0, 0, null, 7);
-		// description_txt.fieldWidth = name_txt.fieldWidth * 2;
-		// equip_btn = new MyFlxButton(0, 0, ['Equip'], equip_click);
 		buy_btn = new MyFlxButton(0, 0, ['Buy'], buy_click);
-
-		price_txt = new MyFlxText(0, 0, 0, null, 7);
 	}
 
-	private function buy_click() {}
-
-	private function equip_click()
+	private function buy_click():Void
 	{
-		var _class:String = item.item_class;
-		var slot:EquipmentSlotBasic = cast(AF.getObjectWith(InventoryMenu.menu.char.equipment.slots, {item_type: _class}), EquipmentSlotBasic);
-		trace(slot);
-		if (slot == null)
+		if (InventoryMenu.money >= item.get_price())
 		{
-			// no such slot
-			trace('NO SUCH SLOT', _class);
-			return;
+			InventoryMenu.money -= item.get_price();
+			InventoryMenu.sack.push(item);
+			InventoryMenu.shop_array.remove(item);
+			InventoryMenu.menu.show_sack();
+			InventoryMenu.menu.show_shop();
 		}
-
-		var i1:EquipmentStatsBasic = slot.current_item;
-		var i2:EquipmentStatsBasic = this.item;
-
-		slot.current_item = i2;
-		InventoryMenu.sack.remove(i2);
-		if (i1 != null)
-			InventoryMenu.sack.push(i1);
-		InventoryMenu.menu.show_equipment();
-		InventoryMenu.menu.show_sack();
 	}
 
 	override function onClick():Void

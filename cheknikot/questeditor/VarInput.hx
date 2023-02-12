@@ -225,7 +225,22 @@ class VarInput extends FlxSpriteGroup
 					cast(object, Array<Dynamic>)[Std.parseInt(var_name)] = input.text;
 				}
 				else
+				{
+					var _c:String = String.fromCharCode(8203);
+					var _i:Int = input.text.indexOf(_c);
+					if (_i != -1)
+					{
+						var _s1:String = input.text.substring(0, _i);
+						var _s2:String = input.text.substr(_i + 1, input.text.length - _i - 1);
+						input.text = _s1 + _s2;
+					}
+
+					// if (input.text.charCodeAt(input.text.length - 1) == 8203)
+					// {
+					// input.text = input.text.substr(0, input.text.length - 1);
+					// }
 					Reflect.setProperty(object, var_name, input.text);
+				}
 			}
 		}
 	}

@@ -2,6 +2,8 @@ package cheknikot.menus.inventory;
 
 import cheknikot.MyFlxText;
 import cheknikot.char_additions.EquipmentStatsBasic;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
@@ -9,24 +11,28 @@ import flixel.ui.FlxButton;
  * ...
  * @author ...
  */
-class ItemBtn extends FlxButton
+class ItemBtn extends MenuBase
 {
 	public var item:EquipmentStatsBasic = null;
 
+	public var sprite:FlxSprite;
 	public var name_txt:MyFlxText;
 	public var description_txt:MyFlxText;
 
 	public var equip_btn:MyFlxButton;
+	public var unequip_btn:MyFlxButton;
 	public var sell_btn:MyFlxButton;
 	public var buy_btn:MyFlxButton;
 	public var price_txt:MyFlxText;
 
 	public function new()
 	{
-		super(0, 0, null, onClick);
+		super();
+		sprite = new FlxSprite();
+		name_txt = new MyFlxText(0, 0, 0, null);
+		description_txt = new MyFlxText(0, 0, 0, null);
 
-		// centerOrigin();
-		// offset.scale(1.5);
+		price_txt = new MyFlxText(0, 0, 0, null);
 	}
 
 	public function set_item(i:EquipmentStatsBasic):Void
@@ -39,7 +45,7 @@ class ItemBtn extends FlxButton
 	{
 		if (item == null)
 		{
-			loadGraphic(AssetPaths.no_item__png);
+			sprite.loadGraphic(AssetPaths.no_item__png);
 			if (name_txt != null)
 			{
 				name_txt.new_text(['none', 'ничего', 'нічого']);
@@ -53,14 +59,14 @@ class ItemBtn extends FlxButton
 		else
 		{
 			// loadGraphic(item.graphic,);
-			loadGraphicFromSprite(item.inventory_spr);
+			sprite.loadGraphicFromSprite(item.inventory_spr);
 
-			if (animation.getByName('0') != null)
-				animation.remove('0');
+			if (sprite.animation.getByName('0') != null)
+				sprite.animation.remove('0');
 
-			animation.add('0', item.inventory_spr.animation.curAnim.frames, 0);
-			statusAnimations = ['0', '0', '0'];
-			animation.play('0');
+			sprite.animation.add('0', item.inventory_spr.animation.curAnim.frames, 0);
+			// sprite.statusAnimations = ['0', '0', '0'];
+			sprite.animation.play('0');
 
 			if (name_txt != null)
 			{
@@ -85,9 +91,20 @@ class ItemBtn extends FlxButton
 		// offset.set((30 - width) / 2, (30 - height) / 2);
 	}
 
-	public function set_positions():Void
+	override function setPosition(_x:Float, _y:Float)
 	{
-		name_txt.y = description_txt.y = this.y;
+		trace('SetPositions');
+		super.setPosition(_x, _y);
+		setAddPosition(_x, _y);
+		addNextH(sprite);
+		addNextH(description_txt);
+
+		setAddPosition(_x, _y + Math.max(sprite.height, description_txt.height));
+		addNextH(buy_btn);
+		addNextH(sell_btn);
+		addNextH(price_txt);
+		addNextH(equip_btn);
+		addNextH(unequip_btn);
 	}
 
 	private function onClick():Void {}

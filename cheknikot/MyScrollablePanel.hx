@@ -2,7 +2,7 @@ package cheknikot;
 
 import flixel.FlxBasic;
 import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -13,12 +13,12 @@ import flixel.util.FlxColor;
  * ...
  * @author ...
  */
-class MyScrollablePanel extends FlxSpriteGroup
+class MyScrollablePanel extends MenuBase
 {
 	public static inline var SORT_GRID:Int = 0;
 	public static inline var SORT_LIST:Int = 1;
 
-	public var container:FlxSpriteGroup;
+	public var container:FlxGroup;
 
 	public var sort_type:Int = 0;
 
@@ -31,17 +31,15 @@ class MyScrollablePanel extends FlxSpriteGroup
 	public var current_row:Int = 0;
 	public var UP_btn:FlxButton;
 	public var DOWN_btn:FlxButton;
-	public var sprBack:FlxSprite;
+
+	public var x:Float = 0;
+	public var y:Float = 0;
 
 	public function new(_width:Int, _height:Int)
 	{
 		super();
 
-		sprBack = new FlxSprite();
-		sprBack.visible = sprBack.active = false;
-		add(sprBack);
-
-		container = new FlxSpriteGroup();
+		container = new FlxGroup();
 		WIDTH = _width;
 		HEIGHT = _height;
 		UP_btn = new FlxButton(0, 0, null, up_click);
@@ -65,20 +63,15 @@ class MyScrollablePanel extends FlxSpriteGroup
 		});
 	}
 
-	public function panel_click(_):Void {}
-
-	public function draw_background(color:FlxColor = -1):Void
+	public function drawBackground(_color:Int = -1):Void
 	{
-		if (color == -1)
-			color = FlxColor.fromRGB(100, 100, 100, 200);
-		sprBack.active = sprBack.visible = true;
-		sprBack.makeGraphic(WIDTH, HEIGHT, color);
-		sprBack.x = x;
-		sprBack.y = y;
-		sprBack.updateHitbox();
-		// FlxMouseEventManager.remove(sprBack);
-		// FlxMouseEventManager.add(sprBack, panel_click);
+		if (_color == -1)
+			_color = FlxColor.fromRGB(100, 100, 100, 200);
+		createBackground(WIDTH, HEIGHT, _color);
+		setBackgroundPosition(this.x, this.y);
 	}
+
+	public function panel_click(_):Void {}
 
 	private function up_click():Void
 	{
@@ -142,8 +135,12 @@ class MyScrollablePanel extends FlxSpriteGroup
 			if (index / positions_in_row < current_row)
 				continue;
 
-			s.x = current_x;
-			s.y = current_y;
+			if (Reflect.getProperty(s, 'setPosition') != null)
+				Reflect.callMethod(s, Reflect.getProperty(s, 'setPosition'), [current_x, current_y]);
+			else
+			{
+				trace('ERRORRRR');
+			}
 			// s.active = s.visible = true;
 
 			current_x += DX;
@@ -155,58 +152,31 @@ class MyScrollablePanel extends FlxSpriteGroup
 		}
 	}
 
-	public var sprites_in_list_row:Int = 1;
-
 	public var auto_DY:Bool = false;
 
 	// public var change_x:Bool = true;
 	private function container_sort_LIST():Void
 	{
-		var row:Int = current_row - 1;
-		var sprite_in_row:Int = 0;
-		var max_row:Int = Math.floor(container.length / sprites_in_list_row);
-		var current_y:Float = y;
-		var current_x:Float = 0;
+		var _row:Int = current_row - 1;
+		var _max_row:Int = container.length;
+		var _current_y:Float = y;
 
-		for (spr in container)
+		for (_spr in container)
 		{
-			spr.active = spr.visible = false;
+			_spr.active = _spr.visible = false;
 		}
 
 		// trace('max row', max_row, 'objects',container.length );
-		while (++row < max_row)
+		while (++_row < _max_row)
 		{
-			sprite_in_row = row * sprites_in_list_row;
+			var _spr:Dynamic = container.members[_row];
 
-			// trace('row',row);
+			_spr.setPosition(x, _current_y);
+			_spr.active = _spr.visible = true;
 
-			var sprite_n:Int = -1;
+			_current_y += DY;
 
-			current_x = x;
-
-			var _max_dy:Float = 0;
-			while (++sprite_n < sprites_in_list_row)
-			{
-				var spr:FlxSprite = container.members[sprite_in_row + sprite_n];
-
-				if (auto_DY)
-					_max_dy = Math.max(_max_dy, spr.height);
-				spr.x = current_x;
-				spr.y = current_y;
-				// trace(current_x+' '+spr.frameWidth+' ' + spr.width);
-				// current_x += spr.frameWidth;
-				current_x += spr.width;
-				spr.active = spr.visible = true;
-			}
-
-			if (auto_DY)
-			{
-				DY == _max_dy + 2;
-			}
-
-			current_y += DY;
-
-			if ((current_y + DY) > (y + HEIGHT))
+			if ((_current_y + DY) > (y + HEIGHT))
 			{
 				DOWN_btn.visible = DOWN_btn.active = true;
 				break;

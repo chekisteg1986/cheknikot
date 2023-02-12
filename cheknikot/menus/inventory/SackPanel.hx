@@ -34,16 +34,12 @@ class SackPanel extends MyScrollablePanel
 
 			btn.set_item(item);
 			container.add(btn);
-			container.add(btn.name_txt);
-			container.add(btn.description_txt);
-			container.add(btn.equip_btn);
-			container.add(btn.price_txt);
-			container.add(btn.sell_btn);
+
 			n++;
 		}
-		sprites_in_list_row = 6;
+
 		container_sort();
-		draw_background();
+		drawBackground();
 		set_positions();
 	}
 }

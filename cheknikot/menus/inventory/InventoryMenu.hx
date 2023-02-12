@@ -27,16 +27,14 @@ class InventoryMenu extends MenuBase
 
 	public var shop_panel:ShopPanel;
 	public var char:CharAttributesBasic;
-
-	// public var background:FlxSprite;
 	public var sack_panel:SackPanel;
 
 	public static var all_chars:Array<InventoryCharBtn> = new Array();
 	public static var menu:InventoryMenu;
 
-	// public static var educ_spr:EducationSprite;
-	// private var characters:Array<HeroIcon>;
 	private var center_line_x:Int;
+
+	public static var money:Int;
 
 	public function new()
 	{
@@ -47,7 +45,6 @@ class InventoryMenu extends MenuBase
 		AF.scale_picture(background);
 		add(background);
 		background.screenCenter();
-
 		eq_panel = new EquipmentPanel();
 
 		add(eq_panel);
@@ -74,6 +71,7 @@ class InventoryMenu extends MenuBase
 	override function show():Void
 	{
 		super.show();
+
 		// return_to = _from_where;
 
 		active = visible = true;
@@ -91,15 +89,9 @@ class InventoryMenu extends MenuBase
 		{
 			shop_panel.visible = false;
 		}
-
-		if (educ_spr.firstshow)
-		{
-			create_tooltips();
-			educ_spr.show_group();
-		}
 	}
 
-	private function show_shop():Void
+	public function show_shop():Void
 	{
 		shop_panel.show_shop(shop_array);
 	}
@@ -145,35 +137,33 @@ class InventoryMenu extends MenuBase
 		for (spr in all_chars)
 			remove(spr, true);
 
-		var cur_y:Float = FlxG.height - 20 * 3 - 5;
+		var _dx:Int = 40;
+		var _dy:Int = 40;
+
+		var cur_y:Float = FlxG.height - _dy;
 		var i:Int = 0;
+		var cur_x:Int = 0;
 
-		// for (p in GlobalMap.party)
-		// if (p.side == CharSide.YOURS)
+		for (h in LocalGame.state.party)
 		{
-			var cur_x:Int = 0;
-
-			for (h in LocalGame.state.party)
+			var char_btn:InventoryCharBtn;
+			if (i >= all_chars.length)
 			{
-				var char_btn:InventoryCharBtn;
-				if (i >= all_chars.length)
-				{
-					char_btn = new InventoryCharBtn();
-					all_chars.push(char_btn);
-				}
-				else
-				{
-					char_btn = all_chars[i];
-				}
-				char_btn.set_char(h.attributes);
-				add(char_btn);
-				char_btn.x = cur_x;
-				char_btn.y = cur_y;
-				cur_x += 20;
-				i++;
+				char_btn = new InventoryCharBtn();
+				all_chars.push(char_btn);
 			}
-			cur_y += 20;
+			else
+			{
+				char_btn = all_chars[i];
+			}
+			char_btn.set_char(h.attributes);
+			add(char_btn);
+			char_btn.x = cur_x;
+			char_btn.y = cur_y;
+			cur_x += _dx;
+			i++;
 		}
+		cur_y += _dy;
 	}
 
 	public function select_char(_c:CharAttributesBasic):Void

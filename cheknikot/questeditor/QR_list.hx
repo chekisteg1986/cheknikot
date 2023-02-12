@@ -11,14 +11,14 @@ class QR_list extends MyScrollablePanel
 {
 	public static var RES_TYPES:Array<String> = [
 		'QR_RemoveObjects', 'QR_SetTileRect', 'QR_NextLevel', 'QR_ShowPicture', 'QR_SetPath', 'QR_AddQuest', 'QR_Message', 'QuestResult', 'QR_Event',
-		'QR_SetProperty', 'Cancel'
+		'QR_SetProperty', 'QR_ObjectAction', 'Cancel'
 	];
 	public static var state:QR_list;
 
 	public function new()
 	{
 		super(200, 200);
-		draw_background(FlxColor.GRAY);
+		drawBackground(FlxColor.GRAY);
 		// make_back(FlxColor.BLACK);
 
 		// panel = new MyScrollablePanel(200, 200);

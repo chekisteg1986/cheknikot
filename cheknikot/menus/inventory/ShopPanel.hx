@@ -21,6 +21,7 @@ class ShopPanel extends MyScrollablePanel
 
 	public function show_shop(sack:Array<EquipmentStatsBasic>):Void
 	{
+		trace('show shop', sack.length);
 		container.clear();
 		var n:Int = 0;
 		var btn:ShopBtn = null;
@@ -34,16 +35,12 @@ class ShopPanel extends MyScrollablePanel
 
 			btn.set_item(item);
 			container.add(btn);
-			container.add(btn.name_txt);
-			container.add(btn.description_txt);
-			container.add(btn.price_txt);
-			container.add(btn.buy_btn);
 
 			n++;
 		}
-		sprites_in_list_row = 5;
+
 		container_sort();
-		draw_background();
+		drawBackground();
 		set_positions();
 	}
 }

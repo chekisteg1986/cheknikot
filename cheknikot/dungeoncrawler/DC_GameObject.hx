@@ -26,21 +26,16 @@ class DC_GameObject
 	public var string_id:String = null;
 	public var radius_sprites:Array<DC_GameObject>;
 	public var line:Int = 0;
-
 	public var can_collide:Bool = true;
 	public var moved:Bool = false;
 	public var visual_spr:FlxSprite;
 	public var visible:Bool = true;
-
 	public var visual_group:Array<FlxSprite>;
-
 	public var front_view_spr:FlxSprite;
 	public var right_view_spr:FlxSprite;
 	public var back_view_spr:FlxSprite;
 	public var left_view_spr:FlxSprite;
-
 	public var on_map:Bool = false;
-
 	public var visual_type:Int = DC_SpriteOutputType.DXDY;
 
 	public var tile_x:Int = 0;
@@ -370,11 +365,12 @@ class DC_GameObject
 
 	public function add_to_map():Void
 	{
+		if (objects.indexOf(this) == -1)
+			objects.push(this);
+
 		on_map = true;
-		objects.push(this);
 		screen_3d.add_to_visible(this);
 		walking_map = visible_map = DC_screen.screen_3d.tilemap;
-
 		if (radius_sprites != null)
 		{
 			var _n:Int = radius_sprites.length;
