@@ -124,7 +124,7 @@ class DC_screen extends FlxGroup
 
 	private var sprite_y:Float;
 
-	public function new(_vision_radius:Int = 3, _width:Int = 640, _height:Int = 480, _spr_w:Float = 0, _spr_h:Float = 0)
+	public function new(_vision_radius:Int = 3, _width:Int = 640, _height:Int = 480, _spr_w:Float = 0, _spr_h:Float = 0, _scale:Float = -1)
 	{
 		super();
 		//
@@ -144,7 +144,10 @@ class DC_screen extends FlxGroup
 		sprite_x = screen_width / 2 - sprite_width / 2;
 		sprite_y = screen_height / 2 - sprite_height / 2;
 
-		first_scale = 1 / (_vision_radius);
+		if (_scale == -1)
+			first_scale = 1 / (_vision_radius);
+		else
+			first_scale = _scale;
 
 		//	first_dy = 0.5 * sprite_height * first_scale;
 		//	first_dx = 0.5 * sprite_width * first_scale;

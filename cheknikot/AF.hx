@@ -22,6 +22,42 @@ import openfl.utils.Object;
 // import openfl.display.Tilemap;
 class AF
 {
+	public static function removeSpaces(_s:String):String
+	{
+		while (true)
+		{
+			if (_s.length == 0)
+				break;
+			if (_s.charAt(0) == ' ')
+				_s = _s.substring(1, _s.length);
+			else if (_s.charAt(_s.length - 1) == ' ')
+				_s = _s.substring(0, _s.length - 1)
+			else
+				break;
+		}
+		return _s;
+	}
+
+	public static function getArrayFromString(_list:String):Array<String>
+	{
+		var _res:Array<String> = new Array();
+		while (true)
+		{
+			var _i:Int = _list.indexOf(',');
+			if (_i == -1)
+			{
+				_res.push(_list);
+				break;
+			}
+			else
+			{
+				_res.push(_list.substring(0, _i));
+				_list = _list.substring(_i + 1, _list.length);
+			}
+		}
+		return _res;
+	}
+
 	private static var _no_args:Array<Dynamic> = [];
 
 	public static function callFunction(_object:Object, _function:String, _args:Array<Dynamic> = null):Void

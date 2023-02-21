@@ -38,5 +38,16 @@ class CharEquipmentBasic
 		return null;
 	}
 
-	public function calculate_stats():Void {}
+	// public function calculate_stats():Void {}
+
+	public function getSum(_stat:String):Int
+	{
+		var _res:Int = 0;
+		for (_s in slots)
+			if (_s.current_item != null)
+			{
+				_res += Reflect.getProperty(_s.current_item, '_stat');
+			}
+		return _res;
+	}
 }

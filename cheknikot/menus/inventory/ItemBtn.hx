@@ -64,9 +64,11 @@ class ItemBtn extends MenuBase
 			if (sprite.animation.getByName('0') != null)
 				sprite.animation.remove('0');
 
-			sprite.animation.add('0', item.inventory_spr.animation.curAnim.frames, 0);
-			// sprite.statusAnimations = ['0', '0', '0'];
-			sprite.animation.play('0');
+			if (item.inventory_spr.animation.curAnim != null)
+			{
+				sprite.animation.add('0', item.inventory_spr.animation.curAnim.frames, 0);
+				sprite.animation.play('0');
+			}
 
 			if (name_txt != null)
 			{

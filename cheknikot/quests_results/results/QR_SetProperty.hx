@@ -21,18 +21,18 @@ class QR_SetProperty extends QuestResult
 
 	override function make_result_actions()
 	{
-		trace(object_array, object_name, object_name.length, property, value);
+		// trace(object_array, object_name, object_name.length, property, value);
 		var _array:Array<Dynamic> = Quest.getObjectArray(object_array);
-		trace(object_array + ':' + _array.length);
+		// trace(object_array + ':' + _array.length);
 		var _objects:Array<Object> = AF.getObjectsWith(_array, {string_id: object_name});
-		trace(object_name + ':' + _objects.length);
+		// trace(object_name + ':' + _objects.length);
 		for (_object in _objects)
 		{
-			trace('have object', object_name);
+			// trace('have object', object_name);
 			if (Reflect.hasField(_object, property))
 			{
 				// if(Std.isOfType(Reflect.))
-				trace('has field', property);
+				//	trace('has field', property);
 				Reflect.setField(_object, property, value);
 			}
 		}

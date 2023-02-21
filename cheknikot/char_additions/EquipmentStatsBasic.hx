@@ -14,7 +14,7 @@ class EquipmentStatsBasic
 	public var id:String = null;
 	public var item_class:String = null;
 	public var visual_spr:FlxSprite;
-	public var inventory_spr:FlxSprite;
+	public var inventory_spr:FlxSprite = new FlxSprite();
 
 	public var price:Int = 100;
 

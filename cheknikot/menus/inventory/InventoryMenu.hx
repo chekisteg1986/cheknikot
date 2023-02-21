@@ -13,7 +13,6 @@ import cheknikot.menus.inventory.SackBtn;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-import objects.Item;
 
 /**
  * ...

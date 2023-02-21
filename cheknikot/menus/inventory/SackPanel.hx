@@ -2,7 +2,6 @@ package cheknikot.menus.inventory;
 
 import cheknikot.MyScrollablePanel;
 import cheknikot.char_additions.EquipmentStatsBasic;
-import objects.Item;
 
 /**
  * ...

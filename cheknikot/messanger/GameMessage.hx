@@ -117,6 +117,7 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 	{
 		if (this.visible)
 		{
+			trace('Adding message to buffer');
 			var _message:MessageBuffer = new MessageBuffer();
 			_message.face = _face;
 			_message.answers_texts = buttons_texts;
@@ -185,10 +186,16 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		var face_w:Int = 0;
 		if (_face != null)
 		{
+			trace('Face:', _face, _face.length);
+			trace(_face.charCodeAt(_face.length - 1));
 			face.visible = true;
 			face_back.visible = true;
+			trace(face.animation.getNameList());
 			if (face.animation.getByName(_face) != null)
-				face.animation.play(_face);
+			{
+				trace('Have face');
+				face.animation.play(_face, true);
+			}
 
 			face_w = face.frameWidth;
 			if (h <= face.frameHeight)

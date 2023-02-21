@@ -2,7 +2,7 @@ package cheknikot.questeditor;
 
 import cheknikot.quests_results.Quest;
 import flixel.addons.ui.FlxInputText;
-import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.input.mouse.FlxMouseButton;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -13,7 +13,7 @@ import texter.flixel.FlxInputTextRTL;
  * ...
  * @author ...
  */
-class VarInput extends FlxSpriteGroup
+class VarInput extends FlxGroup
 {
 	public var text:FlxText = new FlxText();
 	public var input:FlxInputTextRTL = new FlxInputTextRTL();
@@ -29,7 +29,7 @@ class VarInput extends FlxSpriteGroup
 
 	public function new(X:Float = 0, Y:Float = 0, MaxSize:Int = 0)
 	{
-		super(X, Y, MaxSize);
+		super();
 		add(text);
 		// add(input);
 
@@ -102,6 +102,15 @@ class VarInput extends FlxSpriteGroup
 	}
 
 	private var update_input:Bool = true;
+
+	public var x:Float = 0;
+	public var y:Float = 0;
+
+	public function setPosition(_x:Float, _y:Float):Void
+	{
+		x = _x;
+		y = _y;
+	}
 
 	public function connect(_d:Dynamic, _var_name:String):Void
 	{
@@ -220,25 +229,25 @@ class VarInput extends FlxSpriteGroup
 			// input.text = _x + '';
 			try
 			{
+				var _c:String = String.fromCharCode(8203);
+				var _i:Int = input.text.indexOf(_c);
+				if (_i != -1)
+				{
+					var _s1:String = input.text.substring(0, _i);
+					var _s2:String = input.text.substr(_i + 1, input.text.length - _i - 1);
+					input.text = _s1 + _s2;
+				}
+				if (input.text.charCodeAt(input.text.length - 1) == 8203)
+				{
+					input.text = input.text.substr(0, input.text.length - 1);
+				}
+
 				if (Std.isOfType(object, Array))
 				{
 					cast(object, Array<Dynamic>)[Std.parseInt(var_name)] = input.text;
 				}
 				else
 				{
-					var _c:String = String.fromCharCode(8203);
-					var _i:Int = input.text.indexOf(_c);
-					if (_i != -1)
-					{
-						var _s1:String = input.text.substring(0, _i);
-						var _s2:String = input.text.substr(_i + 1, input.text.length - _i - 1);
-						input.text = _s1 + _s2;
-					}
-
-					// if (input.text.charCodeAt(input.text.length - 1) == 8203)
-					// {
-					// input.text = input.text.substr(0, input.text.length - 1);
-					// }
 					Reflect.setProperty(object, var_name, input.text);
 				}
 			}

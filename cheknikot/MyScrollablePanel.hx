@@ -88,6 +88,7 @@ class MyScrollablePanel extends MenuBase
 
 	public function set_positions():Void
 	{
+		setBackgroundPosition(x, y);
 		UP_btn.x = x + WIDTH - UP_btn.width;
 		DOWN_btn.x = x + WIDTH - DOWN_btn.width;
 		UP_btn.y = y;

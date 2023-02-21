@@ -7,7 +7,6 @@ import cheknikot.char_additions.EquipmentStatsBasic;
 import flixel.FlxG;
 import flixel.addons.ui.FlxButtonPlus;
 import flixel.text.FlxText;
-import objects.Item;
 
 /**
  * ...
@@ -15,8 +14,7 @@ import objects.Item;
  */
 class SackBtn extends ItemBtn
 {
-	public var sack_array:Array<Item>;
-
+	//	public var sack_array:Array<Item>;
 	public function new()
 	{
 		super();

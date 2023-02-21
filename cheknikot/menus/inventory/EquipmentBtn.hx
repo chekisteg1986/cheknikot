@@ -6,7 +6,6 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import objects.Item;
 
 /**
  * ...
@@ -31,7 +30,7 @@ class EquipmentBtn extends ItemBtn
 		set_item(s.current_item);
 	}
 
-	override function unequipClick():Void
+	public function unequipClick():Void
 	{
 		if (item == null)
 			return;
