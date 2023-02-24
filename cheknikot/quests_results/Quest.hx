@@ -50,7 +50,7 @@ class Quest
 	{
 		if (QuestEditor.state == null || QuestEditor.state.quests.length == 0)
 		{
-			trace('loading quests from file');
+			trace('loading quests from file ' + _filename);
 			AF.clear_array(Quest.current_quests);
 			// trace(Assets.list());
 

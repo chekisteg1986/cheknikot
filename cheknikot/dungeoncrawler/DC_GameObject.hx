@@ -64,14 +64,17 @@ class DC_GameObject
 
 	private var time:Float = 0;
 
-	public var scale:Float = 1;
+	public var far_scale:Float = 1;
+	public var sprite_scale:Float = 1;
+	public var full_scale:Float = 1;
 
 	private var last_scale:Float = 1;
 
-	public function setScale(_scale:Float):Void
+	public function setFarScale(_scale:Float):Void
 	{
-		scale = _scale;
-		visual_spr.scale.set(_scale, _scale);
+		far_scale = _scale;
+		full_scale = _scale * sprite_scale;
+		visual_spr.scale.set(full_scale, full_scale);
 		visual_spr.updateHitbox();
 	}
 
@@ -91,8 +94,8 @@ class DC_GameObject
 		}
 		else if (Std.isOfType(visual_spr, FlxSprite))
 		{
-			visual_spr.x = _x - visual_spr.frameWidth * 0.5 * scale;
-			visual_spr.y = _y - visual_spr.frameHeight * scale;
+			visual_spr.x = _x - visual_spr.frameWidth * 0.5 * full_scale;
+			visual_spr.y = _y - visual_spr.frameHeight * full_scale;
 		}
 	}
 

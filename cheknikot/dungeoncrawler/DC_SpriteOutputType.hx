@@ -133,7 +133,7 @@ class DC_SpriteOutputType
 			_y = DC_screen.screen_3d.down(_dc_sprite.step + _dy) - _obj.attitude_dy * _scale;
 
 			_obj.add_to_screen(_dc_sprite.parent_row.sprites_on_screen);
-			_obj.setScale(_scale);
+			_obj.setFarScale(_scale);
 			_obj.setVisualXY(_x, _y);
 		}
 	}
