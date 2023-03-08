@@ -39,8 +39,6 @@ class DC_row extends FlxStrip
 		var _quad_index:Int = Math.floor(vertices.length / 8);
 		var _in_index:Int = _quad_index * 4;
 
-		// trace('add_quad',_quad_index, _in_index);
-
 		var _n:Int = -1;
 		while (++_n < 8)
 		{
@@ -69,8 +67,11 @@ class DC_row extends FlxStrip
 		}
 	}
 
+	public var sprites_order:Array<DC_GameObject> = new Array();
+
 	public function update_sprites(_dx_per_step:Int, _dx_per_side:Int, _dy_per_step:Int, _dy_per_side:Int):Void
 	{
+		AF.clear_array(sprites_order);
 		var _len:Int = sprites.length;
 		var _n:Int = -1;
 		while (++_n < _len)
@@ -98,5 +99,8 @@ class DC_row extends FlxStrip
 					}
 				}
 		}
+		DC_additional.sortPositions(sprites_order, AF.NESW_border(this.parent.camera_face + 2));
+		for (_obj in sprites_order)
+			_obj.add_to_screen(sprites_on_screen); // sprites_on_screen.sort(DC_sprite.)
 	}
 }

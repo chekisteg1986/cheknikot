@@ -39,7 +39,7 @@ class QR_Message extends QuestResult
 
 	public function next_message():Void
 	{
-		trace('message_i', message_i, message);
+		// trace('message_i', message_i, message);
 		if (message_i < message.length)
 		{
 			var _face:String = message[message_i][0];

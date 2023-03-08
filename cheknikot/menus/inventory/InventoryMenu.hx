@@ -131,15 +131,17 @@ class InventoryMenu extends MenuBase
 		exit_to.show();
 	}
 
+	public var face_size:Int = 100;
+
 	public function refresh_parties():Void
 	{
 		for (spr in all_chars)
 			remove(spr, true);
 
-		var _dx:Int = 40;
-		var _dy:Int = 40;
+		// var _dx:Int = 40;
+		// var _dy:Int = 40;
 
-		var cur_y:Float = FlxG.height - _dy;
+		var cur_y:Float = FlxG.height - face_size;
 		var i:Int = 0;
 		var cur_x:Int = 0;
 
@@ -159,10 +161,10 @@ class InventoryMenu extends MenuBase
 			add(char_btn);
 			char_btn.x = cur_x;
 			char_btn.y = cur_y;
-			cur_x += _dx;
+			cur_x += char_btn.frameWidth;
 			i++;
 		}
-		cur_y += _dy;
+		// cur_y += _dy;
 	}
 
 	public function select_char(_c:CharAttributesBasic):Void

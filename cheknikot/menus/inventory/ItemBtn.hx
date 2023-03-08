@@ -77,7 +77,7 @@ class ItemBtn extends MenuBase
 			}
 			if (description_txt != null)
 			{
-				description_txt.text = item.get_text_info();
+				description_txt.text = item.getInfo();
 			}
 			if (price_txt != null)
 			{

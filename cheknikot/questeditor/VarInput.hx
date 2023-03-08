@@ -229,18 +229,7 @@ class VarInput extends FlxGroup
 			// input.text = _x + '';
 			try
 			{
-				var _c:String = String.fromCharCode(8203);
-				var _i:Int = input.text.indexOf(_c);
-				if (_i != -1)
-				{
-					var _s1:String = input.text.substring(0, _i);
-					var _s2:String = input.text.substr(_i + 1, input.text.length - _i - 1);
-					input.text = _s1 + _s2;
-				}
-				if (input.text.charCodeAt(input.text.length - 1) == 8203)
-				{
-					input.text = input.text.substr(0, input.text.length - 1);
-				}
+				input.text = AF.removeChar8203(input.text);
 
 				if (Std.isOfType(object, Array))
 				{

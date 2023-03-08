@@ -25,11 +25,9 @@ class EquipmentStatsBasic
 		return price;
 	}
 
-	public function get_text_info():String
+	dynamic public function getInfo():String
 	{
-		var res:String = 'item info';
-
-		return res;
+		return 'Info';
 	}
 
 	// private static var buf_skill:CharSkillsBasic = new CharSkillsBasic(null,0);

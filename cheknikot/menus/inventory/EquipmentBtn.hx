@@ -2,6 +2,7 @@ package cheknikot.menus.inventory;
 
 import cheknikot.MyFlxText;
 import cheknikot.char_additions.EquipmentSlotBasic;
+import cheknikot.char_additions.EquipmentStatsBasic;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -28,6 +29,15 @@ class EquipmentBtn extends ItemBtn
 	{
 		slot = s;
 		set_item(s.current_item);
+	}
+
+	override function set_item(i:EquipmentStatsBasic)
+	{
+		super.set_item(i);
+		if (item == null)
+			unequip_btn.visible = false
+		else
+			unequip_btn.visible = true;
 	}
 
 	public function unequipClick():Void

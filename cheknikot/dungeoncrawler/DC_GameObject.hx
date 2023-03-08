@@ -197,9 +197,17 @@ class DC_GameObject
 			if (Math.abs(_go.tile_y - tile_y) > _vision_radius)
 				return false;
 		}
+		trace('close', this.tile_x, this.tile_y, _go.tile_x, _go.tile_y);
+		trace(this.position, _go.position);
+		trace(visible_map.getTile(this.tile_x, this.tile_y));
+		trace(visible_map.getTileCollisions(visible_map.getTile(this.tile_x, this.tile_y)));
 
-		return visible_map.ray(FlxPoint.weak(position.x * _tile_size, position.y * _tile_size),
+		// var _p:FlxPoint = new FlxPoint();
+		var _result:Bool = visible_map.ray(FlxPoint.weak(position.x * _tile_size, position.y * _tile_size),
 			FlxPoint.weak(_go.position.x * _tile_size, _go.position.y * _tile_size));
+		// trace(_p.x, _p.y);
+		// trace(_p.x / 16, _p.y / 16);
+		return _result;
 	}
 
 	public function setVisualSprite(_camera_face:Int):Void
@@ -291,12 +299,16 @@ class DC_GameObject
 		return null;
 	}
 
+	public function updatePosition():Void
+	{
+		position.x = tile_x + tile_dx;
+		position.y = tile_y + tile_dy;
+	}
+
 	public function update(_elapsed:Float):Void
 	{
 		moved = false;
-		position.x = tile_x + tile_dx;
-		position.y = tile_y + tile_dy;
-
+		updatePosition();
 		if (radius_sprites != null)
 			update_radius_sprites(_elapsed);
 
@@ -373,7 +385,7 @@ class DC_GameObject
 
 		on_map = true;
 		screen_3d.add_to_visible(this);
-		walking_map = visible_map = DC_screen.screen_3d.tilemap;
+		walking_map = visible_map = LocalGame.state.walls;
 		if (radius_sprites != null)
 		{
 			var _n:Int = radius_sprites.length;

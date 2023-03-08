@@ -186,8 +186,10 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		var face_w:Int = 0;
 		if (_face != null)
 		{
-			trace('Face:', _face, _face.length);
-			trace(_face.charCodeAt(_face.length - 1));
+			_face = AF.removeSpaces(_face);
+			_face = AF.removeChar8203(_face);
+			// trace('Face:', _face, _face.length);
+			// trace(_face.charCodeAt(_face.length - 1));
 			face.visible = true;
 			face_back.visible = true;
 			trace(face.animation.getNameList());
@@ -196,6 +198,10 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 				trace('Have face');
 				face.animation.play(_face, true);
 			}
+			else
+			{
+				face.visible = false;
+			}
 
 			face_w = face.frameWidth;
 			if (h <= face.frameHeight)
@@ -203,6 +209,7 @@ class GameMessage extends FlxTypedGroup<FlxSprite>
 		}
 		else
 		{
+			trace('Face NULL');
 			face_back.visible = face.visible = false;
 		}
 

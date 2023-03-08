@@ -11,61 +11,10 @@ class DC_SpriteOutputType
 	public static inline var LINE:Int = 0;
 	public static inline var DXDY:Int = 1;
 
-	private static function positions_face_S(_o1:DC_GameObject, _o2:DC_GameObject):Int
-	{
-		if (_o1.tile_dy < _o2.tile_dy)
-			return -1;
-		else if (_o1.tile_dy > _o2.tile_dy)
-			return 1;
-		else
-			return 0;
-	}
-
-	private static function positions_face_N(_o1:DC_GameObject, _o2:DC_GameObject):Int
-	{
-		if (_o1.tile_dy < _o2.tile_dy)
-			return 1;
-		else if (_o1.tile_dy > _o2.tile_dy)
-			return -1;
-		else
-			return 0;
-	}
-
-	private static function positions_face_E(_o1:DC_GameObject, _o2:DC_GameObject):Int
-	{
-		if (_o1.tile_dx < _o2.tile_dx)
-			return -1;
-		else if (_o1.tile_dx > _o2.tile_dx)
-			return 1;
-		else
-			return 0;
-	}
-
-	private static function positions_face_W(_o1:DC_GameObject, _o2:DC_GameObject):Int
-	{
-		if (_o1.tile_dx < _o2.tile_dx)
-			return 1;
-		else if (_o1.tile_dx > _o2.tile_dx)
-			return -1;
-		else
-			return 0;
-	}
-
 	public static function show_visible_objects_dxdy(_sprite_objects:Array<DC_GameObject>, _dc_sprite:DC_sprite):Void
 	{
 		var _camera_face:Int = DC_screen.screen_3d.camera_face;
 		var _scale:Float = 1;
-		switch (_camera_face)
-		{
-			case 0:
-				_sprite_objects.sort(positions_face_N);
-			case 1:
-				_sprite_objects.sort(positions_face_E);
-			case 2:
-				_sprite_objects.sort(positions_face_S);
-			case 3:
-				_sprite_objects.sort(positions_face_W);
-		}
 
 		var _len:Int = _sprite_objects.length;
 		var _obj:DC_GameObject = null;
@@ -132,7 +81,8 @@ class DC_SpriteOutputType
 			_x = DC_screen.screen_3d.left(_dc_sprite.step + _dy, _dc_sprite.side + _dx);
 			_y = DC_screen.screen_3d.down(_dc_sprite.step + _dy) - _obj.attitude_dy * _scale;
 
-			_obj.add_to_screen(_dc_sprite.parent_row.sprites_on_screen);
+			// _obj.add_to_screen(_dc_sprite.parent_row.sprites_on_screen);
+			_dc_sprite.parent_row.sprites_order.push(_obj);
 			_obj.setFarScale(_scale);
 			_obj.setVisualXY(_x, _y);
 		}

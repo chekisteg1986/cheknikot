@@ -16,12 +16,32 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxHorizontalAlign;
+import js.html.webgl.Sampler;
 import openfl.utils.Object;
 
 // import flixel.system.FlxAssets.FlxGraphicAsset;
 // import openfl.display.Tilemap;
 class AF
 {
+	public static function removeChar8203(_s:String):String
+	{
+		var _c:String = String.fromCharCode(8203);
+		var _i:Int = _s.indexOf(_c);
+
+		while (_i != -1)
+		{
+			var _s1:String = _s.substring(0, _i);
+			var _s2:String = _s.substr(_i + 1, _s.length - _i - 1);
+			_s = _s1 + _s2;
+			_i = _s.indexOf(_c);
+		}
+		// if (_s.charCodeAt(input.text.length - 1) == 8203)
+		// {
+		//	_s = _s.substr(0, input.text.length - 1);
+		// }
+		return _s;
+	}
+
 	public static function removeSpaces(_s:String):String
 	{
 		while (true)
