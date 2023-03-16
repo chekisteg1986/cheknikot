@@ -48,22 +48,27 @@ class Quest
 
 	public static function load_quests(_filename:String):Void
 	{
-		if (QuestEditor.state == null || QuestEditor.state.quests.length == 0)
+		// if (QuestEditor.state == null || QuestEditor.state.quests.length == 0)
 		{
 			trace('loading quests from file ' + _filename);
-			AF.clear_array(Quest.current_quests);
+
 			// trace(Assets.list());
 
-			var _str:String = Assets.getText('assets/data/' + _filename);
-
-			Quest.load_quests_to_array(_str, Quest.current_quests);
+			// trace(Assets.hasLibrary(_filename));
+			if (Assets.exists('assets/data/' + _filename))
+			{
+				trace('Have File');
+				var _str:String = Assets.getText('assets/data/' + _filename);
+				if (_str != null)
+					Quest.load_quests_to_array(_str, Quest.current_quests);
+			}
 		}
-		else
-		{
-			trace('copy quests from editor');
-			Quest.current_quests = QuestEditor.state.quests;
-			QuestEditor.state.quests = new Array();
-		}
+		// else
+		// {
+		// trace('copy quests from editor');
+		// Quest.current_quests = QuestEditor.state.quests;
+		// QuestEditor.state.quests = new Array();
+		// }
 	}
 
 	public static function load_quests_to_array(_str:String, _arr:Array<Quest>):Void

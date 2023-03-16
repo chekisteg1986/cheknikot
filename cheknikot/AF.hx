@@ -16,9 +16,9 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxHorizontalAlign;
-import js.html.webgl.Sampler;
 import openfl.utils.Object;
 
+// import js.html.webgl.Sampler;
 // import flixel.system.FlxAssets.FlxGraphicAsset;
 // import openfl.display.Tilemap;
 class AF

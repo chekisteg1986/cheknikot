@@ -18,8 +18,9 @@ class EquipmentPanel extends MenuBase
 
 	private var char:CharAttributesBasic;
 
-	public var eq_slot_dy:Int = 100;
-	public var eq_slot_x:Int = 100;
+	public var eq_slot_dy:Int = 120;
+
+	// public var eq_slot_x:Int = 100;
 
 	public function new()
 	{
@@ -96,7 +97,7 @@ class EquipmentPanel extends MenuBase
 				txt.y = current_slot_i * eq_slot_dy + char_face.getHitbox().bottom;
 
 				// button
-				btn.setPosition(eq_slot_x, txt.y);
+				btn.setPosition(0, txt.y + txt.height);
 
 				current_slot_i++;
 			}

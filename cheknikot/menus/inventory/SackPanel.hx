@@ -33,6 +33,10 @@ class SackPanel extends MyScrollablePanel
 
 			btn.set_item(item);
 			container.add(btn);
+			if (InventoryMenu.shop_array == null)
+				btn.sell_btn.visible = false
+			else
+				btn.sell_btn.visible = true;
 
 			n++;
 		}

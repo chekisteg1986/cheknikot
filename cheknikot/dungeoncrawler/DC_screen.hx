@@ -61,6 +61,10 @@ class DC_screen extends FlxGroup
 	public var left_dark:FlxSprite = new FlxSprite();
 	public var right_dark:FlxSprite = new FlxSprite();
 
+	public var ceil_and_floor:DC_row = new DC_row();
+
+	// public var floors:DC_row = new DC_row();
+
 	public function refresh():Void
 	{
 		var _n:Int = visible_map.length;
@@ -188,12 +192,12 @@ class DC_screen extends FlxGroup
 			var _n:Int = -1;
 			while (++_n < _line_sprites.length)
 				if (_line_sprites[_n].floor != null)
-					_row.add_quads(_line_sprites[_n].floor);
+					ceil_and_floor.add_quads(_line_sprites[_n].floor);
 			// ceil
 			_n = -1;
 			while (++_n < _line_sprites.length)
 				if (_line_sprites[_n].ceil != null)
-					_row.add_quads(_line_sprites[_n].ceil);
+					ceil_and_floor.add_quads(_line_sprites[_n].ceil);
 			// side walls
 			_n = -1;
 			while (++_n < _line_sprites.length)
