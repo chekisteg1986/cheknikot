@@ -171,6 +171,11 @@ class DC_screen extends FlxGroup
 		trace(down(0));
 
 		// Making rows
+
+		add(ceil_and_floor);
+		ceil_and_floor.show_objects = false;
+		ceil_and_floor.parent = this;
+		rows.push(ceil_and_floor);
 		var _cur_step:Int = _vision_radius + 1;
 		while (_cur_step >= 0)
 		{

@@ -197,10 +197,10 @@ class DC_GameObject
 			if (Math.abs(_go.tile_y - tile_y) > _vision_radius)
 				return false;
 		}
-		trace('close', this.tile_x, this.tile_y, _go.tile_x, _go.tile_y);
-		trace(this.position, _go.position);
-		trace(visible_map.getTile(this.tile_x, this.tile_y));
-		trace(visible_map.getTileCollisions(visible_map.getTile(this.tile_x, this.tile_y)));
+		// trace('close', this.tile_x, this.tile_y, _go.tile_x, _go.tile_y);
+		// trace(this.position, _go.position);
+		// trace(visible_map.getTile(this.tile_x, this.tile_y));
+		// trace(visible_map.getTileCollisions(visible_map.getTile(this.tile_x, this.tile_y)));
 
 		// var _p:FlxPoint = new FlxPoint();
 		var _result:Bool = visible_map.ray(FlxPoint.weak(position.x * _tile_size, position.y * _tile_size),

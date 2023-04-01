@@ -17,6 +17,7 @@ class DC_row extends FlxStrip
 	public var sprites:Array<DC_sprite> = new Array();
 	public var sprites_on_screen:FlxGroup = new FlxGroup();
 	public var parent:DC_screen;
+	public var show_objects:Bool = true;
 
 	public function new()
 	{
@@ -77,7 +78,7 @@ class DC_row extends FlxStrip
 		while (++_n < _len)
 		{
 			var _spr:DC_sprite = sprites[_n];
-			_spr.update(_dx_per_step, _dy_per_step, _dx_per_side, _dy_per_side);
+			_spr.update(_dx_per_step, _dy_per_step, _dx_per_side, _dy_per_side, this.show_objects);
 
 			if (_spr.step == 0 && _spr.side == 0)
 				if (MouseBase.left_click)

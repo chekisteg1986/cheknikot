@@ -109,12 +109,12 @@ class DC_sprite
 		}
 	}
 
-	public function update(_dx_per_step:Int, _dy_per_step:Int, _dx_per_side:Int, _dy_per_side:Int):Void
+	public function update(_dx_per_step:Int, _dy_per_step:Int, _dx_per_side:Int, _dy_per_side:Int, _show_objects:Bool = true):Void
 	{
 		var _x:Int = parent_screen.camera_position_x + step * _dx_per_step + side * _dx_per_side;
 		var _y:Int = parent_screen.camera_position_y + step * _dy_per_step + side * _dy_per_side;
 
-		var _show_objects:Bool = true;
+		// var _show_objects:Bool = true;
 
 		if (_x < 0 || _y < 0 || _x >= parent_screen.tilemap.widthInTiles || _y >= parent_screen.tilemap.heightInTiles)
 		{
