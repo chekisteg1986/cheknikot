@@ -104,6 +104,16 @@ class DC_GameObject
 	public var on_screen:Bool = false;
 	public var current_state:FlxGroup;
 
+	public function getFrontPositionX():Int
+	{
+		return tile_x + AF.get_step_dx(this.nesw_facing);
+	}
+
+	public function getFrontPositionY():Int
+	{
+		return tile_y + AF.get_step_dy(this.nesw_facing);
+	}
+
 	public function add_to_screen(_state:FlxGroup):Void
 	{
 		on_screen = true;
@@ -378,14 +388,16 @@ class DC_GameObject
 
 	public static var screen_3d:DC_screen;
 
-	public function add_to_map():Void
+	public function add_to_map(_walls:FlxTilemap = null):Void
 	{
 		if (objects.indexOf(this) == -1)
 			objects.push(this);
 
 		on_map = true;
 		screen_3d.add_to_visible(this);
-		walking_map = visible_map = LocalGame.state.walls;
+
+		walking_map = visible_map = _walls;
+
 		if (radius_sprites != null)
 		{
 			var _n:Int = radius_sprites.length;
