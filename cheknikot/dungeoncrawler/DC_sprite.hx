@@ -392,6 +392,10 @@ class DC_sprite
 		current_tile = _t;
 		var _complect:DC_TextureComplect = parent_screen.sprites_complect[_t];
 		// trace('set tile', step, side, _t);
+		if (_complect == null)
+		{
+			trace('ERROR: have no texture complect for tile:', _t);
+		}
 
 		if (floor != null)
 		{

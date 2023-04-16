@@ -388,7 +388,7 @@ class DC_GameObject
 
 	public static var screen_3d:DC_screen;
 
-	public function add_to_map(_walls:FlxTilemap = null):Void
+	public function add_to_map():Void
 	{
 		if (objects.indexOf(this) == -1)
 			objects.push(this);
@@ -396,7 +396,7 @@ class DC_GameObject
 		on_map = true;
 		screen_3d.add_to_visible(this);
 
-		walking_map = visible_map = _walls;
+		// walking_map = visible_map = _walls;
 
 		if (radius_sprites != null)
 		{
