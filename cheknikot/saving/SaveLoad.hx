@@ -12,7 +12,23 @@ import openfl.utils.Object;
  */
 class SaveLoad
 {
+	public static var save:FlxSave;
 	public static var autosave_slot:FlxSave;
+
+	public static function initSaveFile():Void
+	{
+		save = new FlxSave();
+		save.bind('save');
+		if (save.data.slots == null)
+		{
+			var _slots:Array<Dynamic> = save.data.slots = new Array<Dynamic>();
+			var _n:Int = 10;
+			while (--_n >= 0)
+			{
+				_slots.push()
+			}
+		}
+	}
 
 	public static function serialize(d:Dynamic):String
 	{
