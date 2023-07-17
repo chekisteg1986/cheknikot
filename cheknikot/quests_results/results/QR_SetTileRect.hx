@@ -29,10 +29,13 @@ class QR_SetTileRect extends QuestResult
 	{
 		super.make_result_actions();
 
+		trace('QC_SetTileRect with point #' + point + '#');
+
 		var _p:QPoint = AF.getObjectWith(QPoint.positions, {string_id: point});
 
 		if (_p != null)
 		{
+			trace('have point ' + point);
 			x1 = _p.x;
 			y1 = _p.y;
 			x2 = _p.x + _p.width;
@@ -53,7 +56,6 @@ class QR_SetTileRect extends QuestResult
 			while (_y <= y2)
 			{
 				set_tile_wall(_x, _y, tile);
-
 				_y++;
 			}
 			_x++;

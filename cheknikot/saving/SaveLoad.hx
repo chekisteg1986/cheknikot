@@ -25,7 +25,7 @@ class SaveLoad
 			var _n:Int = 10;
 			while (--_n >= 0)
 			{
-				_slots.push()
+				_slots.push(new SaveSlot());
 			}
 		}
 	}
