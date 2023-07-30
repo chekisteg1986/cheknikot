@@ -5,8 +5,11 @@ import flixel.ui.FlxButton;
 
 class SaveSlotBtn extends FlxButton
 {
-	public function new()
+	private var forSave:Bool;
+
+	public function new(_save:Bool = true)
 	{
+		forSave = _save;
 		super(0, 0, ' ', onClick);
 	}
 

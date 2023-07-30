@@ -12,9 +12,8 @@ import cheknikot.saving.SaveLoad;
 import flash.events.Event;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import openfl.net.FileReference;
-
 // import menus.MainMenu;
+import openfl.net.FileReference;
 
 /**
  * ...
@@ -24,6 +23,7 @@ class QuestEditor extends MenuBase
 {
 	public static var state:QuestEditor;
 
+	public var filename:String = 'quests.txt';
 	public var quests:Array<Quest> = new Array();
 	public var list_panel:MyScrollablePanel = new MyScrollablePanel(150, 300);
 	public var cond_panel:MyScrollablePanel = new MyScrollablePanel(150, 300);
@@ -315,6 +315,7 @@ class QuestEditor extends MenuBase
 	{
 		var fr:FileReference = cast(E.target, FileReference);
 		// _text.text = fr.name;
+		filename = fr.name;
 		fr.addEventListener(Event.COMPLETE, _onLoad, false, 0, true);
 		fr.load();
 	}
@@ -361,6 +362,6 @@ class QuestEditor extends MenuBase
 			data_arr.push(q.getSaveData());
 		}
 
-		fr.save(SaveLoad.serialize(data_arr), 'quests.txt');
+		fr.save(SaveLoad.serialize(data_arr), filename);
 	}
 }
