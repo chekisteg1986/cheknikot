@@ -20,10 +20,19 @@ class SaveSlotBtn extends FlxButton
 
 	private function onClick():Void
 	{
-		ConfirmMenu.state.confirm(save);
+		if (forSave)
+		{
+			ConfirmMenu.state.confirm(save);
+		}
+		else
+		{
+			ConfirmMenu.state.confirm(load);
+		}
 	}
 
 	private function save():Void {}
+
+	private function load():Void {}
 
 	private function cancel():Void {}
 }
