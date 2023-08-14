@@ -14,6 +14,7 @@ class SaveLoad
 {
 	public static var save:FlxSave;
 	public static var autosave_slot:FlxSave;
+	public static var dynamicSaveFunc:Void->Dynamic;
 
 	public static function initSaveFile():Void
 	{
@@ -21,12 +22,17 @@ class SaveLoad
 		save.bind('save');
 		if (save.data.slots == null)
 		{
-			var _slots:Array<Dynamic> = save.data.slots = new Array<Dynamic>();
+			trace('New Save File');
+			var _slots:Array<Dynamic> = save.data.slots = new Array<SaveSlot>();
 			var _n:Int = 10;
 			while (--_n >= 0)
 			{
 				_slots.push(new SaveSlot());
 			}
+		}
+		else
+		{
+			trace('Old Save File');
 		}
 	}
 

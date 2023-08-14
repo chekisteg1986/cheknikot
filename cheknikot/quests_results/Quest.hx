@@ -6,8 +6,8 @@ import cheknikot.quests_results.conditions.QuestCondition;
 import cheknikot.quests_results.results.QR_AddQuest;
 import cheknikot.quests_results.results.QuestResult;
 import cheknikot.saving.SaveLoad;
-import js.lib.Object;
 import openfl.utils.Assets;
+import openfl.utils.Object;
 
 /**
  * ...

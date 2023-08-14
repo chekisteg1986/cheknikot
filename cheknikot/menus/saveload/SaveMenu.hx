@@ -5,7 +5,7 @@ import cheknikot.saving.SaveSlot;
 import flixel.group.FlxGroup;
 import flixel.util.FlxSave;
 
-class SaveMenu extends MenuBase
+class SaveMenu extends SaveLoadMenu
 {
 	public static var state:SaveMenu;
 

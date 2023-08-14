@@ -1,5 +1,11 @@
 package cheknikot.menus.saveload;
 
+import cheknikot.saving.SaveLoad;
+import cheknikot.saving.SaveSlot;
+import flixel.FlxG;
+import flixel.group.FlxGroup;
+import flixel.util.FlxSave;
+
 class SaveLoadMenu extends MenuBase
 {
 	private var slots_group:FlxGroup = new FlxGroup();
@@ -10,6 +16,7 @@ class SaveLoadMenu extends MenuBase
 	{
 		super();
 
+		createBackground(FlxG.width, FlxG.height);
 		add(exit_btn);
 		add(slots_group);
 	}
@@ -39,7 +46,7 @@ class SaveLoadMenu extends MenuBase
 		{
 			var _btn:SaveSlotBtn = AF.get_free_object(slots_btns, _n, _new);
 			_btn.x = 200;
-			_btn.y = 50 * _n;
+			_btn.y = 40 * _n;
 			slots_group.add(_btn);
 			_btn.setSlot(_slot);
 			_n++;
