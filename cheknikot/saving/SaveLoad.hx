@@ -29,6 +29,7 @@ class SaveLoad
 			{
 				_slots.push(new SaveSlot());
 			}
+			save.flush();
 		}
 		else
 		{

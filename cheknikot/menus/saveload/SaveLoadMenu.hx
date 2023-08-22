@@ -34,6 +34,7 @@ class SaveLoadMenu extends MenuBase
 
 		if (SaveLoad.save == null || SaveLoad.save.data.slots == null)
 			SaveLoad.initSaveFile();
+
 		var _array:Array<SaveSlot> = SaveLoad.save.data.slots;
 
 		var _n:Int = 0;
