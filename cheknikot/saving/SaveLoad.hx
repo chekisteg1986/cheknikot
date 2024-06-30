@@ -15,6 +15,12 @@ class SaveLoad
 	public static var save:FlxSave;
 	public static var autosave_slot:FlxSave;
 	public static var dynamicSaveFunc:Void->Dynamic;
+	public static var dynamicLoadFunc:Dynamic->Void;
+
+	public static function getSaveFile():FlxSave
+	{
+		return null;
+	}
 
 	public static function initSaveFile():Void
 	{
@@ -27,7 +33,7 @@ class SaveLoad
 			var _n:Int = 10;
 			while (--_n >= 0)
 			{
-				_slots.push(new SaveSlot());
+				_slots.unshift(new SaveSlot(_n));
 			}
 			save.flush();
 		}

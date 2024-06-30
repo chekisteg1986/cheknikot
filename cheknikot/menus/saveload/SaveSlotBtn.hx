@@ -6,6 +6,8 @@ import flixel.ui.FlxButton;
 
 class SaveSlotBtn extends FlxButton
 {
+	public var parent:SaveLoadMenu;
+
 	private var for_save:Bool;
 
 	public var save_slot:SaveSlot;
@@ -37,9 +39,14 @@ class SaveSlotBtn extends FlxButton
 	private function save():Void
 	{
 		save_slot.save();
+		parent.showSlots();
 	}
 
-	private function load():Void {}
+	private function load():Void
+	{
+		parent.hide();
+		save_slot.load();
+	}
 
 	private function cancel():Void {}
 }

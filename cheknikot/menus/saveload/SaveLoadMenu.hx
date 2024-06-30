@@ -27,7 +27,7 @@ class SaveLoadMenu extends MenuBase
 		showSlots();
 	}
 
-	private function showSlots():Void
+	public function showSlots():Void
 	{
 		for (_slot in slots_btns)
 			slots_group.remove(_slot);

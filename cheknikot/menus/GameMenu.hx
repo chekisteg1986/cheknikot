@@ -18,8 +18,9 @@ class GameMenu extends MenuBase
 		super();
 
 		createBackground(300, 400);
-		background.x = 180;
-		background.y = 80;
+		setBackgroundPosition(180, 80);
+		// background.x = 180;
+		// background.y = 80;
 		return_btn = new MyFlxButton(200, 100, ['Return', 'Вернуться', 'Вернутися'], returnClick);
 		save_btn = new MyFlxButton(200, 200, ['Save', 'Сохранить', 'Зберегти'], saveClick);
 		load_btn = new MyFlxButton(200, 300, ['Load', 'Загрузить', 'Загрузити'], loadClick);
