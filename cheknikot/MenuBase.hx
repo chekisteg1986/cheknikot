@@ -213,6 +213,8 @@ class MenuBase extends FlxGroup
 			hide();
 	}
 
+	public var return_to_menu:MenuBase;
+
 	public function show():Void
 	{
 		if (parent == null)
@@ -230,6 +232,9 @@ class MenuBase extends FlxGroup
 		else
 			parent.remove(this, true);
 		on_screen = false;
+
+		if (return_to_menu != null)
+			return_to_menu.show();
 		// FlxG.state.remove(this, true);
 	}
 }

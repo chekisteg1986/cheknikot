@@ -1,19 +1,20 @@
 package cheknikot.menus;
 
+// import SettingsMenu;
 import cheknikot.MyStandartText;
+import cheknikot.menus.saveload.LoadMenu;
+import cheknikot.menus.saveload.SaveMenu;
 import cheknikot.questeditor.QuestEditor;
 import flash.net.URLRequest;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+// import flixel.system.FlxAssets;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-
-// import SettingsMenu;
-// import flixel.system.FlxAssets;
 
 /**
  * ...
@@ -30,6 +31,8 @@ class MyMainMenu extends MenuBase
 	private var title2:MyFlxText;
 	private var FB:FlxButton;
 	private var version_txt:FlxText;
+	private var load_game_btn:MyFlxButton;
+	private var save_game_btn:MyFlxButton;
 
 	private var erase:FlxSpriteGroup;
 	private var erase_txt:MyFlxText;
@@ -127,7 +130,7 @@ class MyMainMenu extends MenuBase
 
 		// AF.scale_picture(background);
 
-		var _dy:Int = 45;
+		// var _dy:Int = 45;
 
 		start_game_btn = new MyFlxButton(0, 0, ["New Game", 'Новая Игра', 'Нова Гра'], start_game_click);
 		add(start_game_btn);
@@ -139,22 +142,42 @@ class MyMainMenu extends MenuBase
 		start_game_btn.alpha = 1;
 		#end
 
+		load_game_btn = new MyFlxButton(0, 0, ['Load Game', 'Загрузить', 'Загрузити'], load_game_click);
+		add(load_game_btn);
+		load_game_btn.alpha = 0;
+		load_game_btn.screenCenter();
+
+		save_game_btn = new MyFlxButton(0, 0, ['Save Game', 'Сохранить', 'Зберегти'], save_game_click);
+		add(save_game_btn);
+		save_game_btn.alpha = 0;
+		save_game_btn.screenCenter();
+
 		credits_btn = new MyFlxButton(0, 0, ['Credits', 'Титры', 'Титри'], credits_click);
 		add(credits_btn);
 		// credits_btn.alpha = 0;
 		credits_btn.screenCenter();
-		credits_btn.y = start_game_btn.y + _dy;
+		// credits_btn.y = start_game_btn.y + _dy;
 		credits_btn.alpha = 0;
 
 		continue_btn = new MyFlxButton(0, 0, ['Continue', 'Продолжить', 'Продовжити'], continue_click);
 		continue_btn.screenCenter();
-		continue_btn.y = credits_btn.y + _dy;
+		// continue_btn.y = credits_btn.y + _dy;
 
 		settings_btn = new MyFlxButton(0, 0, ['Settings', 'Настройки', 'Налаштування'], settings_click);
 		settings_btn.screenCenter();
-		settings_btn.y = continue_btn.y + _dy;
+		// settings_btn.y = continue_btn.y + _dy;
 		settings_btn.alpha = 0;
 		add(settings_btn);
+
+		continue_btn.y = 200;
+		AF.put_in_line([
+			continue_btn,
+			start_game_btn,
+			load_game_btn,
+			save_game_btn,
+			settings_btn,
+			credits_btn
+		], 25, false);
 
 		title = new MyFlxText(0, 10, 0, ['ORCISH RAGE', 'ЯРОСТЬ ОРКОВ', 'ЛЮТЬ ОРКІВ'], 15);
 		title2 = new MyFlxText(0, title.y + title.height, 0, ['Chapter II: Conquest', 'Глава II: Завоевание', 'Глава II: Завоювання'], 10);
@@ -181,6 +204,8 @@ class MyMainMenu extends MenuBase
 			FlxTween.tween(start_game_btn, {alpha: 1}, 1);
 			FlxTween.tween(credits_btn, {alpha: 1}, 1);
 			FlxTween.tween(settings_btn, {alpha: 1}, 1);
+			FlxTween.tween(save_game_btn, {alpha: 1}, 1);
+			FlxTween.tween(load_game_btn, {alpha: 1}, 1);
 
 			trace('buttons tween start');
 
@@ -285,7 +310,8 @@ class MyMainMenu extends MenuBase
 	}
 
 	private var continue_btn:MyFlxButton;
-	private var load_btn:MyFlxButton;
+
+	// private var load_btn:MyFlxButton;
 
 	override public function show():Void
 	{
@@ -329,5 +355,19 @@ class MyMainMenu extends MenuBase
 	{
 		hide();
 		CreditsMenu.menu.show();
+	}
+
+	private function load_game_click():Void
+	{
+		hide();
+		LoadMenu.state.return_to_menu = this;
+		LoadMenu.state.show();
+	}
+
+	private function save_game_click():Void
+	{
+		hide();
+		SaveMenu.state.return_to_menu = this;
+		SaveMenu.state.show();
 	}
 }
