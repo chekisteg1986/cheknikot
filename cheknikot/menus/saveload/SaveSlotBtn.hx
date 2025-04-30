@@ -4,6 +4,9 @@ import cheknikot.messanger.GameMessage;
 import cheknikot.saving.SaveSlot;
 import flixel.ui.FlxButton;
 
+/**
+	Button of SaveSlot in SaveMenu
+**/
 class SaveSlotBtn extends FlxButton
 {
 	public var parent:SaveLoadMenu;
@@ -28,10 +31,12 @@ class SaveSlotBtn extends FlxButton
 	{
 		if (for_save)
 		{
+			trace('click on SAVE SLOT');
 			ConfirmMenu.state.confirm(save);
 		}
 		else
 		{
+			trace('click on LOAD SLOT');
 			ConfirmMenu.state.confirm(load);
 		}
 	}
@@ -45,6 +50,7 @@ class SaveSlotBtn extends FlxButton
 	private function load():Void
 	{
 		parent.hide();
+		// parent.exit_click();
 		save_slot.load();
 	}
 

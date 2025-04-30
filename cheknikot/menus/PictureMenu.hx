@@ -108,7 +108,7 @@ class PictureMenu extends MenuBase
 	public static function fade_in(_):Void
 	{
 		var t:FlxText = messages.members[current_member_fade_in];
-		trace('fade_in', current_member_fade_in, t);
+		// trace('fade_in', current_member_fade_in, t);
 		if (t == null)
 			return;
 

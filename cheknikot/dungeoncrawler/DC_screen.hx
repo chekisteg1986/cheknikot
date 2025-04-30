@@ -181,8 +181,12 @@ class DC_screen extends FlxGroup
 		{
 			var _row:DC_row = new DC_row();
 			rows.push(_row);
+			_row.step = _cur_step;
+			// _row.shader.data.light.value = [1.0];
+			// trace('ROW LIGHT ' + _row.shader.data.light.value);
 			// Adding row to screen
 			add(_row);
+
 			_row.parent = this;
 			var _cur_side:Int = -_cur_step - 2;
 			var _line_sprites:Array<DC_sprite> = new Array();
@@ -223,9 +227,11 @@ class DC_screen extends FlxGroup
 		if (true)
 		{
 			var _row:DC_row = new DC_row();
+			_row.step = -1;
 			rows.push(_row);
 			// Adding row to screen
 			add(_row);
+
 			_row.parent = this;
 			back_left_spr = new DC_sprite(this, _row, -1, -1);
 			_row.sprites.push(back_left_spr);

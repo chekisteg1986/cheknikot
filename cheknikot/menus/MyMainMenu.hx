@@ -345,7 +345,7 @@ class MyMainMenu extends MenuBase
 		// add_difficulty();
 	}
 
-	private function start_game_click():Void
+	public function start_game_click():Void
 	{
 		// active = visible = false;
 		hide();

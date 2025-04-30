@@ -15,7 +15,8 @@ import flixel.util.FlxColor;
 
 /**
  * ...
- * @author ...
+ * @author ... Dmytro Demenkov
+ * 
  */
 class DC_GameObject
 {

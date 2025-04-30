@@ -12,37 +12,44 @@ import openfl.utils.Object;
  */
 class SaveLoad
 {
-	public static var save:FlxSave;
+	// public static var save:FlxSave;
 	public static var autosave_slot:FlxSave;
 	public static var dynamicSaveFunc:Void->Dynamic;
 	public static var dynamicLoadFunc:Dynamic->Void;
+	public static var slots:Array<SaveSlot> = new Array();
 
-	public static function getSaveFile():FlxSave
+	public static function addSlots(_i:Int):Void
 	{
-		return null;
+		while (--_i >= 0)
+		{
+			var _slot:SaveSlot = new SaveSlot(slots.length);
+			slots.push(_slot);
+		}
 	}
 
-	public static function initSaveFile():Void
-	{
-		save = new FlxSave();
-		save.bind('save');
-		if (save.data.slots == null)
+	/*public static function initSaveFiles():Void
 		{
-			trace('New Save File');
-			var _slots:Array<Dynamic> = save.data.slots = new Array<SaveSlot>();
-			var _n:Int = 10;
-			while (--_n >= 0)
+			var save:FlxSave = new FlxSave();
+
+			//if (save.data.slots == null)
 			{
-				_slots.unshift(new SaveSlot(_n));
-			}
-			save.flush();
-		}
-		else
-		{
-			trace('Old Save File');
-		}
-	}
+				// var _slots:Array<Dynamic> = save.data.slots = new Array<SaveSlot>();
+				// var _n:Int = 10;
+				while (--_n >= 0)
+				{
+					save.bind('save' + _n);
+					//trace('New Save File');
+					//_slots.unshift(new SaveSlot(_n));
 
+					save.flush();
+				}
+			}
+			else
+			{
+				trace('Old Save File');
+			}
+			save.close();
+	}*/
 	public static function serialize(d:Dynamic):String
 	{
 		var _s:Serializer = new Serializer();
@@ -58,6 +65,7 @@ class SaveLoad
 
 	public static function getArraySaveData(_a:Array<Dynamic>, _class:Dynamic = null):Array<Dynamic>
 	{
+		// Get Array of objects
 		if (_a == null)
 			return null;
 
@@ -90,6 +98,7 @@ class SaveLoad
 
 	public static function getSaveData(_obj:Dynamic, _pass_personal_function:Bool = false):Dynamic
 	{
+		// get save data from object
 		if (!_pass_personal_function)
 		{
 			var _getSaveData_func:Void->Dynamic = Reflect.getProperty(_obj, 'getSaveData');

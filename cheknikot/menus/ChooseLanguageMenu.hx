@@ -65,7 +65,7 @@ class ChooseLanguageMenu extends FlxSpriteGroup
 		// set_scroll();
 	}
 
-	private function eng_click():Void
+	public function eng_click():Void
 	{
 		GameParams.LANGUAGE = 0;
 		FlxG.state.remove(this, true);

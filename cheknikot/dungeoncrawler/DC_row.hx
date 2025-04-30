@@ -1,12 +1,20 @@
 package cheknikot.dungeoncrawler;
 
 import cheknikot.controllers.MouseBase;
+import cheknikot.shaders.LightingShader;
 import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.FlxStrip;
+import flixel.graphics.tile.FlxGraphicsShader;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxPoint;
+import flixel.system.FlxAssets.FlxShader;
+import openfl.display.ShaderParameter;
+import openfl.display.ShaderParameterType;
+import openfl.utils.IAssetCache;
 
 /**
  * ...
@@ -18,12 +26,24 @@ class DC_row extends FlxStrip
 	public var sprites_on_screen:FlxGroup = new FlxGroup();
 	public var parent:DC_screen;
 	public var show_objects:Bool = true;
+	public var step:Int;
 
+	// public static var SHADER:LightingShader = new LightingShader();
 	public function new()
 	{
 		super();
 		this.scrollFactor.set(0, 0);
-		// sprites_on_screen.scrollFactor.set(0, 0);
+		// this.shader = LightingShader.SHADER;
+
+		this.shader = new LightingShader();
+		// this.alpha = 0.5;
+		//	this.shader
+		// var _s:blur
+		// this.shader.
+		// this.shader = new FlxShader();
+		// this.shader.colorMultiplier = new ShaderParameter<Float>();
+		// shader.data.
+		// this.shader.colorMultiplier.value[ShaderParameterType.];
 	}
 
 	public function add_quads(_arr:Array<DC_quad>):Void
@@ -37,6 +57,7 @@ class DC_row extends FlxStrip
 
 	public function add_quad(_quad:DC_quad):Void
 	{
+		// adding rectangle (2 triangles)
 		var _quad_index:Int = Math.floor(vertices.length / 8);
 		var _in_index:Int = _quad_index * 4;
 
@@ -103,5 +124,16 @@ class DC_row extends FlxStrip
 		DC_additional.sortPositions(sprites_order, AF.NESW_border(this.parent.camera_face + 2));
 		for (_obj in sprites_order)
 			_obj.add_to_screen(sprites_on_screen); // sprites_on_screen.sort(DC_sprite.)
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		// trace('ROW', step);
+		// trace('shader.data.light.value', shader.data.light.value);
+		shader.data.light.value = [
+			(DC_screen.screen_3d.vision_radius + 2 - step) / (DC_screen.screen_3d.vision_radius + 2)
+		];
+		// trace('shader.data.light.value', shader.data.light.value);
 	}
 }

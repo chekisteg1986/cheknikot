@@ -32,10 +32,10 @@ class SaveLoadMenu extends MenuBase
 		for (_slot in slots_btns)
 			slots_group.remove(_slot);
 
-		if (SaveLoad.save == null || SaveLoad.save.data.slots == null)
-			SaveLoad.initSaveFile();
+		// if (SaveLoad.save == null || SaveLoad.save.data.slots == null)
+		//	SaveLoad.initSaveFile();
 
-		var _array:Array<SaveSlot> = SaveLoad.save.data.slots;
+		// var _array:Array<SaveSlot> = SaveLoad.save.data.slots;
 
 		var _n:Int = 0;
 		function _new():SaveSlotBtn
@@ -43,9 +43,10 @@ class SaveLoadMenu extends MenuBase
 			return new SaveSlotBtn(for_save);
 		}
 
-		for (_slot in _array)
+		for (_slot in SaveLoad.slots)
 		{
 			var _btn:SaveSlotBtn = AF.get_free_object(slots_btns, _n, _new);
+			_btn.parent = this;
 			_btn.x = 200;
 			_btn.y = 40 * _n;
 			slots_group.add(_btn);

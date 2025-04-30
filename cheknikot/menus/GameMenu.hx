@@ -44,7 +44,7 @@ class GameMenu extends MenuBase
 	private function loadClick():Void
 	{
 		this.hide();
-		SaveMenu.state.show();
+		LoadMenu.state.show();
 	}
 
 	private function toMainMenuClick():Void {}
